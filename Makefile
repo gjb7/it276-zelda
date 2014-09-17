@@ -10,7 +10,7 @@ EXEC = zelda
 SOURCES = $(wildcard src/*.c)
 OBJECTS = $(SOURCES:src/%.c=obj/%.o)
 
-.PHONY: dirs bin/$(EXEC)
+all: dirs bin/$(EXEC)
 
 dirs:
 	@mkdir -p bin/ obj/
