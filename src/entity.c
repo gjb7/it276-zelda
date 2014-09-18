@@ -8,11 +8,6 @@
 
 #include "entity.h"
 
-void _entity_free(entity *e) {
-    free(e);
-    e = NULL;
-}
-
 entity *entity_create() {
     entity *e = malloc(sizeof(entity));
     memset(e, 0, sizeof(entity));
@@ -30,6 +25,6 @@ void entity_release(entity *e) {
             e->dealloc(e);
         }
         
-        _entity_free(e);
+        free(e);
     }
 }
