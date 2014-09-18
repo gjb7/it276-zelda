@@ -1,16 +1,17 @@
 #include <SDL2/SDL.h>
 
-#ifdef TEST
+#ifdef TESTS
 #include <check.h>
+
+#include "tests/tests.h"
 #endif
 
 int main(int argc, char **argv) {
-#ifdef TEST
+#ifdef TESTS
     int number_failed;
     SRunner *runner;
     
-    // TODO: Change this to be the first suite once we have ones.
-    runner = srunner_create(NULL);
+    runner = srunner_create(entity_suite());
     
     srunner_run_all(runner, CK_NORMAL);
     number_failed = srunner_ntests_failed(runner);
