@@ -28,3 +28,25 @@ void entity_release(entity *e) {
         free(e);
     }
 }
+
+void entity_add_child(entity *parent, entity *child) {
+    entity_retain(child);
+    
+    if (child->parent != NULL) {
+        entity_remove_from_parent(child);
+    }
+    
+    parent->children = g_slist_append(parent->children, child);
+    child->parent = parent;
+}
+
+void entity_remove_from_parent(entity *e) {
+    if (e->parent == NULL) {
+        return;
+    }
+    
+    entity *parent = e->parent;
+    parent->children = g_slist_remove(parent->children, e);
+    e->parent = NULL;
+    entity_release(e);
+}

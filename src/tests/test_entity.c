@@ -32,15 +32,51 @@ START_TEST(test_entity_retain)
 }
 END_TEST
 
+START_TEST(test_entity_hierarchy)
+{
+    entity *parent = entity_create();
+    entity *child = entity_create();
+    
+    ck_assert_ptr_eq(parent->parent, NULL);
+    ck_assert_ptr_eq(child->parent, NULL);
+    
+    ck_assert_int_eq(g_slist_length(parent->children), 0);
+    ck_assert_int_eq(g_slist_length(child->children), 0);
+    
+    entity_add_child(parent, child);
+    
+    ck_assert_ptr_eq(parent->parent, NULL);
+    ck_assert_ptr_eq(child->parent, parent);
+    
+    ck_assert_int_eq(g_slist_length(parent->children), 1);
+    ck_assert_int_eq(g_slist_length(child->children), 0);
+    
+    entity_remove_from_parent(child);
+    
+    ck_assert_ptr_eq(parent->parent, NULL);
+    ck_assert_ptr_eq(child->parent, NULL);
+    
+    ck_assert_int_eq(g_slist_length(parent->children), 0);
+    ck_assert_int_eq(g_slist_length(child->children), 0);
+    
+    entity_release(parent);
+    entity_release(child);
+}
+END_TEST
+
 Suite *entity_suite() {
     Suite *s;
-    TCase *tc_core;
+    TCase *tc_memory, *tc_hierarchy;
     s = suite_create("Entity");
-    tc_core = tcase_create("Memory Management");
     
-    tcase_add_test(tc_core, test_entity_create);
-    tcase_add_test(tc_core, test_entity_retain);
-    suite_add_tcase(s, tc_core);
+    tc_memory = tcase_create("Memory Management");
+    tcase_add_test(tc_memory, test_entity_create);
+    tcase_add_test(tc_memory, test_entity_retain);
+    suite_add_tcase(s, tc_memory);
+    
+    tc_hierarchy = tcase_create("Entity Hierarchy");
+    tcase_add_test(tc_hierarchy, test_entity_hierarchy);
+    suite_add_tcase(s, tc_hierarchy);
     
     return s;
 }

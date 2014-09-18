@@ -1,9 +1,10 @@
 CC = gcc
-CC_FLAGS = -g -Wall -pedantic -Wno-gnu-zero-variadic-macro-arguments
+CC_FLAGS = -g -Wall -pedantic -Wno-gnu-zero-variadic-macro-arguments `pkg-config glib-2.0 --cflags`
+L_FLAGS = `pkg-config glib-2.0 --libs`
 UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
-	CC_FLAGS += -I`brew --prefix glib`/include -F lib/osx/
+	CC_FLAGS += -F lib/osx/
 endif
 
 EXEC = zelda
