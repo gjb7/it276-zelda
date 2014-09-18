@@ -1,5 +1,5 @@
 CC = gcc
-CC_FLAGS = -g -Wall -pedantic
+CC_FLAGS = -g -Wall -pedantic -Wno-gnu-zero-variadic-macro-arguments
 UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
@@ -12,13 +12,16 @@ SOURCES_MINUS_TESTS = $(filter-out src/tests/%.c, $(SOURCES))
 OBJECTS = $(SOURCES:src/%.c=obj/%.o)
 OBJECTS_MINUS_TESTS = $(SOURCES_MINUS_TESTS:src/%.c=obj/%.o)
 
-all: dirs bin/$(EXEC)
+all: dirs clean bin/$(EXEC)
 
 test: CC_FLAGS += -DTESTS `pkg-config --cflags check`
 test: L_FLAGS += `pkg-config --libs check`
-test: clean test-dirs $(OBJECTS)
+test: clean-tests test-dirs $(OBJECTS)
 	$(CC) $(OBJECTS) -o bin/tests $(L_FLAGS)
 	@bin/tests
+
+clean-tests: clean
+	rm -f obj/tests/*.o
 
 test-dirs: dirs
 	@mkdir -p obj/tests/
