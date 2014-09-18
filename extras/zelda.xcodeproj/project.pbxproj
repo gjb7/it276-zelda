@@ -8,6 +8,10 @@
 
 /* Begin PBXFileReference section */
 		C38F667D19CA4BF100A7718A /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		C39E3A3F19CA4FCB00C2EA3E /* entity.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = entity.c; sourceTree = "<group>"; };
+		C39E3A4019CA4FCB00C2EA3E /* entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entity.h; sourceTree = "<group>"; };
+		C39E3A4F19CA609D00C2EA3E /* test_entity.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_entity.c; sourceTree = "<group>"; };
+		C39E3A5019CA629200C2EA3E /* tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tests.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -21,10 +25,22 @@
 		C38F667C19CA4BF100A7718A /* src */ = {
 			isa = PBXGroup;
 			children = (
+				C39E3A4E19CA607200C2EA3E /* tests */,
 				C38F667D19CA4BF100A7718A /* main.c */,
+				C39E3A3F19CA4FCB00C2EA3E /* entity.c */,
+				C39E3A4019CA4FCB00C2EA3E /* entity.h */,
 			);
 			name = src;
 			path = ../src;
+			sourceTree = "<group>";
+		};
+		C39E3A4E19CA607200C2EA3E /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				C39E3A4F19CA609D00C2EA3E /* test_entity.c */,
+				C39E3A5019CA629200C2EA3E /* tests.h */,
+			);
+			path = tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
