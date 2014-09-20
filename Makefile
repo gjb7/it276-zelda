@@ -1,5 +1,5 @@
 CC = gcc
-CC_FLAGS = -g -Wall -pedantic -Wno-gnu-zero-variadic-macro-arguments `pkg-config glib-2.0 --cflags`
+CC_FLAGS = -std=gnu99 -g -Wall -pedantic -Wno-gnu-zero-variadic-macro-arguments `pkg-config glib-2.0 --cflags`
 L_FLAGS = `pkg-config glib-2.0 --libs`
 UNAME = $(shell uname)
 
