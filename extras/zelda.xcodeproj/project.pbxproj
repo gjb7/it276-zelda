@@ -14,6 +14,7 @@
 		C39E3A5019CA629200C2EA3E /* tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tests.h; sourceTree = "<group>"; };
 		C39E3A5119CDC2A600C2EA3E /* game_world.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = game_world.c; sourceTree = "<group>"; };
 		C39E3A5219CDC2A600C2EA3E /* game_world.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = game_world.h; sourceTree = "<group>"; };
+		C39E3A5319CDF4B400C2EA3E /* test_support.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_support.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -43,6 +44,7 @@
 			children = (
 				C39E3A4F19CA609D00C2EA3E /* test_entity.c */,
 				C39E3A5019CA629200C2EA3E /* tests.h */,
+				C39E3A5319CDF4B400C2EA3E /* test_support.h */,
 			);
 			path = tests;
 			sourceTree = "<group>";
