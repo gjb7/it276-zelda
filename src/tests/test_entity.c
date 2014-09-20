@@ -12,7 +12,7 @@
 
 START_TEST(test_entity_create)
 {
-    entity *e = entity_create();
+    entity_t *e = entity_create();
     
     ck_assert_int_eq(e->retain_count, 1);
     
@@ -22,7 +22,7 @@ END_TEST
 
 START_TEST(test_entity_retain)
 {
-    entity *e = entity_create();
+    entity_t *e = entity_create();
     entity_retain(e);
     
     ck_assert_int_eq(e->retain_count, 2);
@@ -34,8 +34,8 @@ END_TEST
 
 START_TEST(test_entity_hierarchy)
 {
-    entity *parent = entity_create();
-    entity *child = entity_create();
+    entity_t *parent = entity_create();
+    entity_t *child = entity_create();
     
     ck_assert_ptr_eq(parent->parent, NULL);
     ck_assert_ptr_eq(child->parent, NULL);

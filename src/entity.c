@@ -8,18 +8,18 @@
 
 #include "entity.h"
 
-entity *entity_create() {
-    entity *e = malloc(sizeof(entity));
-    memset(e, 0, sizeof(entity));
+entity_t *entity_create() {
+    entity_t *e = malloc(sizeof(entity_t));
+    memset(e, 0, sizeof(entity_t));
     e->retain_count = 1;
     return e;
 }
 
-void entity_retain(entity *e) {
+void entity_retain(entity_t *e) {
     e->retain_count++;
 }
 
-void entity_release(entity *e) {
+void entity_release(entity_t *e) {
     if (--e->retain_count == 0) {
         if (e->dealloc != NULL) {
             e->dealloc(e);
@@ -29,7 +29,7 @@ void entity_release(entity *e) {
     }
 }
 
-void entity_add_child(entity *parent, entity *child) {
+void entity_add_child(entity_t *parent, entity_t *child) {
     entity_retain(child);
     
     if (child->parent != NULL) {
@@ -40,12 +40,12 @@ void entity_add_child(entity *parent, entity *child) {
     child->parent = parent;
 }
 
-void entity_remove_from_parent(entity *e) {
+void entity_remove_from_parent(entity_t *e) {
     if (e->parent == NULL) {
         return;
     }
     
-    entity *parent = e->parent;
+    entity_t *parent = e->parent;
     parent->children = g_slist_remove(parent->children, e);
     e->parent = NULL;
     entity_release(e);
