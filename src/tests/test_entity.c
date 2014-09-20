@@ -7,6 +7,7 @@
 //
 
 #include <check.h>
+#include "test_support.h"
 
 #include "../entity.h"
 
