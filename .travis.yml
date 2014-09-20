@@ -1,8 +1,9 @@
 language: c
 compiler:
-	- gcc
-	- clang
+  - gcc
+  - clang
 install:
-	- sudo apt-get update -qq
-	- sudo apt-get install -y libsdl2-dev check
+  - sudo apt-get update -qq
+  - sudo apt-get install -y libsdl2-dev check
 script: make test
+
