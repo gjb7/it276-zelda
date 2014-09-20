@@ -15,9 +15,9 @@
 /**
  * An entity within the game. An entity is anything that acts or is acted upon by the game.
  */
-typedef struct entity_t {
+typedef struct entity_s {
     /// The parent of this entity. If the parent is null, then this is the root entity.
-    struct entity_t *parent;
+    struct entity_s *parent;
     
     GSList *children;
     
@@ -25,21 +25,21 @@ typedef struct entity_t {
     /// The developer should NOT touch this.
     int retain_count;
     
-    void (*think)(struct entity_t *self);
-    void (*render)(struct entity_t *self); // TODO: a rendering context type object should be passed in.
-    void (*update)(struct entity_t *self);
-    void (*dealloc)(struct entity_t *self);
+    void (*think)(struct entity_s *self);
+    void (*render)(struct entity_s *self); // TODO: a rendering context type object should be passed in.
+    void (*update)(struct entity_s *self);
+    void (*dealloc)(struct entity_s *self);
     
     char *class_name;
     
     void *entity_data;
-} entity;
+} entity_t;
 
-entity *entity_create();
-void entity_retain(entity *e);
-void entity_release(entity *e);
+entity_t *entity_create();
+void entity_retain(entity_t *e);
+void entity_release(entity_t *e);
 
-void entity_add_child(entity *parent, entity *child);
-void entity_remove_from_parent(entity *e);
+void entity_add_child(entity_t *parent, entity_t *child);
+void entity_remove_from_parent(entity_t *e);
 
 #endif /* defined(__zelda__entity__) */
