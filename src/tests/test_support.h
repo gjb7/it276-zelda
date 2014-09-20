@@ -9,7 +9,7 @@
 #ifndef zelda_test_support_h
 #define zelda_test_support_h
 
-#include <check.h>include
+#include <check.h>
 
 #ifndef _ck_assert_ptr
 #define _ck_assert_ptr(X, OP, Y) do { \
