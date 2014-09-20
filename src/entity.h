@@ -29,6 +29,10 @@ typedef struct entity_t {
     void (*render)(struct entity_t *self); // TODO: a rendering context type object should be passed in.
     void (*update)(struct entity_t *self);
     void (*dealloc)(struct entity_t *self);
+    
+    char *class_name;
+    
+    void *entity_data;
 } entity;
 
 entity *entity_create();
