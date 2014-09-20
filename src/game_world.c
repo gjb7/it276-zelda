@@ -8,6 +8,8 @@
 
 #include "game_world.h"
 
+void _game_world_dealloc(entity_t *self);
+
 entity_t *game_world_create() {
     entity_t *game_world = entity_create();
     game_world->class_name = "game_world";
