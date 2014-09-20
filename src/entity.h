@@ -9,7 +9,8 @@
 #ifndef __zelda__entity__
 #define __zelda__entity__
 
-#include <libc.h>
+#include <stdlib.h>
+#include <string.h>
 #include <glib.h>
 
 /**
