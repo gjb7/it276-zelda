@@ -13,7 +13,8 @@
 #include "entity.h"
 
 typedef struct game_world_s {
-    
+    // This is temporarily a void * until we get an actual map object implemented.
+    void *current_map;
 } game_world_t;
 
 entity_t *game_world_create();
