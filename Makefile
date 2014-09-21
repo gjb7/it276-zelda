@@ -1,3 +1,4 @@
+PATH := /usr/local/bin/:$(PATH)
 CC = gcc
 CC_FLAGS = -std=gnu99 -g -Wall -pedantic `pkg-config glib-2.0 --cflags`
 L_FLAGS = `pkg-config glib-2.0 --libs`
