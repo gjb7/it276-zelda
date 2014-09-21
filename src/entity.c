@@ -19,11 +19,17 @@ void entity_retain(entity_t *e) {
     e->retain_count++;
 }
 
+void entity_dealloc(entity_t *e) {
+    g_slist_free_full(e->children, (GDestroyNotify)entity_release);
+    
+    if (e->dealloc != NULL) {
+        e->dealloc(e);
+    }
+}
+
 void entity_release(entity_t *e) {
     if (--e->retain_count == 0) {
-        if (e->dealloc != NULL) {
-            e->dealloc(e);
-        }
+        entity_dealloc(e);
         
         free(e);
     }
