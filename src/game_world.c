@@ -12,10 +12,17 @@ void _game_world_dealloc(entity_t *self);
 
 entity_t *game_world_create() {
     entity_t *game_world = entity_create();
+    if (game_world == NULL) {
+        return NULL;
+    }
+    
     game_world->class_name = "game_world";
     game_world->dealloc = _game_world_dealloc;
     
     game_world_t *game_world_data = malloc(sizeof(game_world_t));
+    if (game_world_data == NULL) {
+        return NULL;
+    }
     
     game_world->entity_data = (void *)game_world_data;
     
