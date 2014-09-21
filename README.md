@@ -6,19 +6,8 @@ A Legend of Zelda: A Link to the Past clone for IT 276 at NJIT.
 
 1. glib
 2. check (for unit testing)
+3. SDL 2.0
 
 # Installation
 
-## OS X
-
-The easiest way to install the dependencies for OS X is through Homebrew.
-
-	brew install glib
-	brew install check
-
-## Ubuntu
-
-The necessary packages can be installed through `apt-get`.
-
-	apt-get install libsdl2-dev check
-
+Running `./install-dependencies.sh` will install the dependencies necessary for it276-zelda. Once the dependencies are installed, you can run `make` to compile the game.
