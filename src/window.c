@@ -18,15 +18,14 @@ window_t *window_create(char *title, int width, int height) {
     
     window->window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
     if (window->window == NULL) {
-        free(window);
+        window_free(window);
         
         return NULL;
     }
     
     window->renderer = SDL_CreateRenderer(window->window, -1, SDL_RENDERER_ACCELERATED);
     if (window->renderer == NULL) {
-        SDL_DestroyWindow(window->window);
-        free(window);
+        window_free(window);
         
         return NULL;
     }
@@ -35,7 +34,13 @@ window_t *window_create(char *title, int width, int height) {
 }
 
 void window_free(window_t *window) {
-    SDL_DestroyRenderer(window->renderer);
-    SDL_DestroyWindow(window->window);
+    if (window->renderer) {
+        SDL_DestroyRenderer(window->renderer);
+    }
+    
+    if (window->window) {
+        SDL_DestroyWindow(window->window);
+    }
+    
     free(window);
 }

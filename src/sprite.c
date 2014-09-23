@@ -16,7 +16,7 @@ sprite_t *sprite_create(char *filename, SDL_Renderer *renderer, int column_count
     
     sprite->texture = IMG_LoadTexture(renderer, filename);
     if (sprite->texture == NULL) {
-        free(sprite);
+        sprite_free(sprite);
         
         return NULL;
     }
@@ -37,6 +37,9 @@ sprite_t *sprite_create(char *filename, SDL_Renderer *renderer, int column_count
 }
 
 void sprite_free(sprite_t *sprite) {
-    SDL_DestroyTexture(sprite->texture);
+    if (sprite->texture) {
+        SDL_DestroyTexture(sprite->texture);
+    }
+    
     free(sprite);
 }
