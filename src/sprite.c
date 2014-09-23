@@ -30,8 +30,8 @@ sprite_t *sprite_create(char *filename, SDL_Renderer *renderer, int column_count
         return NULL;
     }
     
-    sprite->texture_size.w = texture_width / column_count;
-    sprite->texture_size.h = texture_height / row_count;
+    sprite->frame_size.w = texture_width / column_count;
+    sprite->frame_size.h = texture_height / row_count;
     
     return sprite;
 }
