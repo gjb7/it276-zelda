@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 
+#include "graphics.h"
 #include "window.h"
 
 #ifdef TESTS
@@ -21,12 +22,11 @@ int main(int argc, char **argv) {
     srunner_free(runner);
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 #else
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+    if (init_sdl() != 0) {
         fprintf(stderr, "Error initializing SDL: %s", SDL_GetError());
         
         return EXIT_FAILURE;
     }
-    atexit(SDL_Quit);
     
     window_t *window = window_create("Hello World!", 320, 480);
     
