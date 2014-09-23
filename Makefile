@@ -6,10 +6,10 @@ UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
 	CC_FLAGS += -F lib/osx/ -Wno-gnu-zero-variadic-macro-arguments
-	L_FLAGS += -F lib/osx/ -framework SDL2 -Wl,-rpath,lib/osx/
+	L_FLAGS += -F lib/osx/ -framework SDL2 -framework SDL2_image -Wl,-rpath,lib/osx/
 else ifeq($(UNAME), Linux)
-	CC_FLAGS += `pkg-config sdl2 --cflags`
-	L_FLAGS += `pkg-config sdl2 --libs`
+	CC_FLAGS += `pkg-config sdl2 --cflags` `pkg-config SDL2_image --cflags`
+	L_FLAGS += `pkg-config sdl2 --libs` `pkg-config SDL2_image --libs`
 endif
 
 EXEC = zelda
