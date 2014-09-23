@@ -10,8 +10,8 @@
 #define __zelda__graphics__
 
 #include <stdlib.h>
-#include <SDL2/SDL.h>
 
 int init_sdl(void);
+int init_image(void);
 
 #endif /* defined(__zelda__graphics__) */

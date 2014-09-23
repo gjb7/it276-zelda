@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
 //
 
+#include <SDL2/SDL.h>
+#include <SDL2_image/SDL_image.h>
+
 #include "graphics.h"
 
 int init_sdl(void) {
@@ -15,4 +18,13 @@ int init_sdl(void) {
     }
     atexit(SDL_Quit);
     return result;
+}
+
+int init_image(void) {
+    if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG) {
+        return -1;
+    }
+    atexit(IMG_Quit);
+    
+    return 0;
 }
