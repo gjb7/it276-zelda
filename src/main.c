@@ -28,6 +28,12 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
     
+    if (init_image() != 0) {
+        fprintf(stderr, "Error initializing IMG: No PNG support.");
+        
+        return EXIT_FAILURE;
+    }
+    
     window_t *window = window_create("Hello World!", 320, 480);
     
     SDL_Delay(2000);
