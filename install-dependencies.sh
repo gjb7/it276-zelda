@@ -40,7 +40,7 @@ then
 	fi
 	
 	echo "Installing libsdl2-image-dev"
-	sudo apt-get install -qq -y libsdk-image-dev
+	sudo apt-get install -qq -y libsdl2-image-dev
 	
 	if [[ $? -ne 0 ]]
 	then
