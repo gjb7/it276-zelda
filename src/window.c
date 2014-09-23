@@ -19,6 +19,7 @@ window_t *window_create(char *title, int width, int height) {
     window->window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
     if (window->window == NULL) {
         free(window);
+        
         return NULL;
     }
     
@@ -26,6 +27,8 @@ window_t *window_create(char *title, int width, int height) {
     if (window->renderer == NULL) {
         SDL_DestroyWindow(window->window);
         free(window);
+        
+        return NULL;
     }
     
     return window;

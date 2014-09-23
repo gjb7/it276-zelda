@@ -21,6 +21,8 @@ entity_t *game_world_create() {
     
     game_world_t *game_world_data = malloc(sizeof(game_world_t));
     if (game_world_data == NULL) {
+        free(game_world);
+        
         return NULL;
     }
     
