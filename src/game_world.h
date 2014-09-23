@@ -9,7 +9,7 @@
 #ifndef __zelda__game_world__
 #define __zelda__game_world__
 
-#include <stdio.h>
+#include <stdlib.h>
 #include "entity.h"
 
 typedef struct game_world_s {
