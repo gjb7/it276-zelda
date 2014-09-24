@@ -19,7 +19,7 @@ SOURCES_MINUS_MAIN = $(filter-out src/main.c, $(SOURCES_MINUS_TESTS))
 OBJECTS = $(SOURCES:src/%.c=obj/%.o)
 OBJECTS_MINUS_TESTS = $(SOURCES_MINUS_TESTS:src/%.c=obj/%.o)
 
-all: dirs clean bin/$(EXEC)
+all: dirs clean bin/$(EXEC) package-resources
 
 # ----
 
@@ -48,6 +48,9 @@ obj/%.o: src/%.c
 
 clean:
 	rm -f bin/$(EXEC) obj/*.o
+
+package-resources:
+	cp -r res/ bin/res/
 
 # ----
 
