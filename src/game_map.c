@@ -64,7 +64,11 @@ entity_t *game_map_create_from_file(char *filename) {
         return NULL;
     }
     
-    return _game_map_create_from_map(fp);
+    entity_t *game_map = _game_map_create_from_map(fp);
+    
+    SDL_RWclose(fp);
+    
+    return game_map;
 }
 
 void _game_map_dealloc(entity_t *self) {
@@ -89,15 +93,11 @@ entity_t *_game_map_create_from_map(SDL_RWops *fp) {
             fprintf(stderr, "Error parsing map file (V): reached end of file.\n");
         }
         
-        SDL_RWclose(fp);
-        
         return NULL;
     }
     
     if (buffer != 'V') {
         fprintf(stderr, "Invalid file format. Expected 'V', instead got: %c\n", buffer);
-        
-        SDL_RWclose(fp);
         
         return NULL;
     }
@@ -111,12 +111,10 @@ entity_t *_game_map_create_from_map(SDL_RWops *fp) {
             fprintf(stderr, "Error parsing map file (version): reached end of file.\n");
         }
         
-        SDL_RWclose(fp);
-        
         return NULL;
     }
     
-    entity_t *game_map = NULL;
+    entity_t *game_map;
     
     switch (buffer) {
         case 1:
@@ -129,15 +127,11 @@ entity_t *_game_map_create_from_map(SDL_RWops *fp) {
                     fprintf(stderr, "Error parsing map file (;): reached end of file.\n");
                 }
                 
-                SDL_RWclose(fp);
-                
                 return NULL;
             }
             
             if (buffer != ';') {
                 fprintf(stderr, "Invalid file format. Expected ';', instead got %c\n", buffer);
-                
-                SDL_RWclose(fp);
                 
                 return NULL;
             }
@@ -156,11 +150,11 @@ entity_t *_game_map_create_from_map(SDL_RWops *fp) {
             
             break;
         default:
-            
-            SDL_RWclose(fp);
             fprintf(stderr, "Invalid version number found. Expected '1', instead got %i\n", (int)buffer);
             
             return NULL;
+            
+            break;
     }
     
     return game_map;
