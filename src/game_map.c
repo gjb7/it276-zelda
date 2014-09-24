@@ -174,6 +174,8 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     entity_t *new_map = NULL;
     game_map_t *new_map_data = NULL;
     int layer_size, current_layer = 0;
+    char *tilemap_filename = NULL;
+    int tilemap_filename_length = 0;
     char buffer;
     
     while (current_position < data_size) {
@@ -255,6 +257,50 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
                 current_layer++;
                 
                 break;
+            
+            case 'T': {
+                int tilemap_filename_start_location = SDL_RWtell(fp);
+                if (tilemap_filename_start_location == -1) {
+                    SDL_SetError("Error trying to determine current location.");
+                    
+                    goto cleanup;
+                }
+                
+                while (1) {
+                    if (SDL_RWread(fp, &buffer, sizeof(buffer), 1) == 0) {
+                        SDL_SetError("Error trying to read the tilemap filename");
+                        
+                        goto cleanup;
+                    }
+                    
+                    if (buffer == ';') {
+                        break;
+                    }
+                    
+                    tilemap_filename_length++;
+                }
+                
+                if (tilemap_filename_length <= 0) {
+                    SDL_SetError("Invalid file format. No tilemap filename provided.");
+                    
+                    goto cleanup;
+                }
+                
+                tilemap_filename = malloc(sizeof(char) * tilemap_filename_length);
+                if (SDL_RWseek(fp, tilemap_filename_start_location, RW_SEEK_SET) == -1) {
+                    SDL_SetError("Invalid file format. Could not seek back to beginning of tilemap filename.");
+                    
+                    goto cleanup;
+                }
+                
+                if (SDL_RWread(fp, tilemap_filename, sizeof(tilemap_filename), 1) == 0) {
+                    SDL_SetError("Unable to read tilemap filename.");
+                    
+                    goto cleanup;
+                }
+                
+                break;
+            }
                 
             default:
                 SDL_SetError("Invalid file format. Expected 'W', 'H', 'L', or 'l', instead got %c", buffer);
@@ -278,6 +324,20 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
         
         current_position = SDL_RWtell(fp);
     }
+    
+    if (new_map == NULL) {
+        SDL_SetError("Map never created.");
+        
+        goto cleanup;
+    }
+    
+    if (tilemap_filename == NULL) {
+        SDL_SetError("Invalid file format. No tilemap filename provided.");
+        
+        goto cleanup;
+    }
+    
+    new_map_data->tilemap_filename = tilemap_filename;
     
     if (current_layer < layer_count) {
         SDL_SetError("Invalid file format. Found %i layers when %i specified", current_layer, layer_count);
