@@ -31,7 +31,7 @@ typedef struct entity_s {
     void (*update)(struct entity_s *self);
     void (*dealloc)(struct entity_s *self);
     
-    char *class_name;
+    char class_name[128];
     
     void *entity_data;
 } entity_t;
