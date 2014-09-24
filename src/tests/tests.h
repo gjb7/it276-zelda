@@ -12,5 +12,6 @@
 #include <check.h>
 
 extern Suite *entity_suite();
+extern Suite *game_map_parsing_suite();
 
 #endif
