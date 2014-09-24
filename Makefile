@@ -1,6 +1,6 @@
 PATH := /usr/local/bin/:$(PATH)
 CC = gcc
-CC_FLAGS = -std=gnu99 -g -Wall -pedantic `pkg-config glib-2.0 --cflags` -Isrc/
+CC_FLAGS = -std=gnu99 -g -Wall -pedantic -Werror `pkg-config glib-2.0 --cflags` -Isrc/
 L_FLAGS = `pkg-config glib-2.0 --libs`
 UNAME = $(shell uname)
 
