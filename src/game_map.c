@@ -303,7 +303,7 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
             }
                 
             default:
-                SDL_SetError("Invalid file format. Expected 'W', 'H', 'L', or 'l', instead got %c", buffer);
+                SDL_SetError("Invalid file format. Expected 'W', 'H', 'L', 'l', or 'T', instead got %c", buffer);
                 
                 goto cleanup;
                 
