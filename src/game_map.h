@@ -15,7 +15,8 @@
 #include "sprite.h"
 
 typedef struct game_map_s {
-    sprite_t *tile_map;
+    char *tilemap_filename;
+    sprite_t *tilemap;
     char **layers;
     int layer_count;
 } game_map_t;
