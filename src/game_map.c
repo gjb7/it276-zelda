@@ -249,8 +249,8 @@ int _game_map_create_from_v1_map(SDL_RWops *fp, entity_t **game_map) {
                 }
                 
                 result = SDL_RWread(fp, new_map_data->layers[current_layer], layer_size, 1);
-                if (result < layer_size) {
-                    SDL_SetError("Invalid file format. Layer at index %i smaller than specified width and height.", current_layer);
+                if (result == 0) {
+                    SDL_SetError("Invalid file format. Layer at index %i smaller than specified width and height. Read %i objects of size %i.", current_layer, result, layer_size);
                     
                     entity_release(new_map);
                     
