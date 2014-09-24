@@ -17,9 +17,11 @@ int main(int argc, char **argv) {
         return EXIT_SUCCESS;
     }
     
-    entity_t *t = game_map_create_from_file(argv[1]);
-    if (t) {
+    entity_t *map = game_map_create_from_file(argv[1]);
+    if (map) {
         printf("Looks good.\n");
+        
+        entity_release(map);
         
         return EXIT_SUCCESS;
     }
