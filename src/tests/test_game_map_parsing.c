@@ -24,6 +24,9 @@ START_TEST(test_valid_game_map_parsing)
     
     ck_assert_ptr_ne(game_map, NULL);
     
+    game_map_t *map_data = (game_map_t *)game_map->entity_data;
+    ck_assert_str_eq(map_data->tilemap_filename, "res/tilemaps/overworld.png");
+    
     entity_release(game_map);
 }
 END_TEST
