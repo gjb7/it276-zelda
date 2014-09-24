@@ -156,9 +156,9 @@ entity_t *_game_map_create_from_map(SDL_RWops *fp) {
             
             break;
         default:
-            fprintf(stderr, "Invalid version number found. Expected '1', instead got %c\n", buffer);
             
             SDL_RWclose(fp);
+            fprintf(stderr, "Invalid version number found. Expected '1', instead got %i\n", (int)buffer);
             
             return NULL;
     }
