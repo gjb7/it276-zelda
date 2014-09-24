@@ -65,6 +65,22 @@ START_TEST(test_entity_hierarchy)
 }
 END_TEST
 
+START_TEST(test_free_entity_hierarchy)
+{
+    entity_t *parent = entity_create();
+    entity_t *child = entity_create();
+    
+    entity_add_child(parent, child);
+    
+    entity_release(parent);
+    
+    ck_assert_ptr_eq(child->parent, NULL);
+    ck_assert_int_eq(child->retain_count, 1);
+    
+    entity_release(child);
+}
+END_TEST
+
 Suite *entity_suite() {
     Suite *s;
     TCase *tc_memory, *tc_hierarchy;
@@ -77,6 +93,7 @@ Suite *entity_suite() {
     
     tc_hierarchy = tcase_create("Entity Hierarchy");
     tcase_add_test(tc_hierarchy, test_entity_hierarchy);
+    tcase_add_test(tc_hierarchy, test_free_entity_hierarchy);
     suite_add_tcase(s, tc_hierarchy);
     
     return s;

@@ -10,6 +10,10 @@
 
 entity_t *entity_create() {
     entity_t *e = malloc(sizeof(entity_t));
+    if (e == NULL) {
+        return NULL;
+    }
+    
     memset(e, 0, sizeof(entity_t));
     e->retain_count = 1;
     return e;
@@ -19,8 +23,13 @@ void entity_retain(entity_t *e) {
     e->retain_count++;
 }
 
+void _entity_free_children(entity_t *e) {
+    e->parent = NULL;
+    entity_release(e);
+}
+
 void entity_dealloc(entity_t *e) {
-    g_slist_free_full(e->children, (GDestroyNotify)entity_release);
+    g_slist_free_full(e->children, (GDestroyNotify)_entity_free_children);
     
     if (e->dealloc != NULL) {
         e->dealloc(e);

@@ -6,6 +6,10 @@ UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
 	CC_FLAGS += -F lib/osx/ -Wno-gnu-zero-variadic-macro-arguments
+	L_FLAGS += -F lib/osx/ -framework SDL2 -framework SDL2_image -Wl,-rpath,lib/osx/
+else ifeq($(UNAME), Linux)
+	CC_FLAGS += `pkg-config sdl2 --cflags` `pkg-config SDL2_image --cflags`
+	L_FLAGS += `pkg-config sdl2 --libs` `pkg-config SDL2_image --libs`
 endif
 
 EXEC = zelda
@@ -19,7 +23,7 @@ all: dirs clean bin/$(EXEC)
 test: CC_FLAGS += -DTESTS `pkg-config --cflags check`
 test: L_FLAGS += `pkg-config --libs check`
 test: clean-tests test-dirs $(OBJECTS)
-	$(CC) $(OBJECTS) -o bin/tests $(L_FLAGS)
+	$(CC) $(OBJECTS) $(L_FLAGS) -o bin/tests
 	@bin/tests
 
 clean-tests: clean
@@ -32,7 +36,7 @@ dirs:
 	@mkdir -p bin/ obj/
 
 bin/$(EXEC): $(OBJECTS_MINUS_TESTS)
-	$(CC) $(OBJECTS_MINUS_TESTS) -o $@ $(L_FLAGS)
+	$(CC) $(OBJECTS_MINUS_TESTS) $(L_FLAGS) -o $@
 
 obj/%.o: src/%.c
 	$(CC) -c $(CC_FLAGS) $< -o $@

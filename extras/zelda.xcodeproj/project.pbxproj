@@ -7,7 +7,14 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		C34A4EFC19D22657004B2A7A /* window.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = window.c; sourceTree = "<group>"; };
+		C34A4EFD19D22657004B2A7A /* window.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = window.h; sourceTree = "<group>"; };
+		C34A4EFE19D236F8004B2A7A /* sprite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sprite.c; sourceTree = "<group>"; };
+		C34A4EFF19D236F8004B2A7A /* sprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sprite.h; sourceTree = "<group>"; };
+		C34A4F0019D24A7E004B2A7A /* sdl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sdl.h; sourceTree = "<group>"; };
 		C38F667D19CA4BF100A7718A /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		C393DC7B19CF9D9900AFE296 /* graphics.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = graphics.c; sourceTree = "<group>"; };
+		C393DC7C19CF9D9900AFE296 /* graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = graphics.h; sourceTree = "<group>"; };
 		C39E3A3F19CA4FCB00C2EA3E /* entity.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = entity.c; sourceTree = "<group>"; };
 		C39E3A4019CA4FCB00C2EA3E /* entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entity.h; sourceTree = "<group>"; };
 		C39E3A4F19CA609D00C2EA3E /* test_entity.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_entity.c; sourceTree = "<group>"; };
@@ -34,6 +41,13 @@
 				C39E3A4019CA4FCB00C2EA3E /* entity.h */,
 				C39E3A5119CDC2A600C2EA3E /* game_world.c */,
 				C39E3A5219CDC2A600C2EA3E /* game_world.h */,
+				C393DC7B19CF9D9900AFE296 /* graphics.c */,
+				C393DC7C19CF9D9900AFE296 /* graphics.h */,
+				C34A4EFE19D236F8004B2A7A /* sprite.c */,
+				C34A4EFF19D236F8004B2A7A /* sprite.h */,
+				C34A4EFC19D22657004B2A7A /* window.c */,
+				C34A4EFD19D22657004B2A7A /* window.h */,
+				C34A4F0019D24A7E004B2A7A /* sdl.h */,
 			);
 			name = src;
 			path = ../src;
