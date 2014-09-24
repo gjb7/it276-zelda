@@ -20,6 +20,8 @@ OBJECTS_MINUS_TESTS = $(SOURCES_MINUS_TESTS:src/%.c=obj/%.o)
 
 all: dirs clean bin/$(EXEC)
 
+# ----
+
 test: CC_FLAGS += -DTESTS `pkg-config --cflags check`
 test: L_FLAGS += `pkg-config --libs check`
 test: clean-tests test-dirs $(OBJECTS)
@@ -31,6 +33,8 @@ clean-tests: clean
 
 test-dirs: dirs
 	@mkdir -p obj/tests/
+
+# ----
 
 dirs:
 	@mkdir -p bin/ obj/
