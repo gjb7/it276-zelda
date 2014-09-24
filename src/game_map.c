@@ -293,7 +293,7 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
                     goto cleanup;
                 }
                 
-                if (SDL_RWread(fp, tilemap_filename, sizeof(tilemap_filename), 1) == 0) {
+                if (SDL_RWread(fp, tilemap_filename, tilemap_filename_length, 1) == 0) {
                     SDL_SetError("Unable to read tilemap filename.");
                     
                     goto cleanup;
