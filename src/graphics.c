@@ -6,9 +6,7 @@
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
 //
 
-#include <SDL2/SDL.h>
-#include <SDL2_image/SDL_image.h>
-
+#include "sdl.h"
 #include "graphics.h"
 
 int init_sdl(void) {

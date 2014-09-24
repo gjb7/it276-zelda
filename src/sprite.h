@@ -10,8 +10,7 @@
 #define __zelda__sprite__
 
 #include <stdlib.h>
-#include <SDL2/SDL.h>
-#include <SDL2_image/SDL_image.h>
+#include "sdl.h"
 
 typedef struct sprite_s {
     SDL_Texture *texture;

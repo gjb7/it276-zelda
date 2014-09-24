@@ -10,7 +10,7 @@
 #define __zelda__window__
 
 #include <stdlib.h>
-#include <SDL2/SDL.h>
+#include "sdl.h"
 
 typedef struct window_w {
     SDL_Window *window;
