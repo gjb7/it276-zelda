@@ -175,11 +175,9 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     game_map_t *new_map_data = NULL;
     int layer_size, current_layer = 0;
     char buffer;
-    int result;
     
     while (current_position < data_size) {
-        result = SDL_RWread(fp, &buffer, sizeof(buffer), 1);
-        if (result == 0) {
+        if (SDL_RWread(fp, &buffer, sizeof(buffer), 1) == 0) {
             SDL_SetError("Error trying to read a char");
             
             goto cleanup;
@@ -193,8 +191,7 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
                     goto cleanup;
                 }
                 
-                result = SDL_RWread(fp, &width, sizeof(width), 1);
-                if (result == 0) {
+                if (SDL_RWread(fp, &width, sizeof(width), 1) == 0) {
                     SDL_SetError("Error trying to read width");
                     
                     goto cleanup;
@@ -208,8 +205,7 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
                     goto cleanup;
                 }
                 
-                result = SDL_RWread(fp, &height, sizeof(height), 1);
-                if (result == 0) {
+                if (SDL_RWread(fp, &height, sizeof(height), 1) == 0) {
                     SDL_SetError("Error trying to read height");
                     
                     goto cleanup;
@@ -223,8 +219,7 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
                     goto cleanup;
                 }
                 
-                result = SDL_RWread(fp, &layer_count, sizeof(layer_count), 1);
-                if (result == 0) {
+                if (SDL_RWread(fp, &layer_count, sizeof(layer_count), 1) == 0) {
                     SDL_SetError("Error trying to read layer_count");
                     
                     goto cleanup;
@@ -251,9 +246,8 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
                     layer_size = width * height;
                 }
                 
-                result = SDL_RWread(fp, new_map_data->layers[current_layer], layer_size, 1);
-                if (result == 0) {
-                    SDL_SetError("Invalid file format. Layer at index %i smaller than specified width and height. Read %i objects of size %i.", current_layer, result, layer_size);
+                if (SDL_RWread(fp, new_map_data->layers[current_layer], layer_size, 1) == 0) {
+                    SDL_SetError("Invalid file format. Layer at index %i smaller than specified width and height.", current_layer);
                     
                     goto cleanup;
                 }
@@ -270,8 +264,7 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
                 break;
         }
         
-        result = SDL_RWread(fp, &buffer, sizeof(buffer), 1);
-        if (result == 0) {
+        if (SDL_RWread(fp, &buffer, sizeof(buffer), 1) == 0) {
             SDL_SetError("Error trying to read a ';'");
             
             goto cleanup;
