@@ -15,6 +15,7 @@ endif
 EXEC = zelda
 SOURCES = $(wildcard src/*.c src/tests/*.c)
 SOURCES_MINUS_TESTS = $(filter-out src/tests/%.c, $(SOURCES))
+SOURCES_MINUS_MAIN = $(filter-out src/main.c, $(SOURCES_MINUS_TESTS))
 OBJECTS = $(SOURCES:src/%.c=obj/%.o)
 OBJECTS_MINUS_TESTS = $(SOURCES_MINUS_TESTS:src/%.c=obj/%.o)
 
@@ -47,3 +48,24 @@ obj/%.o: src/%.c
 
 clean:
 	rm -f bin/$(EXEC) obj/*.o
+
+# ----
+
+tools: clean map-checker
+
+tools-dirs: dirs
+	@mkdir -p bin/tools obj/tools
+
+# ----
+
+MAP_CHECKER_SOURCES = $(wildcard src/tools/map-checker/*.c)
+MAP_CHECKER_SOURCES += $(SOURCES_MINUS_MAIN)
+MAP_CHECKER_OBJECTS = $(MAP_CHECKER_SOURCES:src/%.c=obj/%.o)
+
+map-checker: clean map-checker-dirs bin/tools/map-checker
+
+map-checker-dirs: tools-dirs
+	@mkdir -p obj/tools/map-checker
+
+bin/tools/map-checker: $(MAP_CHECKER_OBJECTS)
+	$(CC) $(MAP_CHECKER_OBJECTS) $(L_FLAGS) -o $@
