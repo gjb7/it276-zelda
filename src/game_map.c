@@ -14,37 +14,26 @@ entity_t *_game_map_create_from_map(SDL_RWops *fp);
 entity_t *_game_map_create_from_v1_map(SDL_RWops *fp);
 
 entity_t *game_map_create(int layer_count, int width, int height) {
+    int i;
     entity_t *game_map = entity_create();
     if (game_map == NULL) {
-        return NULL;
+        goto exit;
     }
     
     game_map_t *game_map_data = malloc(sizeof(game_map_t));
     if (game_map_data == NULL) {
-        entity_release(game_map);
-        
-        return NULL;
+        goto release_map;
     }
     
     game_map_data->layers = malloc(layer_count * sizeof(char *));
     if (game_map_data->layers == NULL) {
-        entity_release(game_map);
-        
-        return NULL;
+        goto release_map;
     }
     
-    for (int i = 0; i < layer_count; i++) {
+    for (i = 0; i < layer_count; i++) {
         game_map_data->layers[i] = malloc(height * width * sizeof(char));
         if (game_map_data->layers[i] == NULL) {
-            for (int j = 0; j < i; j++) {
-                free(game_map_data->layers[j]);
-            }
-            
-            free(game_map_data->layers);
-            
-            entity_release(game_map);
-            
-            return NULL;
+            goto release_layers;
         }
     }
     
@@ -56,18 +45,32 @@ entity_t *game_map_create(int layer_count, int width, int height) {
     game_map->dealloc = _game_map_dealloc;
     
     return game_map;
+    
+release_layers:
+    for (int j = 0; j < i; j++) {
+        free(game_map_data->layers[j]);
+    }
+    
+    free(game_map_data->layers);
+release_map:
+    entity_release(game_map);
+exit:
+    
+    return NULL;
 }
 
 entity_t *game_map_create_from_file(char *filename) {
+    entity_t *game_map = NULL;
     SDL_RWops *fp = SDL_RWFromFile(filename, "rb");
     if (fp == NULL) {
-        return NULL;
+        goto cleanup;
     }
     
-    entity_t *game_map = _game_map_create_from_map(fp);
+    game_map = _game_map_create_from_map(fp);
     
     SDL_RWclose(fp);
     
+cleanup:
     return game_map;
 }
 
