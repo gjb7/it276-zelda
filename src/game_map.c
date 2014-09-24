@@ -11,7 +11,7 @@
 
 void _game_map_dealloc(entity_t *self);
 entity_t *_game_map_create_from_map(SDL_RWops *fp);
-int _game_map_create_from_v1_map(SDL_RWops *fp, entity_t **game_map);
+entity_t *_game_map_create_from_v1_map(SDL_RWops *fp);
 
 entity_t *game_map_create(int layer_count, int width, int height) {
     entity_t *game_map = entity_create();
@@ -83,7 +83,9 @@ void _game_map_dealloc(entity_t *self) {
 #pragma mark - Map Parsing
 
 entity_t *_game_map_create_from_map(SDL_RWops *fp) {
+    entity_t *game_map = NULL;
     char buffer;
+    
     if (SDL_RWread(fp, &buffer, sizeof(buffer), 1) == 0) {
         const char *error = SDL_GetError();
         if (error) {
@@ -93,13 +95,13 @@ entity_t *_game_map_create_from_map(SDL_RWops *fp) {
             fprintf(stderr, "Error parsing map file (V): reached end of file.\n");
         }
         
-        return NULL;
+        goto cleanup;
     }
     
     if (buffer != 'V') {
         fprintf(stderr, "Invalid file format. Expected 'V', instead got: %c\n", buffer);
         
-        return NULL;
+        goto cleanup;
     }
     
     if (SDL_RWread(fp, &buffer, sizeof(buffer), 1) == 0) {
@@ -111,10 +113,8 @@ entity_t *_game_map_create_from_map(SDL_RWops *fp) {
             fprintf(stderr, "Error parsing map file (version): reached end of file.\n");
         }
         
-        return NULL;
+        goto cleanup;
     }
-    
-    entity_t *game_map;
     
     switch (buffer) {
         case 1:
@@ -127,16 +127,17 @@ entity_t *_game_map_create_from_map(SDL_RWops *fp) {
                     fprintf(stderr, "Error parsing map file (;): reached end of file.\n");
                 }
                 
-                return NULL;
+                goto cleanup;
             }
             
             if (buffer != ';') {
                 fprintf(stderr, "Invalid file format. Expected ';', instead got %c\n", buffer);
                 
-                return NULL;
+                goto cleanup;
             }
             
-            if (_game_map_create_from_v1_map(fp, &game_map) != 0) {
+            game_map = _game_map_create_from_v1_map(fp);
+            if (game_map == NULL) {
                 const char *error = SDL_GetError();
                 if (error) {
                     fprintf(stderr, "Error parsing map file (map): %s\n", error);
@@ -145,22 +146,23 @@ entity_t *_game_map_create_from_map(SDL_RWops *fp) {
                     fprintf(stderr, "Error parsing map file (map): reached end of file.\n");
                 }
                 
-                return NULL;
+                goto cleanup;
             }
             
             break;
         default:
             fprintf(stderr, "Invalid version number found. Expected '1', instead got %i\n", (int)buffer);
             
-            return NULL;
+            goto cleanup;
             
             break;
     }
     
+cleanup:
     return game_map;
 }
 
-int _game_map_create_from_v1_map(SDL_RWops *fp, entity_t **game_map) {
+entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     char width = 0;
     char height = 0;
     char layer_count = 0;
@@ -169,14 +171,18 @@ int _game_map_create_from_v1_map(SDL_RWops *fp, entity_t **game_map) {
     entity_t *new_map = NULL;
     game_map_t *new_map_data = NULL;
     int layer_size, current_layer = 0;
+    char buffer;
+    int result;
+    char should_free = 0;
     
     while (current_position < data_size) {
-        char buffer;
-        int result = SDL_RWread(fp, &buffer, sizeof(buffer), 1);
+        result = SDL_RWread(fp, &buffer, sizeof(buffer), 1);
         if (result == 0) {
             SDL_SetError("Error trying to read a char");
             
-            return result;
+            should_free = 1;
+            
+            goto cleanup;
         }
         
         switch (buffer) {
@@ -184,15 +190,18 @@ int _game_map_create_from_v1_map(SDL_RWops *fp, entity_t **game_map) {
                 if (width != 0) {
                     SDL_SetError("Attempting to set width, when width already set to %i", width);
                     
-                    // TODO: Possibly define constants for these error codes?
-                    return -1;
+                    should_free = 1;
+                    
+                    goto cleanup;
                 }
                 
                 result = SDL_RWread(fp, &width, sizeof(width), 1);
                 if (result == 0) {
                     SDL_SetError("Error trying to read width");
                     
-                    return result;
+                    should_free = 1;
+                    
+                    goto cleanup;
                 }
                 break;
                 
@@ -200,15 +209,18 @@ int _game_map_create_from_v1_map(SDL_RWops *fp, entity_t **game_map) {
                 if (height != 0) {
                     SDL_SetError("Attempting to set height, when height already set to %i", height);
                     
-                    // TODO: Possibly define constants for these error codes?
-                    return -1;
+                    should_free = 1;
+                    
+                    goto cleanup;
                 }
                 
                 result = SDL_RWread(fp, &height, sizeof(height), 1);
                 if (result == 0) {
                     SDL_SetError("Error trying to read height");
                     
-                    return result;
+                    should_free = 1;
+                    
+                    goto cleanup;
                 }
                 break;
             
@@ -216,24 +228,37 @@ int _game_map_create_from_v1_map(SDL_RWops *fp, entity_t **game_map) {
                 if (layer_count != 0) {
                     SDL_SetError("Attempting to set layer_count, when layer_count already set to %i", layer_count);
                     
-                    // TODO: Possibly define constants for these error codes?
-                    return -1;
+                    should_free = 1;
+                    
+                    goto cleanup;
                 }
                 
                 result = SDL_RWread(fp, &layer_count, sizeof(layer_count), 1);
                 if (result == 0) {
                     SDL_SetError("Error trying to read layer_count");
                     
-                    return result;
+                    should_free = 1;
+                    
+                    goto cleanup;
                 }
+                
+                if (layer_count <= 0) {
+                    SDL_SetError("Invalid file format. No layers provided.");
+                    
+                    should_free = 1;
+                    
+                    goto cleanup;
+                }
+                
                 break;
             
             case 'l':
                 if (width == 0 || height == 0 || layer_count == 0) {
                     SDL_SetError("Missing required data.");
                     
-                    // TODO: Possibly define constants for these error codes?
-                    return -1;
+                    should_free = 1;
+                    
+                    goto cleanup;
                 }
                 
                 if (new_map == NULL) {
@@ -246,9 +271,9 @@ int _game_map_create_from_v1_map(SDL_RWops *fp, entity_t **game_map) {
                 if (result == 0) {
                     SDL_SetError("Invalid file format. Layer at index %i smaller than specified width and height. Read %i objects of size %i.", current_layer, result, layer_size);
                     
-                    entity_release(new_map);
+                    should_free = 1;
                     
-                    return -1;
+                    goto cleanup;
                 }
                 
                 current_layer++;
@@ -258,11 +283,9 @@ int _game_map_create_from_v1_map(SDL_RWops *fp, entity_t **game_map) {
             default:
                 SDL_SetError("Invalid file format. Expected 'W', 'H', 'L', or 'l', instead got %c", buffer);
                 
-                if (new_map != NULL) {
-                    entity_release(new_map);
-                }
+                should_free = 1;
                 
-                return -1;
+                goto cleanup;
                 
                 break;
         }
@@ -271,13 +294,17 @@ int _game_map_create_from_v1_map(SDL_RWops *fp, entity_t **game_map) {
         if (result == 0) {
             SDL_SetError("Error trying to read a ';'");
             
-            return result;
+            should_free = 1;
+            
+            goto cleanup;
         }
         
         if (buffer != ';') {
             SDL_SetError("Invalid file format. Expected ';', instead got %c", buffer);
             
-            return -1;
+            should_free = 1;
+            
+            goto cleanup;
         }
         
         current_position = SDL_RWtell(fp);
@@ -286,12 +313,17 @@ int _game_map_create_from_v1_map(SDL_RWops *fp, entity_t **game_map) {
     if (current_layer < layer_count) {
         SDL_SetError("Invalid file format. Found %i layers when %i specified", current_layer, layer_count);
         
-        entity_release(new_map);
+        should_free = 1;
         
-        return -1;
+        goto cleanup;
     }
     
-    *game_map = new_map;
+cleanup:
+    if (should_free && new_map != NULL) {
+        entity_release(new_map);
+        
+        new_map = NULL;
+    }
     
-    return 0;
+    return new_map;
 }
