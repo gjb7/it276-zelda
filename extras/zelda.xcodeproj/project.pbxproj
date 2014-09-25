@@ -12,6 +12,9 @@
 		C34A4EFE19D236F8004B2A7A /* sprite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sprite.c; sourceTree = "<group>"; };
 		C34A4EFF19D236F8004B2A7A /* sprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sprite.h; sourceTree = "<group>"; };
 		C34A4F0019D24A7E004B2A7A /* sdl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sdl.h; sourceTree = "<group>"; };
+		C34A4F0119D24E18004B2A7A /* game_map.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = game_map.c; sourceTree = "<group>"; };
+		C34A4F0219D24E18004B2A7A /* game_map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = game_map.h; sourceTree = "<group>"; };
+		C34A4F0719D26FAF004B2A7A /* test_game_map_parsing.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test_game_map_parsing.c; sourceTree = "<group>"; };
 		C38F667D19CA4BF100A7718A /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		C393DC7B19CF9D9900AFE296 /* graphics.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = graphics.c; sourceTree = "<group>"; };
 		C393DC7C19CF9D9900AFE296 /* graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = graphics.h; sourceTree = "<group>"; };
@@ -39,6 +42,8 @@
 				C38F667D19CA4BF100A7718A /* main.c */,
 				C39E3A3F19CA4FCB00C2EA3E /* entity.c */,
 				C39E3A4019CA4FCB00C2EA3E /* entity.h */,
+				C34A4F0119D24E18004B2A7A /* game_map.c */,
+				C34A4F0219D24E18004B2A7A /* game_map.h */,
 				C39E3A5119CDC2A600C2EA3E /* game_world.c */,
 				C39E3A5219CDC2A600C2EA3E /* game_world.h */,
 				C393DC7B19CF9D9900AFE296 /* graphics.c */,
@@ -57,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				C39E3A4F19CA609D00C2EA3E /* test_entity.c */,
+				C34A4F0719D26FAF004B2A7A /* test_game_map_parsing.c */,
 				C39E3A5019CA629200C2EA3E /* tests.h */,
 				C39E3A5319CDF4B400C2EA3E /* test_support.h */,
 			);

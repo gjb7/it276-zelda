@@ -9,7 +9,7 @@
 #include <check.h>
 #include "test_support.h"
 
-#include "../entity.h"
+#include "entity.h"
 
 START_TEST(test_entity_create)
 {

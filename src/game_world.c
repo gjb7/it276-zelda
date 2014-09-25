@@ -16,17 +16,17 @@ entity_t *game_world_create() {
         return NULL;
     }
     
-    game_world->class_name = "game_world";
-    game_world->dealloc = _game_world_dealloc;
-    
     game_world_t *game_world_data = malloc(sizeof(game_world_t));
     if (game_world_data == NULL) {
-        free(game_world);
+        entity_release(game_world);
         
         return NULL;
     }
     
     game_world->entity_data = (void *)game_world_data;
+    
+    strcpy(game_world->class_name, "game_world");
+    game_world->dealloc = _game_world_dealloc;
     
     return game_world;
 }
