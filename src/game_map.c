@@ -83,7 +83,11 @@ void _game_map_dealloc(entity_t *self) {
     free(game_map_data->layers);
 }
 
-#pragma mark - Map Parsing
+/**
+ * -----------
+ * Map Parsing
+ * -----------
+ */
 
 entity_t *_game_map_create_from_map(SDL_RWops *fp) {
     entity_t *game_map = NULL;
