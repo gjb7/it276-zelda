@@ -290,18 +290,21 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
                     goto cleanup;
                 }
                 
-                tilemap_filename = malloc(sizeof(char) * tilemap_filename_length);
                 if (SDL_RWseek(fp, tilemap_filename_start_location, RW_SEEK_SET) == -1) {
                     SDL_SetError("Invalid file format. Could not seek back to beginning of tilemap filename.");
                     
                     goto cleanup;
                 }
                 
-                if (SDL_RWread(fp, tilemap_filename, tilemap_filename_length, 1) == 0) {
+                char filename_buffer[tilemap_filename_length];
+                if (SDL_RWread(fp, filename_buffer, tilemap_filename_length, 1) == 0) {
                     SDL_SetError("Unable to read tilemap filename.");
                     
                     goto cleanup;
                 }
+                
+                tilemap_filename = malloc(sizeof(char) * tilemap_filename_length);
+                strncpy(tilemap_filename, filename_buffer, tilemap_filename_length);
                 
                 break;
             }
