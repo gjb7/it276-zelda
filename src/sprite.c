@@ -7,8 +7,14 @@
 //
 
 #include "sprite.h"
+#include <assert.h>
 
 sprite_t *sprite_create(char *filename, SDL_Renderer *renderer, int column_count, int row_count) {
+    assert(filename != NULL);
+    assert(renderer != NULL);
+    assert(column_count > 0);
+    assert(row_count > 0);
+    
     sprite_t *sprite = malloc(sizeof(sprite_t));
     if (sprite == NULL) {
         return NULL;
