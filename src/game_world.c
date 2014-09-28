@@ -24,6 +24,8 @@ entity_t *game_world_create() {
         return NULL;
     }
     
+    memset(game_world_data, 0, sizeof(game_world_t));
+    
     game_world->entity_data = (void *)game_world_data;
     
     strcpy(game_world->class_name, "game_world");

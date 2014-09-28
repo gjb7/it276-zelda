@@ -20,6 +20,8 @@ sprite_t *sprite_create(char *filename, SDL_Renderer *renderer, int column_count
         return NULL;
     }
     
+    memset(sprite, 0, sizeof(sprite_t));
+    
     sprite->texture = IMG_LoadTexture(renderer, filename);
     if (sprite->texture == NULL) {
         sprite_free(sprite);

@@ -30,6 +30,8 @@ entity_t *game_map_create(int layer_count, int width, int height) {
         goto release_map;
     }
     
+    memset(game_map_data, 0, sizeof(game_map_t));
+    
     game_map_data->layers = malloc(layer_count * sizeof(char *));
     if (game_map_data->layers == NULL) {
         goto release_map;
