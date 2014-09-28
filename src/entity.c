@@ -7,6 +7,7 @@
 //
 
 #include "entity.h"
+#include <assert.h>
 
 entity_t *entity_create() {
     entity_t *e = malloc(sizeof(entity_t));
@@ -20,6 +21,8 @@ entity_t *entity_create() {
 }
 
 void entity_retain(entity_t *e) {
+    assert(e != NULL);
+    
     e->retain_count++;
 }
 
@@ -29,6 +32,8 @@ void _entity_free_children(entity_t *e) {
 }
 
 void entity_dealloc(entity_t *e) {
+    assert(e != NULL);
+    
     g_slist_free_full(e->children, (GDestroyNotify)_entity_free_children);
     
     if (e->dealloc != NULL) {
@@ -37,6 +42,8 @@ void entity_dealloc(entity_t *e) {
 }
 
 void entity_release(entity_t *e) {
+    assert(e != NULL);
+    
     if (--e->retain_count == 0) {
         entity_dealloc(e);
         
@@ -45,6 +52,9 @@ void entity_release(entity_t *e) {
 }
 
 void entity_add_child(entity_t *parent, entity_t *child) {
+    assert(parent != NULL);
+    assert(child != NULL);
+    
     entity_retain(child);
     
     if (child->parent != NULL) {
@@ -56,6 +66,8 @@ void entity_add_child(entity_t *parent, entity_t *child) {
 }
 
 void entity_remove_from_parent(entity_t *e) {
+    assert(e != NULL);
+    
     if (e->parent == NULL) {
         return;
     }
