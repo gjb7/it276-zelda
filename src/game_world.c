@@ -34,13 +34,13 @@ entity_t *game_world_create() {
     return game_world;
 }
 
-void game_world_set_current_map(entity_t *e, game_map_t *game_map) {
+void game_world_set_current_map(entity_t *e, entity_t *game_map) {
     assert(game_map != NULL);
     
     game_world_t *game_world = (game_world_t *)e->entity_data;
     
     entity_retain(game_map);
-    game_map_t *old_game_map = game_world->current_map;
+    entity_t *old_game_map = game_world->current_map;
     game_world->current_map = game_map;
     entity_release(old_game_map);
 }

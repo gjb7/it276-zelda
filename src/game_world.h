@@ -14,10 +14,10 @@
 #include "game_map.h"
 
 typedef struct game_world_s {
-    game_map_t *current_map;
+    entity_t *current_map;
 } game_world_t;
 
 entity_t *game_world_create();
-void game_world_set_current_map(entity_t *e, game_map_t *game_map);
+void game_world_set_current_map(entity_t *e, entity_t *game_map);
 
 #endif /* defined(__zelda__game_world__) */
