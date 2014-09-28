@@ -14,7 +14,6 @@
 #include "game_map.h"
 
 typedef struct game_world_s {
-    // This is temporarily a void * until we get an actual map object implemented.
     game_map_t *current_map;
 } game_world_t;
 
