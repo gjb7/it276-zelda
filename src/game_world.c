@@ -42,5 +42,11 @@ void game_world_set_current_map(entity_t *e, game_map_t *game_map) {
 
 void _game_world_dealloc(entity_t *self) {
     game_world_t *game_world_data = (game_world_t *)self->entity_data;
+    
+    if (game_world_data->current_map != NULL) {
+        entity_release(game_world_data->current_map);
+        game_world_data->current_map = NULL;
+    }
+    
     free(game_world_data);
 }
