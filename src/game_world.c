@@ -7,6 +7,7 @@
 //
 
 #include "game_world.h"
+#include <assert.h>
 
 void _game_world_dealloc(entity_t *self);
 
@@ -32,6 +33,8 @@ entity_t *game_world_create() {
 }
 
 void game_world_set_current_map(entity_t *e, game_map_t *game_map) {
+    assert(game_map != NULL);
+    
     game_world_t *game_world = (game_world_t *)e->entity_data;
     
     entity_retain(game_map);
