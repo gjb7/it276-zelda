@@ -8,12 +8,17 @@
 
 #include "game_map.h"
 #include "entity.h"
+#include <assert.h>
 
 void _game_map_dealloc(entity_t *self);
 entity_t *_game_map_create_from_map(SDL_RWops *fp);
 entity_t *_game_map_create_from_v1_map(SDL_RWops *fp);
 
 entity_t *game_map_create(int layer_count, int width, int height) {
+    assert(layer_count > 0);
+    assert(width > 0);
+    assert(height > 0);
+    
     int i;
     entity_t *game_map = entity_create();
     if (game_map == NULL) {
