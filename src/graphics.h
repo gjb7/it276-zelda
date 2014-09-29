@@ -15,4 +15,6 @@
 bool init_sdl(void);
 bool init_image(void);
 
+void graphics_frame_delay(Uint8 delay);
+
 #endif /* defined(__zelda__graphics__) */

@@ -26,3 +26,13 @@ bool init_image(void) {
     
     return true;
 }
+
+void graphics_frame_delay(Uint8 delay) {
+    static Uint8 pass = 100;
+    Uint8 diff;
+    diff = SDL_GetTicks() - pass;
+    if (diff < delay) {
+        SDL_Delay(delay - diff);
+    }
+    pass = SDL_GetTicks();
+}
