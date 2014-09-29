@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "graphics.h"
 #include "window.h"
@@ -23,13 +24,13 @@ int main(int argc, char **argv) {
     srunner_free(runner);
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 #else
-    if (init_sdl() != 0) {
+    if (!init_sdl()) {
         fprintf(stderr, "Error initializing SDL: %s", SDL_GetError());
         
         return EXIT_FAILURE;
     }
     
-    if (init_image() != 0) {
+    if (!init_image()) {
         fprintf(stderr, "Error initializing IMG: No PNG support.");
         
         return EXIT_FAILURE;
