@@ -37,8 +37,21 @@ int main(int argc, char **argv) {
     }
     
     window_t *window = window_create("Hello World!", 320, 480);
+    bool done = false;
     
-    SDL_Delay(2000);
+    while (!done) {
+        SDL_Event e;
+        
+        while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_QUIT) {
+                done = true;
+            }
+            
+            
+        }
+        
+        graphics_frame_delay(60);
+    }
     
     window_free(window);
 #endif
