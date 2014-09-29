@@ -9,20 +9,20 @@
 #include "sdl.h"
 #include "graphics.h"
 
-int init_sdl(void) {
+bool init_sdl(void) {
     int result = SDL_Init(SDL_INIT_EVERYTHING);
     if (result != 0) {
-        return result;
+        return false;
     }
     atexit(SDL_Quit);
-    return result;
+    return true;
 }
 
-int init_image(void) {
+bool init_image(void) {
     if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG) {
-        return -1;
+        return false;
     }
     atexit(IMG_Quit);
     
-    return 0;
+    return true;
 }
