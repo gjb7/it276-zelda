@@ -43,4 +43,8 @@ void entity_release(entity_t *e);
 void entity_add_child(entity_t *parent, entity_t *child);
 void entity_remove_from_parent(entity_t *e);
 
+void entity_think(entity_t *e);
+void entity_render(entity_t *e);
+void entity_update(entity_t *e);
+
 #endif /* defined(__zelda__entity__) */

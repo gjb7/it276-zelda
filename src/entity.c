@@ -77,3 +77,51 @@ void entity_remove_from_parent(entity_t *e) {
     e->parent = NULL;
     entity_release(e);
 }
+
+void _entity_think_iterator(gpointer data, gpointer user_data) {
+    entity_t *e = (entity_t *)data;
+    
+    entity_think(e);
+}
+
+void entity_think(entity_t *e) {
+    assert(e != NULL);
+    
+    if (e->think != NULL) {
+        e->think(e);
+    }
+    
+    g_slist_foreach(e->children, _entity_think_iterator, NULL);
+}
+
+void _entity_render_iterator(gpointer data, gpointer user_data) {
+    entity_t *e = (entity_t *)data;
+    
+    entity_render(e);
+}
+
+void entity_render(entity_t *e) {
+    assert(e != NULL);
+    
+    if (e->render != NULL) {
+        e->render(e);
+    }
+    
+    g_slist_foreach(e->children, _entity_render_iterator, NULL);
+}
+
+void _entity_update_iterator(gpointer data, gpointer user_data) {
+    entity_t *e = (entity_t *)data;
+    
+    entity_update(e);
+}
+
+void entity_update(entity_t *e) {
+    assert(e != NULL);
+    
+    if (e->render != NULL) {
+        e->render(e);
+    }
+    
+    g_slist_foreach(e->children, _entity_update_iterator, NULL);
+}
