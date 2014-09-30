@@ -3,10 +3,11 @@ CC = gcc
 CC_FLAGS = -std=gnu99 -g -Wall -pedantic -Werror `pkg-config glib-2.0 --cflags` -Isrc/
 L_FLAGS = `pkg-config glib-2.0 --libs`
 UNAME = $(shell uname)
+LIB_PATH = $(addsuffix /lib/osx/, $(shell pwd))
 
 ifeq ($(UNAME), Darwin)
 	CC_FLAGS += -F lib/osx/ -Wno-gnu-zero-variadic-macro-arguments
-	L_FLAGS += -F lib/osx/ -framework SDL2 -framework SDL2_image -Wl,-rpath,lib/osx/
+	L_FLAGS += -F lib/osx/ -framework SDL2 -framework SDL2_image -Wl,-rpath,$(LIB_PATH)
 else ifeq ($(UNAME), Linux)
 	CC_FLAGS += `pkg-config sdl2 --cflags` `pkg-config SDL2_image --cflags`
 	L_FLAGS += `pkg-config sdl2 --libs` `pkg-config SDL2_image --libs`
