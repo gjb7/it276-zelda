@@ -46,6 +46,8 @@ entity_t *game_map_create(int layer_count, int width, int height) {
     }
     
     game_map_data->layer_count = layer_count;
+    game_map_data->layer_width = width;
+    game_map_data->layer_height = height;
     
     game_map->entity_data = (void *)game_map_data;
     
