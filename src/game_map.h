@@ -19,6 +19,8 @@ typedef struct game_map_s {
     sprite_t *tilemap;
     Uint8 **layers;
     int layer_count;
+    int layer_width;
+    int layer_height;
 } game_map_t;
 
 entity_t *game_map_create(int layer_count, int width, int height);
