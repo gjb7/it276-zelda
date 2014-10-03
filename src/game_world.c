@@ -42,7 +42,10 @@ void game_world_set_current_map(entity_t *e, entity_t *game_map) {
     entity_retain(game_map);
     entity_t *old_game_map = game_world->current_map;
     game_world->current_map = game_map;
-    entity_release(old_game_map);
+    
+    if (old_game_map != NULL) {
+        entity_release(old_game_map);
+    }
 }
 
 void _game_world_dealloc(entity_t *self) {
