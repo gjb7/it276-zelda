@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <glib.h>
+#include "sdl.h"
 
 /**
  * An entity within the game. An entity is anything that acts or is acted upon by the game.
@@ -27,7 +28,7 @@ typedef struct entity_s {
     int retain_count;
     
     void (*think)(struct entity_s *self);
-    void (*render)(struct entity_s *self); // TODO: a rendering context type object should be passed in.
+    void (*render)(struct entity_s *self, SDL_Renderer *renderer);
     void (*update)(struct entity_s *self);
     void (*dealloc)(struct entity_s *self);
     
@@ -44,7 +45,7 @@ void entity_add_child(entity_t *parent, entity_t *child);
 void entity_remove_from_parent(entity_t *e);
 
 void entity_think(entity_t *e);
-void entity_render(entity_t *e);
+void entity_render(entity_t *e, SDL_Renderer *renderer);
 void entity_update(entity_t *e);
 
 #endif /* defined(__zelda__entity__) */

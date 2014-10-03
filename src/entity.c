@@ -97,17 +97,17 @@ void entity_think(entity_t *e) {
 void _entity_render_iterator(gpointer data, gpointer user_data) {
     entity_t *e = (entity_t *)data;
     
-    entity_render(e);
+    entity_render(e, user_data);
 }
 
-void entity_render(entity_t *e) {
+void entity_render(entity_t *e, SDL_Renderer *renderer) {
     assert(e != NULL);
     
     if (e->render != NULL) {
-        e->render(e);
+        e->render(e, renderer);
     }
     
-    g_slist_foreach(e->children, _entity_render_iterator, NULL);
+    g_slist_foreach(e->children, _entity_render_iterator, renderer);
 }
 
 void _entity_update_iterator(gpointer data, gpointer user_data) {
