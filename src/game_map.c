@@ -10,7 +10,7 @@
 #include "entity.h"
 #include <assert.h>
 
-void _game_map_render(entity_t *self);
+void _game_map_render(entity_t *self, SDL_Renderer *renderer);
 void _game_map_dealloc(entity_t *self);
 entity_t *_game_map_create_from_map(SDL_RWops *fp);
 entity_t *_game_map_create_from_v1_map(SDL_RWops *fp);
@@ -95,7 +95,7 @@ void game_map_load_tilemap(entity_t *self, SDL_Renderer *renderer) {
     gameMap->tilemap = sprite_create(gameMap->tilemap_filename, renderer, frame_size);
 }
 
-void _game_map_render(entity_t *self) {
+void _game_map_render(entity_t *self, SDL_Renderer *renderer) {
     game_map_t *gameMap = (game_map_t *)self->entity_data;
     
     assert(gameMap->tilemap != NULL);
