@@ -10,6 +10,7 @@
 #include "entity.h"
 #include <assert.h>
 
+void _game_map_render(entity_t *self);
 void _game_map_dealloc(entity_t *self);
 entity_t *_game_map_create_from_map(SDL_RWops *fp);
 entity_t *_game_map_create_from_v1_map(SDL_RWops *fp);
@@ -49,6 +50,7 @@ entity_t *game_map_create(int layer_count, int width, int height) {
     game_map->entity_data = (void *)game_map_data;
     
     strcpy(game_map->class_name, "game_map");
+    game_map->render = _game_map_render;
     game_map->dealloc = _game_map_dealloc;
     
     return game_map;
@@ -79,6 +81,21 @@ entity_t *game_map_create_from_file(char *filename) {
     
 cleanup:
     return game_map;
+}
+
+void _game_map_render(entity_t *self) {
+    game_map_t *gameMap = (game_map_t *)self->entity_data;
+    
+    assert(gameMap->tilemap != NULL);
+    
+    int i, j;
+    int layer_size = sizeof(gameMap->layers[0]) / sizeof(Uint8);
+    
+    for (i = 0; i < gameMap->layer_count; i++) {
+        for (j = 0; j < layer_size; j++) {
+            Uint8 tile_index = gameMap->layers[i][j];
+        }
+    }
 }
 
 void _game_map_dealloc(entity_t *self) {
