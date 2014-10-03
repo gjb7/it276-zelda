@@ -37,7 +37,8 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
     
-    window_t *window = window_create("Hello World!", 320, 480);
+    window_t *window = window_create("Hello World!", 512, 448);
+    SDL_RenderSetScale(window->renderer, 2, 2);
     
     entity_t *gameMap = game_map_create_from_file("res/maps/level1.map");
     game_map_load_tilemap(gameMap, window->renderer);
