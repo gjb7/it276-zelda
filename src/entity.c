@@ -119,8 +119,8 @@ void _entity_update_iterator(gpointer data, gpointer user_data) {
 void entity_update(entity_t *e) {
     assert(e != NULL);
     
-    if (e->render != NULL) {
-        e->render(e);
+    if (e->update != NULL) {
+        e->update(e);
     }
     
     g_slist_foreach(e->children, _entity_update_iterator, NULL);
