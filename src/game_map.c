@@ -112,6 +112,17 @@ void _game_map_render(entity_t *self) {
 
 void _game_map_dealloc(entity_t *self) {
     game_map_t *game_map_data = (game_map_t *)self->entity_data;
+    
+    if (game_map_data->tilemap != NULL) {
+        sprite_free(game_map_data->tilemap);
+        game_map_data->tilemap = NULL;
+    }
+    
+    if (game_map_data->tilemap_filename != NULL) {
+        free(game_map_data->tilemap_filename);
+        game_map_data->tilemap_filename = NULL;
+    }
+    
     for (int i = 0; i < game_map_data->layer_count; i++) {
         free(game_map_data->layers[i]);
     }
