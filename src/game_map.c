@@ -83,6 +83,18 @@ cleanup:
     return game_map;
 }
 
+void game_map_load_tilemap(entity_t *self, SDL_Renderer *renderer) {
+    game_map_t *gameMap = (game_map_t *)self->entity_data;
+    
+    assert(gameMap->tilemap == NULL);
+    
+    SDL_Rect frame_size;
+    frame_size.w = 16;
+    frame_size.h = 16;
+    
+    gameMap->tilemap = sprite_create(gameMap->tilemap_filename, renderer, frame_size);
+}
+
 void _game_map_render(entity_t *self) {
     game_map_t *gameMap = (game_map_t *)self->entity_data;
     
