@@ -11,12 +11,13 @@
 
 #include <stdlib.h>
 #include "entity.h"
+#include "game_map.h"
 
 typedef struct game_world_s {
-    // This is temporarily a void * until we get an actual map object implemented.
-    void *current_map;
+    entity_t *current_map;
 } game_world_t;
 
 entity_t *game_world_create();
+void game_world_set_current_map(entity_t *e, entity_t *game_map);
 
 #endif /* defined(__zelda__game_world__) */

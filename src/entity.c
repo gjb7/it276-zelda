@@ -7,6 +7,7 @@
 //
 
 #include "entity.h"
+#include <assert.h>
 
 entity_t *entity_create() {
     entity_t *e = malloc(sizeof(entity_t));
@@ -20,6 +21,8 @@ entity_t *entity_create() {
 }
 
 void entity_retain(entity_t *e) {
+    assert(e != NULL);
+    
     e->retain_count++;
 }
 
@@ -29,6 +32,8 @@ void _entity_free_children(entity_t *e) {
 }
 
 void entity_dealloc(entity_t *e) {
+    assert(e != NULL);
+    
     g_slist_free_full(e->children, (GDestroyNotify)_entity_free_children);
     
     if (e->dealloc != NULL) {
@@ -37,6 +42,8 @@ void entity_dealloc(entity_t *e) {
 }
 
 void entity_release(entity_t *e) {
+    assert(e != NULL);
+    
     if (--e->retain_count == 0) {
         entity_dealloc(e);
         
@@ -45,6 +52,9 @@ void entity_release(entity_t *e) {
 }
 
 void entity_add_child(entity_t *parent, entity_t *child) {
+    assert(parent != NULL);
+    assert(child != NULL);
+    
     entity_retain(child);
     
     if (child->parent != NULL) {
@@ -56,6 +66,8 @@ void entity_add_child(entity_t *parent, entity_t *child) {
 }
 
 void entity_remove_from_parent(entity_t *e) {
+    assert(e != NULL);
+    
     if (e->parent == NULL) {
         return;
     }
@@ -64,4 +76,52 @@ void entity_remove_from_parent(entity_t *e) {
     parent->children = g_slist_remove(parent->children, e);
     e->parent = NULL;
     entity_release(e);
+}
+
+void _entity_think_iterator(gpointer data, gpointer user_data) {
+    entity_t *e = (entity_t *)data;
+    
+    entity_think(e);
+}
+
+void entity_think(entity_t *e) {
+    assert(e != NULL);
+    
+    if (e->think != NULL) {
+        e->think(e);
+    }
+    
+    g_slist_foreach(e->children, _entity_think_iterator, NULL);
+}
+
+void _entity_render_iterator(gpointer data, gpointer user_data) {
+    entity_t *e = (entity_t *)data;
+    
+    entity_render(e, user_data);
+}
+
+void entity_render(entity_t *e, SDL_Renderer *renderer) {
+    assert(e != NULL);
+    
+    if (e->render != NULL) {
+        e->render(e, renderer);
+    }
+    
+    g_slist_foreach(e->children, _entity_render_iterator, renderer);
+}
+
+void _entity_update_iterator(gpointer data, gpointer user_data) {
+    entity_t *e = (entity_t *)data;
+    
+    entity_update(e);
+}
+
+void entity_update(entity_t *e) {
+    assert(e != NULL);
+    
+    if (e->update != NULL) {
+        e->update(e);
+    }
+    
+    g_slist_foreach(e->children, _entity_update_iterator, NULL);
 }

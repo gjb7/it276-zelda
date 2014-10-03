@@ -1,8 +1,10 @@
 #include <SDL2/SDL.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "graphics.h"
 #include "window.h"
+#include "game_world.h"
 
 #ifdef TESTS
 #include <check.h>
@@ -23,21 +25,47 @@ int main(int argc, char **argv) {
     srunner_free(runner);
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 #else
-    if (init_sdl() != 0) {
+    if (!init_sdl()) {
         fprintf(stderr, "Error initializing SDL: %s", SDL_GetError());
         
         return EXIT_FAILURE;
     }
     
-    if (init_image() != 0) {
+    if (!init_image()) {
         fprintf(stderr, "Error initializing IMG: No PNG support.");
         
         return EXIT_FAILURE;
     }
     
-    window_t *window = window_create("Hello World!", 320, 480);
+    window_t *window = window_create("Hello World!", 512, 448);
+    SDL_RenderSetScale(window->renderer, 2, 2);
     
-    SDL_Delay(2000);
+    entity_t *gameMap = game_map_create_from_file("res/maps/level1.map");
+    game_map_load_tilemap(gameMap, window->renderer);
+    entity_t *gameWorld = game_world_create();
+    game_world_set_current_map(gameWorld, gameMap);
+    entity_release(gameMap);
+    
+    bool done = false;
+    while (!done) {
+        SDL_Event e;
+        
+        while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_QUIT) {
+                done = true;
+            }
+            
+            
+        }
+        
+        entity_render(gameWorld, window->renderer);
+        
+        SDL_RenderPresent(window->renderer);
+        
+        graphics_frame_delay(60);
+    }
+    
+    entity_release(gameWorld);
     
     window_free(window);
 #endif

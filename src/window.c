@@ -16,7 +16,7 @@ window_t *window_create(char *title, int width, int height) {
     
     memset(window, 0, sizeof(window_t));
     
-    window->window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
+    window->window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
     if (window->window == NULL) {
         window_free(window);
         

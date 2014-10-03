@@ -7,12 +7,20 @@
 //
 
 #include "sprite.h"
+#include <assert.h>
 
-sprite_t *sprite_create(char *filename, SDL_Renderer *renderer, int column_count, int row_count) {
+sprite_t *sprite_create(char *filename, SDL_Renderer *renderer, SDL_Rect frame_size) {
+    assert(filename != NULL);
+    assert(renderer != NULL);
+    assert(frame_size.w > 0);
+    assert(frame_size.h > 0);
+    
     sprite_t *sprite = malloc(sizeof(sprite_t));
     if (sprite == NULL) {
         return NULL;
     }
+    
+    memset(sprite, 0, sizeof(sprite_t));
     
     sprite->texture = IMG_LoadTexture(renderer, filename);
     if (sprite->texture == NULL) {
@@ -30,8 +38,9 @@ sprite_t *sprite_create(char *filename, SDL_Renderer *renderer, int column_count
         return NULL;
     }
     
-    sprite->frame_size.w = texture_width / column_count;
-    sprite->frame_size.h = texture_height / row_count;
+    sprite->frame_size = frame_size;
+    sprite->column_count = texture_width / frame_size.w;
+    sprite->row_count = texture_height / frame_size.h;
     
     return sprite;
 }

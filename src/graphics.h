@@ -10,8 +10,11 @@
 #define __zelda__graphics__
 
 #include <stdlib.h>
+#include <stdbool.h>
 
-int init_sdl(void);
-int init_image(void);
+bool init_sdl(void);
+bool init_image(void);
+
+void graphics_frame_delay(Uint8 delay);
 
 #endif /* defined(__zelda__graphics__) */

@@ -15,9 +15,11 @@
 typedef struct sprite_s {
     SDL_Texture *texture;
     SDL_Rect frame_size;
+    int column_count;
+    int row_count;
 } sprite_t;
 
-sprite_t *sprite_create(char *filename, SDL_Renderer *renderer, int column_count, int row_count);
+sprite_t *sprite_create(char *filename, SDL_Renderer *renderer, SDL_Rect frame_size);
 void sprite_free(sprite_t *sprite);
 
 #endif /* defined(__zelda__sprite__) */

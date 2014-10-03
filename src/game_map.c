@@ -8,12 +8,18 @@
 
 #include "game_map.h"
 #include "entity.h"
+#include <assert.h>
 
+void _game_map_render(entity_t *self, SDL_Renderer *renderer);
 void _game_map_dealloc(entity_t *self);
 entity_t *_game_map_create_from_map(SDL_RWops *fp);
 entity_t *_game_map_create_from_v1_map(SDL_RWops *fp);
 
 entity_t *game_map_create(int layer_count, int width, int height) {
+    assert(layer_count > 0);
+    assert(width > 0);
+    assert(height > 0);
+    
     int i;
     entity_t *game_map = entity_create();
     if (game_map == NULL) {
@@ -25,23 +31,28 @@ entity_t *game_map_create(int layer_count, int width, int height) {
         goto release_map;
     }
     
-    game_map_data->layers = malloc(layer_count * sizeof(char *));
+    memset(game_map_data, 0, sizeof(game_map_t));
+    
+    game_map_data->layers = malloc(layer_count * sizeof(Uint8 *));
     if (game_map_data->layers == NULL) {
         goto release_map;
     }
     
     for (i = 0; i < layer_count; i++) {
-        game_map_data->layers[i] = malloc(height * width * sizeof(char));
+        game_map_data->layers[i] = malloc(height * width * sizeof(Uint8));
         if (game_map_data->layers[i] == NULL) {
             goto release_layers;
         }
     }
     
     game_map_data->layer_count = layer_count;
+    game_map_data->layer_width = width;
+    game_map_data->layer_height = height;
     
     game_map->entity_data = (void *)game_map_data;
     
     strcpy(game_map->class_name, "game_map");
+    game_map->render = _game_map_render;
     game_map->dealloc = _game_map_dealloc;
     
     return game_map;
@@ -74,8 +85,67 @@ cleanup:
     return game_map;
 }
 
+void game_map_load_tilemap(entity_t *self, SDL_Renderer *renderer) {
+    game_map_t *gameMap = (game_map_t *)self->entity_data;
+    
+    assert(gameMap->tilemap == NULL);
+    
+    SDL_Rect frame_size;
+    frame_size.w = 16;
+    frame_size.h = 16;
+    
+    gameMap->tilemap = sprite_create(gameMap->tilemap_filename, renderer, frame_size);
+}
+
+void _game_map_render(entity_t *self, SDL_Renderer *renderer) {
+    game_map_t *gameMap = (game_map_t *)self->entity_data;
+    
+    assert(gameMap->tilemap != NULL);
+    
+    int i, j;
+    int layer_size = gameMap->layer_width * gameMap->layer_height;
+    int column_count = gameMap->tilemap->column_count;
+    int layer_width = gameMap->layer_width;
+    SDL_Rect frame_size = gameMap->tilemap->frame_size;
+    
+    for (i = 0; i < gameMap->layer_count; i++) {
+        for (j = 0; j < layer_size; j++) {
+            Uint8 tile_index = gameMap->layers[i][j];
+            
+            SDL_Rect srcRect;
+            srcRect.x = (tile_index % column_count) * frame_size.w;
+            srcRect.y = floorf(tile_index / column_count) * frame_size.h;
+            srcRect.w = frame_size.w;
+            srcRect.h = frame_size.h;
+            
+            SDL_Rect destRect;
+            destRect.x = (j % layer_width) * frame_size.w;
+            destRect.y = floorf(j / layer_width) * frame_size.h;
+            destRect.w = frame_size.w;
+            destRect.h = frame_size.h;
+            
+            if (SDL_RenderCopy(renderer, gameMap->tilemap->texture, &srcRect, &destRect) != 0) {
+                printf("Error copying: %s\n", SDL_GetError());
+                
+                return;
+            }
+        }
+    }
+}
+
 void _game_map_dealloc(entity_t *self) {
     game_map_t *game_map_data = (game_map_t *)self->entity_data;
+    
+    if (game_map_data->tilemap != NULL) {
+        sprite_free(game_map_data->tilemap);
+        game_map_data->tilemap = NULL;
+    }
+    
+    if (game_map_data->tilemap_filename != NULL) {
+        free(game_map_data->tilemap_filename);
+        game_map_data->tilemap_filename = NULL;
+    }
+    
     for (int i = 0; i < game_map_data->layer_count; i++) {
         free(game_map_data->layers[i]);
     }
