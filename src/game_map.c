@@ -103,11 +103,32 @@ void _game_map_render(entity_t *self, SDL_Renderer *renderer) {
     assert(gameMap->tilemap != NULL);
     
     int i, j;
-    int layer_size = sizeof(gameMap->layers[0]) / sizeof(Uint8);
+    int layer_size = gameMap->layer_width * gameMap->layer_height;
+    int column_count = gameMap->tilemap->column_count;
+    int layer_width = gameMap->layer_width;
+    SDL_Rect frame_size = gameMap->tilemap->frame_size;
     
     for (i = 0; i < gameMap->layer_count; i++) {
         for (j = 0; j < layer_size; j++) {
             Uint8 tile_index = gameMap->layers[i][j];
+            
+            SDL_Rect srcRect;
+            srcRect.x = (tile_index % column_count) * frame_size.w;
+            srcRect.y = floorf(tile_index / column_count) * frame_size.h;
+            srcRect.w = frame_size.w;
+            srcRect.h = frame_size.h;
+            
+            SDL_Rect destRect;
+            destRect.x = (j % layer_width) * frame_size.w;
+            destRect.y = floorf(j / layer_width) * frame_size.h;
+            destRect.w = frame_size.w;
+            destRect.h = frame_size.h;
+            
+            if (SDL_RenderCopy(renderer, gameMap->tilemap->texture, &srcRect, &destRect) != 0) {
+                printf("Error copying: %s\n", SDL_GetError());
+                
+                return;
+            }
         }
     }
 }
