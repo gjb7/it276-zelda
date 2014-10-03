@@ -17,7 +17,7 @@
 typedef struct game_map_s {
     char *tilemap_filename;
     sprite_t *tilemap;
-    char **layers;
+    Uint8 **layers;
     int layer_count;
 } game_map_t;
 
