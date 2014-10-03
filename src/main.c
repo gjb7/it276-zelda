@@ -4,6 +4,7 @@
 
 #include "graphics.h"
 #include "window.h"
+#include "game_world.h"
 
 #ifdef TESTS
 #include <check.h>
@@ -37,8 +38,14 @@ int main(int argc, char **argv) {
     }
     
     window_t *window = window_create("Hello World!", 320, 480);
-    bool done = false;
     
+    entity_t *gameMap = game_map_create_from_file("res/maps/level1.map");
+    game_map_load_tilemap(gameMap, window->renderer);
+    entity_t *gameWorld = game_world_create();
+    game_world_set_current_map(gameWorld, gameMap);
+    entity_release(gameMap);
+    
+    bool done = false;
     while (!done) {
         SDL_Event e;
         
@@ -50,8 +57,12 @@ int main(int argc, char **argv) {
             
         }
         
+        entity_render(gameWorld);
+        
         graphics_frame_delay(60);
     }
+    
+    entity_release(gameWorld);
     
     window_free(window);
 #endif
