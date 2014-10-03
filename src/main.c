@@ -58,7 +58,9 @@ int main(int argc, char **argv) {
             
         }
         
-        entity_render(gameWorld);
+        entity_render(gameWorld, window->renderer);
+        
+        SDL_RenderPresent(window->renderer);
         
         graphics_frame_delay(60);
     }
