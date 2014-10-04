@@ -10,10 +10,10 @@
 #include "graphics.h"
 #include <assert.h>
 
-sprite_t *sprite_create(char *filename, SDL_Rect frame_size) {
+sprite_t *sprite_create(char *filename, SDL_Point frame_size) {
     assert(filename != NULL);
-    assert(frame_size.w > 0);
-    assert(frame_size.h > 0);
+    assert(frame_size.x > 0);
+    assert(frame_size.y > 0);
     
     SDL_Renderer *renderer = graphics_get_global_renderer();
     
@@ -41,8 +41,8 @@ sprite_t *sprite_create(char *filename, SDL_Rect frame_size) {
     }
     
     sprite->frame_size = frame_size;
-    sprite->column_count = texture_width / frame_size.w;
-    sprite->row_count = texture_height / frame_size.h;
+    sprite->column_count = texture_width / frame_size.x;
+    sprite->row_count = texture_height / frame_size.y;
     
     return sprite;
 }

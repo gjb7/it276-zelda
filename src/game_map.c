@@ -97,23 +97,23 @@ void _game_map_render(entity_t *self) {
     int layer_size = gameMap->layer_width * gameMap->layer_height;
     int column_count = gameMap->tilemap->column_count;
     int layer_width = gameMap->layer_width;
-    SDL_Rect frame_size = gameMap->tilemap->frame_size;
+    SDL_Point frame_size = gameMap->tilemap->frame_size;
     
     for (i = 0; i < gameMap->layer_count; i++) {
         for (j = 0; j < layer_size; j++) {
             Uint8 tile_index = gameMap->layers[i][j];
             
             SDL_Rect srcRect;
-            srcRect.x = (tile_index % column_count) * frame_size.w;
-            srcRect.y = floorf(tile_index / column_count) * frame_size.h;
-            srcRect.w = frame_size.w;
-            srcRect.h = frame_size.h;
+            srcRect.x = (tile_index % column_count) * frame_size.x;
+            srcRect.y = floorf(tile_index / column_count) * frame_size.y;
+            srcRect.w = frame_size.x;
+            srcRect.h = frame_size.y;
             
             SDL_Rect destRect;
-            destRect.x = (j % layer_width) * frame_size.w;
-            destRect.y = floorf(j / layer_width) * frame_size.h;
-            destRect.w = frame_size.w;
-            destRect.h = frame_size.h;
+            destRect.x = (j % layer_width) * frame_size.x;
+            destRect.y = floorf(j / layer_width) * frame_size.y;
+            destRect.w = frame_size.x;
+            destRect.h = frame_size.y;
             
             if (SDL_RenderCopy(renderer, gameMap->tilemap->texture, &srcRect, &destRect) != 0) {
                 printf("Error copying: %s\n", SDL_GetError());
@@ -406,11 +406,7 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     
     new_map_data->tilemap_filename = tilemap_filename;
     
-    SDL_Rect frame_size;
-    frame_size.w = 16;
-    frame_size.h = 16;
-    
-    new_map_data->tilemap = sprite_create(new_map_data->tilemap_filename, frame_size);
+    new_map_data->tilemap = sprite_create(new_map_data->tilemap_filename, (SDL_Point){ 16, 16 });
     
     if (current_layer < layer_count) {
         SDL_SetError("Invalid file format. Found %i layers when %i specified", current_layer, layer_count);
