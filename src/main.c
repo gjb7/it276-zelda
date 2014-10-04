@@ -44,7 +44,6 @@ int main(int argc, char **argv) {
     graphics_set_global_renderer(window->renderer);
     
     entity_t *gameMap = game_map_create_from_file("res/maps/level1.map");
-    game_map_load_tilemap(gameMap, window->renderer);
     entity_t *gameWorld = game_world_create();
     game_world_set_current_map(gameWorld, gameMap);
     entity_release(gameMap);
@@ -57,7 +56,7 @@ int main(int argc, char **argv) {
             done = true;
         }
         
-        entity_render(gameWorld, window->renderer);
+        entity_render(gameWorld);
         
         SDL_RenderPresent(graphics_get_global_renderer());
         

@@ -19,7 +19,7 @@ typedef struct sprite_s {
     int row_count;
 } sprite_t;
 
-sprite_t *sprite_create(char *filename, SDL_Renderer *renderer, SDL_Rect frame_size);
+sprite_t *sprite_create(char *filename, SDL_Rect frame_size);
 void sprite_free(sprite_t *sprite);
 
 #endif /* defined(__zelda__sprite__) */

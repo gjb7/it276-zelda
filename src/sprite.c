@@ -7,13 +7,15 @@
 //
 
 #include "sprite.h"
+#include "graphics.h"
 #include <assert.h>
 
-sprite_t *sprite_create(char *filename, SDL_Renderer *renderer, SDL_Rect frame_size) {
+sprite_t *sprite_create(char *filename, SDL_Rect frame_size) {
     assert(filename != NULL);
-    assert(renderer != NULL);
     assert(frame_size.w > 0);
     assert(frame_size.h > 0);
+    
+    SDL_Renderer *renderer = graphics_get_global_renderer();
     
     sprite_t *sprite = malloc(sizeof(sprite_t));
     if (sprite == NULL) {

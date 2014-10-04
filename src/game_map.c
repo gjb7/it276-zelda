@@ -8,9 +8,10 @@
 
 #include "game_map.h"
 #include "entity.h"
+#include "graphics.h"
 #include <assert.h>
 
-void _game_map_render(entity_t *self, SDL_Renderer *renderer);
+void _game_map_render(entity_t *self);
 void _game_map_dealloc(entity_t *self);
 entity_t *_game_map_create_from_map(SDL_RWops *fp);
 entity_t *_game_map_create_from_v1_map(SDL_RWops *fp);
@@ -85,22 +86,12 @@ cleanup:
     return game_map;
 }
 
-void game_map_load_tilemap(entity_t *self, SDL_Renderer *renderer) {
-    game_map_t *gameMap = (game_map_t *)self->entity_data;
-    
-    assert(gameMap->tilemap == NULL);
-    
-    SDL_Rect frame_size;
-    frame_size.w = 16;
-    frame_size.h = 16;
-    
-    gameMap->tilemap = sprite_create(gameMap->tilemap_filename, renderer, frame_size);
-}
-
-void _game_map_render(entity_t *self, SDL_Renderer *renderer) {
+void _game_map_render(entity_t *self) {
     game_map_t *gameMap = (game_map_t *)self->entity_data;
     
     assert(gameMap->tilemap != NULL);
+    
+    SDL_Renderer *renderer = graphics_get_global_renderer();
     
     int i, j;
     int layer_size = gameMap->layer_width * gameMap->layer_height;
@@ -414,6 +405,12 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     }
     
     new_map_data->tilemap_filename = tilemap_filename;
+    
+    SDL_Rect frame_size;
+    frame_size.w = 16;
+    frame_size.h = 16;
+    
+    new_map_data->tilemap = sprite_create(new_map_data->tilemap_filename, frame_size);
     
     if (current_layer < layer_count) {
         SDL_SetError("Invalid file format. Found %i layers when %i specified", current_layer, layer_count);
