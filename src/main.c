@@ -56,6 +56,9 @@ int main(int argc, char **argv) {
             done = true;
         }
         
+        entity_think(gameWorld);
+        entity_update(gameWorld);
+        
         entity_render(gameWorld);
         
         SDL_RenderPresent(graphics_get_global_renderer());
