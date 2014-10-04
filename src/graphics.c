@@ -8,6 +8,9 @@
 
 #include "sdl.h"
 #include "graphics.h"
+#include <assert.h>
+
+static SDL_Renderer *_graphics_global_renderer;
 
 bool init_sdl(void) {
     int result = SDL_Init(SDL_INIT_EVERYTHING);
@@ -35,4 +38,18 @@ void graphics_frame_delay(Uint8 delay) {
         SDL_Delay(delay - diff);
     }
     pass = SDL_GetTicks();
+}
+
+void graphics_set_global_renderer(SDL_Renderer *renderer) {
+    assert(renderer != NULL);
+    
+    _graphics_global_renderer = renderer;
+}
+
+SDL_Renderer *graphics_get_global_renderer(void) {
+    SDL_Renderer *renderer = _graphics_global_renderer;
+    
+    assert(renderer != NULL);
+    
+    return renderer;
 }
