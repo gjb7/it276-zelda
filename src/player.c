@@ -29,7 +29,14 @@ entity_t *player_create() {
     player->entity_data = player_data;
     player->dealloc = _player_dealloc;
     
-//    sprite_t *sprite = sprite;
+    sprite_t *sprite = sprite_create("res/sprites/link.png", (SDL_Point){ 16, 22 });
+    if (!sprite) {
+        entity_release(player);
+        
+        return NULL;
+    }
+    
+    player_data->sprite = sprite;
     
     return player;
 }
