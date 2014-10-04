@@ -28,6 +28,9 @@ typedef struct entity_s {
     int retain_count;
     
     void (*think)(struct entity_s *self);
+    Sint32 thinkRate;
+    Uint32 thinkNext;
+    
     void (*render)(struct entity_s *self);
     void (*update)(struct entity_s *self);
     void (*dealloc)(struct entity_s *self);

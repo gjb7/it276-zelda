@@ -88,7 +88,13 @@ void entity_think(entity_t *e) {
     assert(e != NULL);
     
     if (e->think != NULL) {
-        e->think(e);
+        if (SDL_GetTicks() > e->thinkNext) {
+            e->think(e);
+        }
+        
+        if (e->thinkRate > 0) {
+            e->thinkNext += e->thinkRate;
+        }
     }
     
     g_slist_foreach(e->children, _entity_think_iterator, NULL);
