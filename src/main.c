@@ -5,6 +5,7 @@
 #include "graphics.h"
 #include "window.h"
 #include "game_world.h"
+#include "input.h"
 
 #ifdef TESTS
 #include <check.h>
@@ -50,14 +51,10 @@ int main(int argc, char **argv) {
     
     bool done = false;
     while (!done) {
-        SDL_Event e;
+        input_update();
         
-        while (SDL_PollEvent(&e) != 0) {
-            if (e.type == SDL_QUIT) {
-                done = true;
-            }
-            
-            
+        if (SDL_HasEvent(SDL_QUIT)) {
+            done = true;
         }
         
         entity_render(gameWorld, window->renderer);
