@@ -40,6 +40,8 @@ int main(int argc, char **argv) {
     window_t *window = window_create("Hello World!", 512, 448);
     SDL_RenderSetScale(window->renderer, 2, 2);
     
+    graphics_set_global_renderer(window->renderer);
+    
     entity_t *gameMap = game_map_create_from_file("res/maps/level1.map");
     game_map_load_tilemap(gameMap, window->renderer);
     entity_t *gameWorld = game_world_create();
@@ -60,7 +62,7 @@ int main(int argc, char **argv) {
         
         entity_render(gameWorld, window->renderer);
         
-        SDL_RenderPresent(window->renderer);
+        SDL_RenderPresent(graphics_get_global_renderer());
         
         graphics_frame_delay(60);
     }
