@@ -7,6 +7,7 @@
 //
 
 #include "game_world.h"
+#include "player.h"
 #include <assert.h>
 
 void _game_world_dealloc(entity_t *self);
@@ -31,6 +32,15 @@ entity_t *game_world_create() {
     strcpy(game_world->class_name, "game_world");
     game_world->dealloc = _game_world_dealloc;
     
+    entity_t *player = player_create();
+    if (!player) {
+        entity_release(game_world);
+        
+        return NULL;
+    }
+    
+    game_world_data->player = player;
+    
     return game_world;
 }
 
@@ -39,11 +49,14 @@ void game_world_set_current_map(entity_t *e, entity_t *game_map) {
     
     game_world_t *game_world = (game_world_t *)e->entity_data;
     
+    entity_remove_from_parent(game_world->player);
     entity_add_child(e, game_map);
     
     entity_retain(game_map);
     entity_t *old_game_map = game_world->current_map;
     game_world->current_map = game_map;
+    
+    entity_add_child(game_map, game_world->player);
     
     if (old_game_map != NULL) {
         entity_remove_from_parent(old_game_map);
@@ -58,6 +71,8 @@ void _game_world_dealloc(entity_t *self) {
         entity_release(game_world_data->current_map);
         game_world_data->current_map = NULL;
     }
+    
+    entity_release(game_world_data->player);
     
     free(game_world_data);
 }

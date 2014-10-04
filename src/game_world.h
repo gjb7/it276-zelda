@@ -15,6 +15,7 @@
 
 typedef struct game_world_s {
     entity_t *current_map;
+    entity_t *player;
 } game_world_t;
 
 entity_t *game_world_create();
