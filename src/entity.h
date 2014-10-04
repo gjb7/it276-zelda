@@ -27,11 +27,14 @@ typedef struct entity_s {
     /// The developer should NOT touch this.
     int retain_count;
     
+    // Thinking for the entity. Useful for animations.
     void (*think)(struct entity_s *self);
     Sint32 thinkRate;
     Uint32 thinkNext;
     
     void (*render)(struct entity_s *self);
+    
+    // Updating for the entity. Used for updating position.
     void (*update)(struct entity_s *self);
     void (*dealloc)(struct entity_s *self);
     
