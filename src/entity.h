@@ -40,6 +40,8 @@ typedef struct entity_s {
     
     char class_name[128];
     
+    SDL_Point position;
+    
     void *entity_data;
 } entity_t;
 
