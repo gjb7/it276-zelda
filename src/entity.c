@@ -7,6 +7,9 @@
 //
 
 #include "entity.h"
+#include "sdl.h"
+#include "graphics.h"
+#include "logging.h"
 #include <assert.h>
 
 entity_t *entity_create() {
