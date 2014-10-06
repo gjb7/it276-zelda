@@ -17,6 +17,10 @@ entity_t *entity_create() {
     
     memset(e, 0, sizeof(entity_t));
     e->retain_count = 1;
+    
+    e->position.x = 0;
+    e->position.y = 0;
+    
     return e;
 }
 
