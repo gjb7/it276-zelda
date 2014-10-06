@@ -20,4 +20,6 @@ void graphics_frame_delay(Uint8 delay);
 void graphics_set_global_renderer(SDL_Renderer *renderer);
 SDL_Renderer *graphics_get_global_renderer(void);
 
+SDL_Point graphics_global_renderer_size(void);
+
 #endif /* defined(__zelda__graphics__) */
