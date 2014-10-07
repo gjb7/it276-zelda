@@ -54,6 +54,9 @@ then
 	
 	echo "Installing glib through apt-get"
 	sudo apt-get install -qq -y libglib2.0-dev
+
+    echo "Installing libyaml-dev through apt-get"
+    sudo apt-get install -qq -y libyaml-dev
 elif [[ -n `which brew` ]]
 then
 	echo "Installing check via homebrew."
@@ -61,4 +64,7 @@ then
 	
 	echo "Installing glib via homebrew."
 	brew install glib
+
+    echo "installing libyaml via homebrew."
+    brew install libyaml
 fi
