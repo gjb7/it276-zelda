@@ -63,8 +63,8 @@ void _player_render(entity_t *player) {
     srcRect.h = frame_size.y;
     
     SDL_Rect destRect;
-    destRect.x = player->position.x;
-    destRect.y = player->position.y;
+    destRect.x = 0;
+    destRect.y = 0;
     destRect.w = frame_size.x;
     destRect.h = frame_size.y;
     
