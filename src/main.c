@@ -38,6 +38,12 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
     
+    if (!init_input()) {
+        fprintf(stderr, "Error initializing input.");
+        
+        return EXIT_FAILURE;
+    }
+    
     window_t *window = window_create("Hello World!", 512, 448);
     SDL_RenderSetScale(window->renderer, 2, 2);
     
