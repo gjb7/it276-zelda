@@ -7,6 +7,9 @@
 //
 
 #include "entity.h"
+#include "sdl.h"
+#include "graphics.h"
+#include "logging.h"
 #include <assert.h>
 
 entity_t *entity_create() {
@@ -17,6 +20,10 @@ entity_t *entity_create() {
     
     memset(e, 0, sizeof(entity_t));
     e->retain_count = 1;
+    
+    e->position.x = 0;
+    e->position.y = 0;
+    
     return e;
 }
 
@@ -88,7 +95,13 @@ void entity_think(entity_t *e) {
     assert(e != NULL);
     
     if (e->think != NULL) {
-        e->think(e);
+        if (SDL_GetTicks() > e->thinkNext) {
+            e->think(e);
+            
+            if (e->thinkRate > 0) {
+                e->thinkNext += e->thinkRate;
+            }
+        }
     }
     
     g_slist_foreach(e->children, _entity_think_iterator, NULL);
@@ -97,17 +110,37 @@ void entity_think(entity_t *e) {
 void _entity_render_iterator(gpointer data, gpointer user_data) {
     entity_t *e = (entity_t *)data;
     
-    entity_render(e, user_data);
+    entity_render(e);
 }
 
-void entity_render(entity_t *e, SDL_Renderer *renderer) {
+void entity_render(entity_t *e) {
     assert(e != NULL);
     
     if (e->render != NULL) {
-        e->render(e, renderer);
+        SDL_Point rendererSize = graphics_global_renderer_size();
+        SDL_Rect viewportSize;
+        viewportSize.x = e->position.x;
+        viewportSize.y = e->position.y;
+        viewportSize.w = rendererSize.x;
+        viewportSize.h = rendererSize.y;
+        
+        if (e->parent) {
+            entity_t *parent = e->parent;
+            
+            do {
+                viewportSize.x += parent->position.x;
+                viewportSize.y += parent->position.y;
+                
+                parent = parent->parent;
+            } while(parent != NULL);
+        }
+        
+        SDL_RenderSetViewport(graphics_get_global_renderer(), &viewportSize);
+        
+        e->render(e);
     }
     
-    g_slist_foreach(e->children, _entity_render_iterator, renderer);
+    g_slist_foreach(e->children, _entity_render_iterator, NULL);
 }
 
 void _entity_update_iterator(gpointer data, gpointer user_data) {

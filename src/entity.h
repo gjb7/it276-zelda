@@ -27,12 +27,20 @@ typedef struct entity_s {
     /// The developer should NOT touch this.
     int retain_count;
     
+    // Thinking for the entity. Useful for animations.
     void (*think)(struct entity_s *self);
-    void (*render)(struct entity_s *self, SDL_Renderer *renderer);
+    Sint32 thinkRate;
+    Uint32 thinkNext;
+    
+    void (*render)(struct entity_s *self);
+    
+    // Updating for the entity. Used for updating position.
     void (*update)(struct entity_s *self);
     void (*dealloc)(struct entity_s *self);
     
     char class_name[128];
+    
+    SDL_Point position;
     
     void *entity_data;
 } entity_t;
@@ -45,7 +53,7 @@ void entity_add_child(entity_t *parent, entity_t *child);
 void entity_remove_from_parent(entity_t *e);
 
 void entity_think(entity_t *e);
-void entity_render(entity_t *e, SDL_Renderer *renderer);
+void entity_render(entity_t *e);
 void entity_update(entity_t *e);
 
 #endif /* defined(__zelda__entity__) */

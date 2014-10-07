@@ -8,6 +8,7 @@
 
 #include "input.h"
 #include "sdl.h"
+#include <assert.h>
 
 const Uint8 *_input_keyboard_state = NULL;
 
@@ -18,6 +19,8 @@ bool init_input(void) {
 }
 
 void input_update(void) {
+    assert(_input_keyboard_state != NULL);
+    
     SDL_PumpEvents();
 }
 
