@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
         
         SDL_RenderPresent(graphics_get_global_renderer());
         
-        graphics_frame_delay(60);
+        graphics_frame_delay(16);
     }
     
     entity_release(gameWorld);
