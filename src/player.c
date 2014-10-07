@@ -8,9 +8,11 @@
 
 #include "player.h"
 #include "graphics.h"
+#include "input.h"
 
 void _player_dealloc(entity_t *player);
 void _player_render(entity_t *player);
+void _player_think(entity_t *player);
 
 entity_t *player_create() {
     entity_t *player = entity_create();
@@ -31,6 +33,9 @@ entity_t *player_create() {
     player->entity_data = player_data;
     player->dealloc = _player_dealloc;
     player->render = _player_render;
+    
+    player->think = _player_think;
+    player->thinkRate = 10;
     
     sprite_t *sprite = sprite_create("res/sprites/link.png", (SDL_Point){ 16, 22 });
     if (!sprite) {
@@ -67,6 +72,24 @@ void _player_render(entity_t *player) {
         printf("Error copying: %s\n", SDL_GetError());
         
         return;
+    }
+}
+
+void _player_think(entity_t *player) {
+    if (input_is_key_down(SDL_SCANCODE_W)) {
+        player->position.y -= 1;
+    }
+    
+    if (input_is_key_down(SDL_SCANCODE_S)) {
+        player->position.y += 1;
+    }
+    
+    if (input_is_key_down(SDL_SCANCODE_A)) {
+        player->position.x -= 1;
+    }
+    
+    if (input_is_key_down(SDL_SCANCODE_D)) {
+        player->position.x += 1;
     }
 }
 
