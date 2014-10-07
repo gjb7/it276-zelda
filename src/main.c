@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
     while (!done) {
         input_update();
         
-        if (SDL_HasEvent(SDL_QUIT)) {
+        if (SDL_QuitRequested()) {
             done = true;
         }
         
