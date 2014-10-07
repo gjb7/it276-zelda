@@ -97,10 +97,10 @@ void entity_think(entity_t *e) {
     if (e->think != NULL) {
         if (SDL_GetTicks() > e->thinkNext) {
             e->think(e);
-        }
-        
-        if (e->thinkRate > 0) {
-            e->thinkNext += e->thinkRate;
+            
+            if (e->thinkRate > 0) {
+                e->thinkNext += e->thinkRate;
+            }
         }
     }
     
