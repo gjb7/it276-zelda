@@ -91,11 +91,8 @@ void _game_map_render(entity_t *self) {
     
     assert(gameMap->tilemap != NULL);
     
-    SDL_Renderer *renderer = graphics_get_global_renderer();
-    
     int i, j;
     int layer_size = gameMap->layer_width * gameMap->layer_height;
-    int column_count = gameMap->tilemap->column_count;
     int layer_width = gameMap->layer_width;
     SDL_Point frame_size = gameMap->tilemap->frame_size;
     
@@ -103,23 +100,13 @@ void _game_map_render(entity_t *self) {
         for (j = 0; j < layer_size; j++) {
             Uint8 tile_index = gameMap->layers[i][j];
             
-            SDL_Rect srcRect;
-            srcRect.x = (tile_index % column_count) * frame_size.x;
-            srcRect.y = floorf(tile_index / column_count) * frame_size.y;
-            srcRect.w = frame_size.x;
-            srcRect.h = frame_size.y;
-            
             SDL_Rect destRect;
             destRect.x = (j % layer_width) * frame_size.x;
             destRect.y = floorf(j / layer_width) * frame_size.y;
             destRect.w = frame_size.x;
             destRect.h = frame_size.y;
             
-            if (SDL_RenderCopy(renderer, gameMap->tilemap->texture, &srcRect, &destRect) != 0) {
-                printf("Error copying: %s\n", SDL_GetError());
-                
-                return;
-            }
+            sprite_render(gameMap->tilemap, tile_index, destRect);
         }
     }
 }

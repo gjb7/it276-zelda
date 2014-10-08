@@ -47,6 +47,24 @@ sprite_t *sprite_create(char *filename, SDL_Point frame_size) {
     return sprite;
 }
 
+void sprite_render(sprite_t *sprite, int frame, SDL_Rect destRect) {
+    int column_count = sprite->column_count;
+    SDL_Point frame_size = sprite->frame_size;
+    SDL_Renderer *renderer = graphics_get_global_renderer();
+    
+    SDL_Rect srcRect;
+    srcRect.x = (frame % column_count) * frame_size.x;
+    srcRect.y = floorf(frame / column_count) * frame_size.y;
+    srcRect.w = frame_size.x;
+    srcRect.h = frame_size.y;
+    
+    if (SDL_RenderCopy(renderer, sprite->texture, &srcRect, &destRect) != 0) {
+        printf("Error copying: %s\n", SDL_GetError());
+        
+        return;
+    }
+}
+
 void sprite_free(sprite_t *sprite) {
     if (sprite->texture) {
         SDL_DestroyTexture(sprite->texture);

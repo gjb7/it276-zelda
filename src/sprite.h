@@ -20,6 +20,7 @@ typedef struct sprite_s {
 } sprite_t;
 
 sprite_t *sprite_create(char *filename, SDL_Point frame_size);
+void sprite_render(sprite_t *sprite, int frame, SDL_Rect destRect);
 void sprite_free(sprite_t *sprite);
 
 #endif /* defined(__zelda__sprite__) */
