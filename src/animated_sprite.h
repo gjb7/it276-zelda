@@ -24,6 +24,7 @@ typedef struct animation_s {
 typedef struct animated_sprite_s {
     SDL_Texture *texture;
     GHashTable *animations;
+    animation_t *current_animation;
 } animated_sprite_t;
 
 animated_sprite_t *animated_sprite_create(char *filename);
