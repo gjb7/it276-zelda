@@ -13,5 +13,6 @@
 
 extern Suite *entity_suite();
 extern Suite *game_map_parsing_suite();
+extern Suite *animated_sprite_suite();
 
 #endif

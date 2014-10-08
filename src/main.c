@@ -20,6 +20,7 @@ int main(int argc, char **argv) {
     
     runner = srunner_create(entity_suite());
     srunner_add_suite(runner, game_map_parsing_suite());
+    srunner_add_suite(runner, animated_sprite_suite());
     
     srunner_run_all(runner, CK_NORMAL);
     number_failed = srunner_ntests_failed(runner);
