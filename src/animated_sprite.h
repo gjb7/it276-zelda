@@ -18,6 +18,7 @@ typedef struct animation_s {
     GArray *frames;
     int current_frame;
     bool loops;
+    bool reverses;
 } animation_t;
 
 typedef struct animated_sprite_s {

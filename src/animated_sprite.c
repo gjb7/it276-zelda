@@ -150,6 +150,7 @@ bool load_animations(yaml_parser_t *parser, animated_sprite_t *sprite) {
                 memset(animation, 0, sizeof(animation_t));
                 
                 animation->loops = true;
+                animation->reverses = false;
                 animation->frames = g_array_new(TRUE, FALSE, sizeof(SDL_Rect));
                 
                 break;
@@ -197,6 +198,16 @@ bool load_animations(yaml_parser_t *parser, animated_sprite_t *sprite) {
                         }
                         else if (strcmp(value, "false") == 0) {
                             animation->loops = false;
+                        }
+                    }
+                    else if (strcmp(currentKey, "reverses") == 0) {
+                        char *value = (char *)event.data.scalar.value;
+                        
+                        if (strcmp(value, "true") == 0) {
+                            animation->reverses = true;
+                        }
+                        else if (strcmp(value, "false") == 0) {
+                            animation->reverses = false;
                         }
                     }
                 }
