@@ -11,6 +11,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include "sdl.h"
 
 bool init_sdl(void);
 bool init_image(void);
