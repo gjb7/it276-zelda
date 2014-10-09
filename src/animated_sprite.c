@@ -40,6 +40,60 @@ error:
     return NULL;
 }
 
+void animated_sprite_render_frame(animated_sprite_t *sprite, SDL_Point destPoint) {
+    SDL_Renderer *renderer = graphics_get_global_renderer();
+    animation_t *animation = sprite->current_animation;
+    SDL_Rect frame = g_array_index(animation->frames, SDL_Rect, animation->current_frame);
+    
+    SDL_Rect destRect;
+    destRect.x = destPoint.x;
+    destRect.y = destPoint.y;
+    destRect.w = frame.w;
+    destRect.h = frame.h;
+    
+    if (SDL_RenderCopy(renderer, sprite->texture, &frame, &destRect) != 0) {
+        printf("Error copying: %s\n", SDL_GetError());
+        
+        return;
+    }
+    
+    if (animation->loops) {
+        animation->current_frame += animation->frame_step;
+        
+        if (animation->reverses) {
+            if (animation->current_frame == animation->frame_count - 1) {
+                animation->frame_step = -1;
+            }
+            else if(animation->current_frame == 0) {
+                animation->frame_step = 1;
+            }
+        }
+        else {
+            if (animation->current_frame == animation->frame_count) {
+                animation->current_frame = 0;
+            }
+        }
+    }
+    else {
+        if (animation->current_frame != animation->frame_count - 1) {
+            animation->current_frame += animation->frame_step;
+        }
+    }
+}
+
+void animated_sprite_set_current_animation(animated_sprite_t *sprite, const char *name) {
+    assert(name != NULL);
+    
+    animation_t *animation = g_hash_table_lookup(sprite->animations, name);
+    if (!animation) {
+        return;
+    }
+    
+    animation->current_frame = animation->start_frame;
+    animation->frame_step = 1;
+    sprite->current_animation = animation;
+}
+
 void animated_sprite_free(animated_sprite_t *sprite) {
     if (sprite->texture) {
         SDL_DestroyTexture(sprite->texture);
@@ -59,6 +113,8 @@ bool load_animated_sprite_from_yaml_file(char *filename, animated_sprite_t *spri
     yaml_parser_initialize(&parser);
     
     FILE *input = fopen(filename, "rb");
+    assert(input != NULL);
+    
     yaml_parser_set_input_file(&parser, input);
     
     SDL_Renderer *renderer = graphics_get_global_renderer();
@@ -151,14 +207,13 @@ bool load_animations(yaml_parser_t *parser, animated_sprite_t *sprite) {
                 
                 animation->loops = true;
                 animation->reverses = false;
-                animation->frames = g_array_new(TRUE, FALSE, sizeof(SDL_Rect));
+                animation->frames = g_array_new(FALSE, FALSE, sizeof(SDL_Rect));
+                animation->start_frame = 0;
                 
                 break;
             
             case YAML_MAPPING_END_EVENT:
                 g_hash_table_insert(sprite->animations, animationName, animation);
-                
-                free(animation);
                 
                 break;
             
@@ -179,16 +234,10 @@ bool load_animations(yaml_parser_t *parser, animated_sprite_t *sprite) {
                 }
                 else {
                     if (strcmp(currentKey, "name") == 0) {
-                        if (animationName) {
-                            free(animationName);
-                        }
-                        
                         char *aName = (char *)event.data.scalar.value;
                         
                         animationName = malloc((strlen(aName) + 1) * sizeof(char));
                         strlcpy(animationName, aName, strlen(aName) + 1);
-                        
-                        handledValue = 1;
                     }
                     else if (strcmp(currentKey, "loops") == 0) {
                         char *value = (char *)event.data.scalar.value;
@@ -210,6 +259,11 @@ bool load_animations(yaml_parser_t *parser, animated_sprite_t *sprite) {
                             animation->reverses = false;
                         }
                     }
+                    else if (strcmp(currentKey, "start_frame") == 0) {
+                        animation->start_frame = atoi((char *)event.data.scalar.value);
+                    }
+                    
+                    handledValue = 1;
                 }
                 
                 break;
@@ -247,15 +301,16 @@ bool load_frames(yaml_parser_t *parser, animation_t *animation) {
         }
         
         switch (event.type) {
-            case YAML_SEQUENCE_START_EVENT:
+            case YAML_MAPPING_START_EVENT:
                 currentRect.x = 0;
                 currentRect.y = 0;
                 currentRect.w = 0;
                 currentRect.h = 0;
                 
                 break;
-            case YAML_SEQUENCE_END_EVENT:
+            case YAML_MAPPING_END_EVENT:
                 g_array_append_val(animation->frames, currentRect);
+                animation->frame_count++;
                 
                 break;
             case YAML_SCALAR_EVENT:

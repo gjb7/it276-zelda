@@ -17,6 +17,9 @@
 typedef struct animation_s {
     GArray *frames;
     int current_frame;
+    int start_frame;
+    int frame_count;
+    int frame_step;
     bool loops;
     bool reverses;
 } animation_t;
@@ -28,6 +31,8 @@ typedef struct animated_sprite_s {
 } animated_sprite_t;
 
 animated_sprite_t *animated_sprite_create(char *filename);
+void animated_sprite_render_frame(animated_sprite_t *sprite, SDL_Point destPoint);
+void animated_sprite_set_current_animation(animated_sprite_t *sprite, const char *name);
 void animated_sprite_free(animated_sprite_t *sprite);
 
 #endif /* defined(__zelda__animated_sprite__) */
