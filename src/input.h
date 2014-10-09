@@ -1,10 +1,10 @@
-//
+/*
 //  input.h
 //  zelda
 //
 //  Created by Grant Butler on 9/29/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #ifndef __zelda__input__
 #define __zelda__input__

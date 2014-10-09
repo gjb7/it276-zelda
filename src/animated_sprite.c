@@ -1,10 +1,10 @@
-//
+/**
 //  animated_sprite.c
 //  zelda
 //
 //  Created by Grant Butler on 10/6/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #include "animated_sprite.h"
 #include "graphics.h"
@@ -17,9 +17,11 @@ bool load_frames(yaml_parser_t *parser, animation_t *animation);
 bool load_animated_sprite_from_yaml_file(char *filename, animated_sprite_t *sprite);
 
 animated_sprite_t *animated_sprite_create(char *filename) {
+    animated_sprite_t *sprite;
+    
     assert(filename != NULL);
     
-    animated_sprite_t *sprite = malloc(sizeof(animated_sprite_t));
+    sprite = malloc(sizeof(animated_sprite_t));
     if (sprite == NULL) {
         return NULL;
     }
@@ -82,9 +84,11 @@ void animated_sprite_render_frame(animated_sprite_t *sprite, SDL_Point destPoint
 }
 
 void animated_sprite_set_current_animation(animated_sprite_t *sprite, const char *name) {
+    animation_t *animation;
+    
     assert(name != NULL);
     
-    animation_t *animation = g_hash_table_lookup(sprite->animations, name);
+    animation = g_hash_table_lookup(sprite->animations, name);
     if (!animation) {
         return;
     }
@@ -109,16 +113,18 @@ void animated_sprite_free(animated_sprite_t *sprite) {
 bool load_animated_sprite_from_yaml_file(char *filename, animated_sprite_t *sprite) {
     yaml_parser_t parser;
     yaml_event_t  event;
+    FILE *input;
+    SDL_Renderer *renderer;
+    char *currentKey = NULL;
     
     yaml_parser_initialize(&parser);
     
-    FILE *input = fopen(filename, "rb");
+    input = fopen(filename, "rb");
     assert(input != NULL);
     
     yaml_parser_set_input_file(&parser, input);
     
-    SDL_Renderer *renderer = graphics_get_global_renderer();
-    char *currentKey = NULL;
+    renderer = graphics_get_global_renderer();
     
     do {
         int handledValue = 0;

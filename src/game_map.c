@@ -1,10 +1,10 @@
-//
+/*
 //  game_map.c
 //  zelda
 //
 //  Created by Grant Butler on 9/23/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #include "game_map.h"
 #include "entity.h"
@@ -17,17 +17,21 @@ entity_t *_game_map_create_from_map(SDL_RWops *fp);
 entity_t *_game_map_create_from_v1_map(SDL_RWops *fp);
 
 entity_t *game_map_create(int layer_count, int width, int height) {
+    int i, j;
+    entity_t *game_map;
+    game_map_t *game_map_data;
+    
     assert(layer_count > 0);
     assert(width > 0);
     assert(height > 0);
     
-    int i;
-    entity_t *game_map = entity_create();
+    
+    game_map = entity_create();
     if (game_map == NULL) {
         goto exit;
     }
     
-    game_map_t *game_map_data = malloc(sizeof(game_map_t));
+    game_map_data = malloc(sizeof(game_map_t));
     if (game_map_data == NULL) {
         goto release_map;
     }
@@ -59,7 +63,7 @@ entity_t *game_map_create(int layer_count, int width, int height) {
     return game_map;
     
 release_layers:
-    for (int j = 0; j < i; j++) {
+    for (j = 0; j < i; j++) {
         free(game_map_data->layers[j]);
     }
     
@@ -88,13 +92,16 @@ cleanup:
 
 void _game_map_render(entity_t *self) {
     game_map_t *gameMap = (game_map_t *)self->entity_data;
+    int i, j;
+    int layer_size;
+    int layer_width;
+    SDL_Point frame_size;
     
     assert(gameMap->tilemap != NULL);
     
-    int i, j;
-    int layer_size = gameMap->layer_width * gameMap->layer_height;
-    int layer_width = gameMap->layer_width;
-    SDL_Point frame_size = gameMap->tilemap->frame_size;
+    layer_size = gameMap->layer_width * gameMap->layer_height;
+    layer_width = gameMap->layer_width;
+    frame_size = gameMap->tilemap->frame_size;
     
     for (i = 0; i < gameMap->layer_count; i++) {
         for (j = 0; j < layer_size; j++) {
@@ -112,6 +119,7 @@ void _game_map_render(entity_t *self) {
 }
 
 void _game_map_dealloc(entity_t *self) {
+    int i;
     game_map_t *game_map_data = (game_map_t *)self->entity_data;
     
     if (game_map_data->tilemap != NULL) {
@@ -124,7 +132,7 @@ void _game_map_dealloc(entity_t *self) {
         game_map_data->tilemap_filename = NULL;
     }
     
-    for (int i = 0; i < game_map_data->layer_count; i++) {
+    for (i = 0; i < game_map_data->layer_count; i++) {
         free(game_map_data->layers[i]);
     }
     
@@ -221,6 +229,7 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     char width = 0;
     char height = 0;
     char layer_count = 0;
+    SDL_Point frame_size;
     int data_size = SDL_RWsize(fp);
     int current_position = SDL_RWtell(fp);
     entity_t *new_map = NULL;
@@ -393,7 +402,10 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     
     new_map_data->tilemap_filename = tilemap_filename;
     
-    new_map_data->tilemap = sprite_create(new_map_data->tilemap_filename, (SDL_Point){ 16, 16 });
+    frame_size.x = 16;
+    frame_size.y = 16;
+    
+    new_map_data->tilemap = sprite_create(new_map_data->tilemap_filename, frame_size);
     
     if (current_layer < layer_count) {
         SDL_SetError("Invalid file format. Found %i layers when %i specified", current_layer, layer_count);

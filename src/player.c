@@ -1,10 +1,10 @@
-//
+/*
 //  player.c
 //  zelda
 //
 //  Created by Grant Butler on 10/4/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #include "player.h"
 #include "graphics.h"
@@ -15,12 +15,15 @@ void _player_render(entity_t *player);
 void _player_think(entity_t *player);
 
 entity_t *player_create() {
+    player_t *player_data;
+    animated_sprite_t *sprite;
     entity_t *player = entity_create();
+    
     if (!player) {
         return NULL;
     }
     
-    player_t *player_data = malloc(sizeof(player_t));
+    player_data = malloc(sizeof(player_t));
     if (player_data == NULL) {
         entity_release(player);
         
@@ -37,7 +40,7 @@ entity_t *player_create() {
     player->think = _player_think;
     player->thinkRate = 10;
     
-    animated_sprite_t *sprite = animated_sprite_create("res/sprites/link.yaml");
+    sprite = animated_sprite_create("res/sprites/link.yaml");
     if (!sprite) {
         entity_release(player);
         
@@ -53,7 +56,11 @@ entity_t *player_create() {
 void _player_render(entity_t *player) {
     player_t *player_data = (player_t *)player->entity_data;
     
-    animated_sprite_render_frame(player_data->sprite, (SDL_Point){ 0, 0 });
+    SDL_Point position;
+    position.x = 0;
+    position.y = 0;
+    
+    animated_sprite_render_frame(player_data->sprite, position);
 }
 
 void _player_think(entity_t *player) {

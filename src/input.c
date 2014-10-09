@@ -1,10 +1,10 @@
-//
+/*
 //  input.c
 //  zelda
 //
 //  Created by Grant Butler on 9/29/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #include "input.h"
 #include "sdl.h"
@@ -25,13 +25,13 @@ void input_update(void) {
 }
 
 bool input_is_key_down(Uint16 key) {
-    // TODO: Add some safety checks.
+    /** TODO: Add some safety checks. */
     
     return (_input_keyboard_state[key] == 1);
 }
 
 bool input_is_key_up(Uint16 key) {
-    // TODO: Add some safety checks.
+    /** TODO: Add some safety checks. */
     
     return (_input_keyboard_state[key] == 0);
 }

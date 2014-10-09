@@ -1,10 +1,10 @@
-//
+/*
 //  entity.h
 //  zelda
 //
 //  Created by Grant Butler on 9/17/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #ifndef __zelda__entity__
 #define __zelda__entity__
@@ -18,23 +18,25 @@
  * An entity within the game. An entity is anything that acts or is acted upon by the game.
  */
 typedef struct entity_s {
-    /// The parent of this entity. If the parent is null, then this is the root entity.
+    /** The parent of this entity. If the parent is null, then this is the root entity. */
     struct entity_s *parent;
     
     GSList *children;
     
-    /// The retain count of this entity. When it reaches zero, the entity's dealloc method is run, and the entity is freed.
-    /// The developer should NOT touch this.
+    /**
+     * The retain count of this entity. When it reaches zero, the entity's dealloc method is run, and the entity is freed.
+     * The developer should NOT touch this.
+     */
     int retain_count;
     
-    // Thinking for the entity. Useful for animations.
+    /** Thinking for the entity. Useful for animations. */
     void (*think)(struct entity_s *self);
     Sint32 thinkRate;
     Uint32 thinkNext;
     
     void (*render)(struct entity_s *self);
     
-    // Updating for the entity. Used for updating position.
+    /** Updating for the entity. Used for updating position. */
     void (*update)(struct entity_s *self);
     void (*dealloc)(struct entity_s *self);
     

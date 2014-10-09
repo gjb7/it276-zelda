@@ -1,10 +1,10 @@
-//
+/*
 //  sprite.h
 //  zelda
 //
 //  Created by Grant Butler on 9/23/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #ifndef __zelda__sprite__
 #define __zelda__sprite__

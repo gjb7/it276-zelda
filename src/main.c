@@ -27,6 +27,11 @@ int main(int argc, char **argv) {
     srunner_free(runner);
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 #else
+    window_t *window;
+    entity_t *gameMap;
+    entity_t *gameWorld;
+    bool done = false;
+    
     if (!init_sdl()) {
         fprintf(stderr, "Error initializing SDL: %s", SDL_GetError());
         
@@ -45,17 +50,16 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
     
-    window_t *window = window_create("Hello World!", 512, 448);
+    window = window_create("Hello World!", 512, 448);
     SDL_RenderSetScale(window->renderer, 2, 2);
     
     graphics_set_global_renderer(window->renderer);
     
-    entity_t *gameMap = game_map_create_from_file("res/maps/level1.map");
-    entity_t *gameWorld = game_world_create();
+    gameMap = game_map_create_from_file("res/maps/level1.map");
+    gameWorld = game_world_create();
     game_world_set_current_map(gameWorld, gameMap);
     entity_release(gameMap);
     
-    bool done = false;
     while (!done) {
         input_update();
         
