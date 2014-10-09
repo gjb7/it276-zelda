@@ -1,10 +1,10 @@
-//
+/*
 //  test_animated_sprites.c
 //  zelda
 //
 //  Created by Grant Butler on 10/8/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #include <check.h>
 #include "test_support.h"
