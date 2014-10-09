@@ -11,10 +11,10 @@
 
 #include <stdio.h>
 #include "entity.h"
-#include "sprite.h"
+#include "animated_sprite.h"
 
 typedef struct player_s {
-    sprite_t *sprite;
+    animated_sprite_t *sprite;
 } player_t;
 
 entity_t *player_create();

@@ -37,12 +37,13 @@ entity_t *player_create() {
     player->think = _player_think;
     player->thinkRate = 10;
     
-    sprite_t *sprite = sprite_create("res/sprites/link.png", (SDL_Point){ 16, 22 });
+    animated_sprite_t *sprite = animated_sprite_create("res/sprites/link.yaml");
     if (!sprite) {
         entity_release(player);
         
         return NULL;
     }
+    animated_sprite_set_current_animation(sprite, "walk_down");
     
     player_data->sprite = sprite;
     
@@ -50,29 +51,9 @@ entity_t *player_create() {
 }
 
 void _player_render(entity_t *player) {
-    SDL_Renderer *renderer = graphics_get_global_renderer();
-    
     player_t *player_data = (player_t *)player->entity_data;
     
-    SDL_Point frame_size = player_data->sprite->frame_size;
-    
-    SDL_Rect srcRect;
-    srcRect.x = 0;
-    srcRect.y = 0;
-    srcRect.w = frame_size.x;
-    srcRect.h = frame_size.y;
-    
-    SDL_Rect destRect;
-    destRect.x = 0;
-    destRect.y = 0;
-    destRect.w = frame_size.x;
-    destRect.h = frame_size.y;
-    
-    if (SDL_RenderCopy(renderer, player_data->sprite->texture, &srcRect, &destRect) != 0) {
-        printf("Error copying: %s\n", SDL_GetError());
-        
-        return;
-    }
+    animated_sprite_render_frame(player_data->sprite, (SDL_Point){ 0, 0 });
 }
 
 void _player_think(entity_t *player) {
