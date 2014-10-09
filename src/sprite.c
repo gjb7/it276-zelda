@@ -60,8 +60,6 @@ void sprite_render(sprite_t *sprite, int frame, SDL_Rect destRect) {
     
     if (SDL_RenderCopy(renderer, sprite->texture, &srcRect, &destRect) != 0) {
         printf("Error copying: %s\n", SDL_GetError());
-        
-        return;
     }
 }
 
