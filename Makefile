@@ -1,6 +1,6 @@
 PATH := /usr/local/bin/:$(PATH)
 CC = gcc
-CC_FLAGS = -std=gnu99 -g -Wall -pedantic -Werror `pkg-config glib-2.0 --cflags` `pkg-config yaml-0.1 --cflags` -Isrc/
+CC_FLAGS = -std=c89 -g -Wall -pedantic -Werror `pkg-config glib-2.0 --cflags` `pkg-config yaml-0.1 --cflags` -Isrc/
 L_FLAGS = `pkg-config glib-2.0 --libs` `pkg-config yaml-0.1 --libs`
 UNAME = $(shell uname)
 LIB_PATH = $(addsuffix /lib/osx/, $(shell pwd))
