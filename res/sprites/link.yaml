@@ -1,0 +1,127 @@
+---
+sprite: res/sprites/link.png
+animations:
+  -
+    name: walk_down
+    start_frame: 3
+    loops: true
+    reverses: true
+    frames:
+      - 
+        x: 0
+        y: 0
+        w: 16
+        h: 24
+      -
+        x: 16
+        y: 0
+        w: 16
+        h: 24
+      -
+        x: 32
+        y: 0
+        w: 16
+        h: 24
+      -
+        x: 48
+        y: 0
+        w: 16
+        h: 24
+      -
+        x: 64
+        y: 0
+        w: 16
+        h: 24
+  -
+    name: walk_up
+    start_frame: 3
+    loops: true
+    reverses: true
+    frames:
+      -
+        x: 0
+        y: 24
+        w: 16
+        h: 24
+      -
+        x: 16
+        y: 24
+        w: 16
+        h: 24
+      -
+        x: 32
+        y: 24
+        w: 16
+        h: 24
+      -
+        x: 48
+        y: 24
+        w: 16
+        h: 24
+      -
+        x: 64
+        y: 24
+        w: 16
+        h: 24
+  -
+    name: walk_right
+    start_frame: 3
+    loops: true
+    reverses: true
+    frames:
+      -
+        x: 0
+        y: 48
+        w: 16
+        h: 23
+      -
+        x: 16
+        y: 48
+        w: 16
+        h: 23
+      -
+        x: 32
+        y: 48
+        w: 16
+        h: 23
+      -
+        x: 48
+        y: 48
+        w: 16
+        h: 23
+      -
+        x: 64
+        y: 48
+        w: 17
+        h: 23
+  -
+    name: walk_left
+    start_frame: 3
+    loops: true
+    reverses: true
+    frames:
+      -
+        x: 0
+        y: 71
+        w: 17
+        h: 23
+      -
+        x: 16
+        y: 71
+        w: 16
+        h: 23
+      -
+        x: 32
+        y: 71
+        w: 16
+        h: 23
+      -
+        x: 48
+        y: 71
+        w: 16
+        h: 23
+      -
+        x: 64
+        y: 71
+        w: 16
+        h: 23
