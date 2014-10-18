@@ -57,7 +57,7 @@ void sprite_render(sprite_t *sprite, int frame, SDL_Rect destRect) {
     
     SDL_Rect srcRect;
     srcRect.x = (frame % column_count) * frame_size.x;
-    srcRect.y = floorf(frame / column_count) * frame_size.y;
+    srcRect.y = floor(frame / column_count) * frame_size.y;
     srcRect.w = frame_size.x;
     srcRect.h = frame_size.y;
     

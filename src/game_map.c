@@ -110,7 +110,7 @@ void _game_map_render(entity_t *self) {
             
             SDL_Rect destRect;
             destRect.x = (j % layer_width) * frame_size.x;
-            destRect.y = floorf(j / layer_width) * frame_size.y;
+            destRect.y = floor(j / layer_width) * frame_size.y;
             destRect.w = frame_size.x;
             destRect.h = frame_size.y;
             
