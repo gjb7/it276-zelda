@@ -9,8 +9,8 @@ ifeq ($(UNAME), Darwin)
 	CC_FLAGS += -F lib/osx/ -I/usr/local/opt/libyaml/include/
 	L_FLAGS += -F lib/osx/ -framework SDL2 -framework SDL2_image -Wl,-rpath,$(LIB_PATH)
 else ifeq ($(UNAME), Linux)
-	CC_FLAGS += `pkg-config sdl2 --cflags` `pkg-config SDL2_image --cflags`
-	L_FLAGS += `pkg-config sdl2 --libs` `pkg-config SDL2_image --libs`
+	CC_FLAGS += -lm `pkg-config sdl2 --cflags` `pkg-config SDL2_image --cflags`
+	L_FLAGS += -lm `pkg-config sdl2 --libs` `pkg-config SDL2_image --libs`
 endif
 
 EXEC = zelda
@@ -45,7 +45,7 @@ bin/$(EXEC): $(OBJECTS_MINUS_TESTS)
 	$(CC) $(OBJECTS_MINUS_TESTS) $(L_FLAGS) -o $@
 
 obj/%.o: src/%.c
-	$(CC) -c $(CC_FLAGS) $< -o $@
+	$(CC) -c $< $(CC_FLAGS) -o $@
 
 clean:
 	rm -f bin/$(EXEC) obj/*.o
