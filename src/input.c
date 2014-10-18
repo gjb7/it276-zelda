@@ -10,16 +10,32 @@
 #include "sdl.h"
 #include <assert.h>
 
-const Uint8 *_input_keyboard_state = NULL;
+static const Uint8 *_input_keyboard_state = NULL;
+static Uint8 *_input_last_keyboard_state = NULL;
+static int _input_keyboard_num_keys;
 
 bool init_input(void) {
-    _input_keyboard_state = SDL_GetKeyboardState(NULL);
+    _input_keyboard_state = SDL_GetKeyboardState(&_input_keyboard_num_keys);
+    _input_last_keyboard_state = malloc(sizeof(Uint8) * _input_keyboard_num_keys);
+    if (_input_last_keyboard_state == NULL) {
+        /** TODO: Add an error. */
+        
+        return false;
+    }
+    
+    memcpy(_input_last_keyboard_state, _input_keyboard_state, sizeof(Uint8) * _input_keyboard_num_keys);
     
     return true;
 }
 
 void input_update(void) {
+    int i;
+    
     assert(_input_keyboard_state != NULL);
+    
+    for (i = 0; i < _input_keyboard_num_keys; i++) {
+        _input_last_keyboard_state[i] = _input_keyboard_state[i];
+    }
     
     SDL_PumpEvents();
 }
