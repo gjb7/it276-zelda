@@ -66,20 +66,46 @@ void _player_render(entity_t *player) {
 }
 
 void _player_think(entity_t *player) {
-    if (input_is_key_down(SDL_SCANCODE_W)) {
+    player_t *player_data = (player_t *)player->entity_data;
+    animated_sprite_t *sprite = player_data->sprite;
+    
+    bool is_up = input_is_key_down(SDL_SCANCODE_W);
+    bool is_down = input_is_key_down(SDL_SCANCODE_S);
+    bool is_left = input_is_key_down(SDL_SCANCODE_A);
+    bool is_right = input_is_key_down(SDL_SCANCODE_D);
+    
+    if (is_up) {
         player->position.y -= 1;
     }
     
-    if (input_is_key_down(SDL_SCANCODE_S)) {
+    if (is_down) {
         player->position.y += 1;
     }
     
-    if (input_is_key_down(SDL_SCANCODE_A)) {
+    if (is_left) {
         player->position.x -= 1;
     }
     
-    if (input_is_key_down(SDL_SCANCODE_D)) {
+    if (is_right) {
         player->position.x += 1;
+    }
+    
+    if (!(is_up && is_down)) {
+        if (input_was_key_up(SDL_SCANCODE_W) || (is_up && input_was_key_down(SDL_SCANCODE_S))) {
+            animated_sprite_set_current_animation(sprite, "walk_up");
+        }
+        else if(input_was_key_up(SDL_SCANCODE_S) || (is_down && input_was_key_down(SDL_SCANCODE_W))) {
+            animated_sprite_set_current_animation(sprite, "walk_down");
+        }
+    }
+    
+    if (!(is_left && is_right)) {
+        if (input_was_key_up(SDL_SCANCODE_A) || (is_left && input_was_key_down(SDL_SCANCODE_D))) {
+            animated_sprite_set_current_animation(sprite, "walk_left");
+        }
+        else if(input_was_key_up(SDL_SCANCODE_D) || (is_right && input_was_key_down(SDL_SCANCODE_A))) {
+            animated_sprite_set_current_animation(sprite, "walk_right");
+        }
     }
 }
 
