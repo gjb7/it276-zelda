@@ -42,20 +42,13 @@ error:
     return NULL;
 }
 
-void animated_sprite_render_frame(animated_sprite_t *sprite, SDL_Point destPoint) {
-    SDL_Renderer *renderer = graphics_get_global_renderer();
+void animated_sprite_update(animated_sprite_t *sprite) {
     animation_t *animation = sprite->current_animation;
-    SDL_Rect frame = g_array_index(animation->frames, SDL_Rect, animation->current_frame);
+    frame_t frame = g_array_index(animation->frames, frame_t, animation->current_frame);
     
-    SDL_Rect destRect;
-    destRect.x = destPoint.x;
-    destRect.y = destPoint.y;
-    destRect.w = frame.w;
-    destRect.h = frame.h;
+    animation->time++;
     
-    if (SDL_RenderCopy(renderer, sprite->texture, &frame, &destRect) != 0) {
-        printf("Error copying: %s\n", SDL_GetError());
-        
+    if (animation->time != frame.step) {
         return;
     }
     
@@ -66,7 +59,7 @@ void animated_sprite_render_frame(animated_sprite_t *sprite, SDL_Point destPoint
             if (animation->current_frame == animation->frame_count - 1) {
                 animation->frame_step = -1;
             }
-            else if(animation->current_frame == 0) {
+            else if (animation->current_frame == 0) {
                 animation->frame_step = 1;
             }
         }
@@ -80,6 +73,26 @@ void animated_sprite_render_frame(animated_sprite_t *sprite, SDL_Point destPoint
         if (animation->current_frame != animation->frame_count - 1) {
             animation->current_frame += animation->frame_step;
         }
+    }
+    
+    animation->time = 0;
+}
+
+void animated_sprite_render_frame(animated_sprite_t *sprite, SDL_Point destPoint) {
+    SDL_Renderer *renderer = graphics_get_global_renderer();
+    animation_t *animation = sprite->current_animation;
+    frame_t frame = g_array_index(animation->frames, frame_t, animation->current_frame);
+    
+    SDL_Rect destRect;
+    destRect.x = destPoint.x;
+    destRect.y = destPoint.y;
+    destRect.w = frame.rect.w;
+    destRect.h = frame.rect.h;
+    
+    if (SDL_RenderCopy(renderer, sprite->texture, &frame.rect, &destRect) != 0) {
+        printf("Error copying: %s\n", SDL_GetError());
+        
+        return;
     }
 }
 
@@ -213,7 +226,7 @@ bool load_animations(yaml_parser_t *parser, animated_sprite_t *sprite) {
                 
                 animation->loops = true;
                 animation->reverses = false;
-                animation->frames = g_array_new(FALSE, FALSE, sizeof(SDL_Rect));
+                animation->frames = g_array_new(FALSE, FALSE, sizeof(frame_t));
                 animation->start_frame = 0;
                 
                 break;
@@ -297,7 +310,7 @@ bool load_animations(yaml_parser_t *parser, animated_sprite_t *sprite) {
 bool load_frames(yaml_parser_t *parser, animation_t *animation) {
     yaml_event_t event;
     char *currentKey = NULL;
-    SDL_Rect currentRect;
+    frame_t currentFrame;
     
     do {
         int handledValue = 0;
@@ -308,14 +321,15 @@ bool load_frames(yaml_parser_t *parser, animation_t *animation) {
         
         switch (event.type) {
             case YAML_MAPPING_START_EVENT:
-                currentRect.x = 0;
-                currentRect.y = 0;
-                currentRect.w = 0;
-                currentRect.h = 0;
+                currentFrame.rect.x = 0;
+                currentFrame.rect.y = 0;
+                currentFrame.rect.w = 0;
+                currentFrame.rect.h = 0;
+                currentFrame.step = 200;
                 
                 break;
             case YAML_MAPPING_END_EVENT:
-                g_array_append_val(animation->frames, currentRect);
+                g_array_append_val(animation->frames, currentFrame);
                 animation->frame_count++;
                 
                 break;
@@ -328,22 +342,27 @@ bool load_frames(yaml_parser_t *parser, animation_t *animation) {
                 }
                 else {
                     if (strcmp(currentKey, "x") == 0) {
-                        currentRect.x = atoi((char *)event.data.scalar.value);
+                        currentFrame.rect.x = atoi((char *)event.data.scalar.value);
                         
                         handledValue = 1;
                     }
                     else if (strcmp(currentKey, "y") == 0) {
-                        currentRect.y = atoi((char *)event.data.scalar.value);
+                        currentFrame.rect.y = atoi((char *)event.data.scalar.value);
                         
                         handledValue = 1;
                     }
                     else if (strcmp(currentKey, "w") == 0) {
-                        currentRect.w = atoi((char *)event.data.scalar.value);
+                        currentFrame.rect.w = atoi((char *)event.data.scalar.value);
                         
                         handledValue = 1;
                     }
                     else if (strcmp(currentKey, "h") == 0) {
-                        currentRect.h = atoi((char *)event.data.scalar.value);
+                        currentFrame.rect.h = atoi((char *)event.data.scalar.value);
+                        
+                        handledValue = 1;
+                    }
+                    else if (strcmp(currentKey, "step") == 0) {
+                        currentFrame.step = atoi((char *)event.data.scalar.value);
                         
                         handledValue = 1;
                     }
