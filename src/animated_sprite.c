@@ -158,9 +158,11 @@ bool load_animated_sprite_from_yaml_file(char *filename, animated_sprite_t *spri
             case YAML_SCALAR_EVENT:
                 if (!currentKey) {
                     char *aKey = (char *)event.data.scalar.value;
+                    int length = (strlen(aKey) + 1);
                     
-                    currentKey = malloc((strlen(aKey) + 1) * sizeof(char));
-                    strlcpy(currentKey, aKey, strlen(aKey) + 1);
+                    currentKey = malloc(length * sizeof(char));
+                    strncpy(currentKey, aKey, length);
+                    currentKey[length - 1] = '\0';
                 }
                 else {
                     if (strcmp(currentKey, "sprite") == 0) {
@@ -247,16 +249,20 @@ bool load_animations(yaml_parser_t *parser, animated_sprite_t *sprite) {
             case YAML_SCALAR_EVENT:
                 if (!currentKey) {
                     char *aKey = (char *)event.data.scalar.value;
+                    int length = (strlen(aKey) + 1);
                     
-                    currentKey = malloc((strlen(aKey) + 1) * sizeof(char));
-                    strlcpy(currentKey, aKey, strlen(aKey) + 1);
+                    currentKey = malloc(length * sizeof(char));
+                    strncpy(currentKey, aKey, length);
+                    currentKey[length - 1] = '\0';
                 }
                 else {
                     if (strcmp(currentKey, "name") == 0) {
                         char *aName = (char *)event.data.scalar.value;
+                        int length = (strlen(aName) + 1);
                         
-                        animationName = malloc((strlen(aName) + 1) * sizeof(char));
-                        strlcpy(animationName, aName, strlen(aName) + 1);
+                        animationName = malloc(length * sizeof(char));
+                        strncpy(animationName, aName, length);
+                        animationName[length - 1] = '\0';
                     }
                     else if (strcmp(currentKey, "loops") == 0) {
                         char *value = (char *)event.data.scalar.value;
@@ -336,9 +342,11 @@ bool load_frames(yaml_parser_t *parser, animation_t *animation) {
             case YAML_SCALAR_EVENT:
                 if (!currentKey) {
                     char *aKey = (char *)event.data.scalar.value;
+                    int length = (strlen(aKey) + 1);
                     
-                    currentKey = malloc((strlen(aKey) + 1) * sizeof(char));
-                    strlcpy(currentKey, aKey, strlen(aKey) + 1);
+                    currentKey = malloc(length * sizeof(char));
+                    strncpy(currentKey, aKey, length);
+                    currentKey[length - 1] = '\0';
                 }
                 else {
                     if (strcmp(currentKey, "x") == 0) {
