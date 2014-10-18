@@ -10,6 +10,7 @@
 #include "entity.h"
 #include "graphics.h"
 #include <assert.h>
+#include <math.h>
 
 void _game_map_render(entity_t *self);
 void _game_map_dealloc(entity_t *self);
