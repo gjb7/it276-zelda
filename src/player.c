@@ -13,6 +13,7 @@
 void _player_dealloc(entity_t *player);
 void _player_render(entity_t *player);
 void _player_think(entity_t *player);
+void _player_update(entity_t *player);
 
 entity_t *player_create() {
     player_t *player_data;
@@ -36,6 +37,7 @@ entity_t *player_create() {
     player->entity_data = player_data;
     player->dealloc = _player_dealloc;
     player->render = _player_render;
+    player->update = _player_update;
     
     player->think = _player_think;
     player->thinkRate = 10;
@@ -79,6 +81,12 @@ void _player_think(entity_t *player) {
     if (input_is_key_down(SDL_SCANCODE_D)) {
         player->position.x += 1;
     }
+}
+
+void _player_update(entity_t *player) {
+    player_t *player_data = (player_t *)player->entity_data;
+    
+    animated_sprite_update(player_data->sprite);
 }
 
 void _player_dealloc(entity_t *player) {
