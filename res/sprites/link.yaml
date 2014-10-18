@@ -12,26 +12,43 @@ animations:
         y: 0
         w: 16
         h: 24
+        step: 3
       -
         x: 16
         y: 0
         w: 16
         h: 24
+        step: 3
       -
         x: 32
         y: 0
         w: 16
         h: 24
+        step: 3
       -
         x: 48
         y: 0
         w: 16
         h: 24
+        step: 3
       -
         x: 64
         y: 0
         w: 16
         h: 24
+        step: 3
+      -
+        x: 80
+        y: 0
+        w: 16
+        h: 24
+        step: 3
+      -
+        x: 96
+        y: 0
+        w: 16
+        h: 24
+        step: 3
   -
     name: walk_up
     start_frame: 3
@@ -43,26 +60,43 @@ animations:
         y: 24
         w: 16
         h: 24
+        step: 3
       -
         x: 16
         y: 24
         w: 16
         h: 24
+        step: 3
       -
         x: 32
         y: 24
         w: 16
         h: 24
+        step: 3
       -
         x: 48
         y: 24
         w: 16
         h: 24
+        step: 3
       -
         x: 64
         y: 24
         w: 16
         h: 24
+        step: 3
+      -
+        x: 80
+        y: 24
+        w: 16
+        h: 24
+        step: 3
+      -
+        x: 96
+        y: 24
+        w: 16
+        h: 24
+        step: 3
   -
     name: walk_right
     start_frame: 3
@@ -73,27 +107,44 @@ animations:
         x: 0
         y: 48
         w: 16
-        h: 23
+        h: 24
+        step: 3
       -
         x: 16
         y: 48
         w: 16
-        h: 23
+        h: 24
+        step: 3
       -
         x: 32
         y: 48
         w: 16
-        h: 23
+        h: 24
+        step: 3
       -
         x: 48
         y: 48
         w: 16
-        h: 23
+        h: 24
+        step: 3
       -
         x: 64
         y: 48
+        w: 16
+        h: 24
+        step: 3
+      -
+        x: 80
+        y: 48
+        w: 16
+        h: 24
+        step: 3
+      -
+        x: 96
+        y: 48
         w: 17
-        h: 23
+        h: 24
+        step: 3
   -
     name: walk_left
     start_frame: 3
@@ -102,26 +153,43 @@ animations:
     frames:
       -
         x: 0
-        y: 71
+        y: 72
         w: 17
-        h: 23
+        h: 24
+        step: 3
       -
-        x: 16
-        y: 71
+        x: 17
+        y: 72
         w: 16
-        h: 23
+        h: 24
+        step: 3
       -
-        x: 32
-        y: 71
+        x: 33
+        y: 72
         w: 16
-        h: 23
+        h: 24
+        step: 3
       -
-        x: 48
-        y: 71
+        x: 49
+        y: 72
         w: 16
-        h: 23
+        h: 24
+        step: 3
       -
-        x: 64
-        y: 71
+        x: 65
+        y: 72
         w: 16
-        h: 23
+        h: 24
+        step: 3
+      -
+        x: 81
+        y: 72
+        w: 16
+        h: 24
+        step: 3
+      -
+        x: 97
+        y: 72
+        w: 16
+        h: 24
+        step: 3
