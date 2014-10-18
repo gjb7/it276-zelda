@@ -40,6 +40,14 @@ void input_update(void) {
     SDL_PumpEvents();
 }
 
+bool input_was_key_down(Uint16 key) {
+    return (_input_last_keyboard_state[key] == 1 && _input_keyboard_state[key] == 0);
+}
+
+bool input_was_key_up(Uint16 key) {
+    return (_input_last_keyboard_state[key] == 0 && _input_keyboard_state[key] == 1);
+}
+
 bool input_is_key_down(Uint16 key) {
     /** TODO: Add some safety checks. */
     

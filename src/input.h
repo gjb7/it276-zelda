@@ -15,6 +15,10 @@
 
 bool init_input(void);
 void input_update(void);
+
+bool input_was_key_down(Uint16 key);
+bool input_was_key_up(Uint16 key);
+
 bool input_is_key_down(Uint16 key);
 bool input_is_key_up(Uint16 key);
 
