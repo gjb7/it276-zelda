@@ -1,6 +1,6 @@
 PATH := /usr/local/bin/:$(PATH)
 CC = gcc
-CC_FLAGS = -std=gnu99 -ansi -pedantic -g -Wall -Werror `pkg-config glib-2.0 --cflags` `pkg-config yaml-0.1 --cflags` -Isrc/
+CC_FLAGS = -std=gnu99 -pedantic -g -Wall -Werror `pkg-config glib-2.0 --cflags` `pkg-config yaml-0.1 --cflags` -Isrc/
 L_FLAGS = `pkg-config glib-2.0 --libs` `pkg-config yaml-0.1 --libs`
 UNAME = $(shell uname)
 LIB_PATH = $(addsuffix /lib/osx/, $(shell pwd))
@@ -21,6 +21,9 @@ OBJECTS = $(SOURCES:src/%.c=obj/%.o)
 OBJECTS_MINUS_TESTS = $(SOURCES_MINUS_TESTS:src/%.c=obj/%.o)
 
 all: dirs clean bin/$(EXEC) package-resources
+
+lint: CC_FLAGS += -fsyntax-only -ansi
+lint: dirs clean $(OBJECTS)
 
 # ----
 
