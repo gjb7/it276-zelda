@@ -14,7 +14,7 @@
 
 START_TEST(test_animated_sprite_loading)
 {
-    animated_sprite_t *sprite = animated_sprite_create("res/sprites/sprite.yaml");
+    animated_sprite_t *sprite = animated_sprite_create("res/sprites/link.yaml");
     
     ck_assert_ptr_ne(sprite, NULL);
     
