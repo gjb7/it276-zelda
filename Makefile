@@ -27,7 +27,7 @@ lint: dirs clean $(OBJECTS)
 
 # ----
 
-test: CC_FLAGS += -DTESTS `pkg-config --cflags check`
+test: CC_FLAGS += -DTESTS `pkg-config --cflags check` -Wno-gnu-zero-variadic-macro-arguments
 test: L_FLAGS += `pkg-config --libs check`
 test: clean-tests test-dirs $(OBJECTS)
 	$(CC) $(OBJECTS) $(L_FLAGS) -o bin/tests
