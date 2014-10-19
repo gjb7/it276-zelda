@@ -9,6 +9,9 @@
 /* Begin PBXFileReference section */
 		C31077FF19DA3ABD00D696E0 /* input.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = input.c; sourceTree = "<group>"; };
 		C310780019DA3ABD00D696E0 /* input.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = input.h; sourceTree = "<group>"; };
+		C329184019E4F2E1002BEBA9 /* test_animated_sprites.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test_animated_sprites.c; sourceTree = "<group>"; };
+		C3306F8B19E3846B001573EB /* animated_sprite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = animated_sprite.c; sourceTree = "<group>"; };
+		C3306F8C19E3846B001573EB /* animated_sprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = animated_sprite.h; sourceTree = "<group>"; };
 		C34A4EFC19D22657004B2A7A /* window.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = window.c; sourceTree = "<group>"; };
 		C34A4EFD19D22657004B2A7A /* window.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = window.h; sourceTree = "<group>"; };
 		C34A4EFE19D236F8004B2A7A /* sprite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sprite.c; sourceTree = "<group>"; };
@@ -45,6 +48,8 @@
 			children = (
 				C39E3A4E19CA607200C2EA3E /* tests */,
 				C38F667D19CA4BF100A7718A /* main.c */,
+				C3306F8B19E3846B001573EB /* animated_sprite.c */,
+				C3306F8C19E3846B001573EB /* animated_sprite.h */,
 				C39E3A3F19CA4FCB00C2EA3E /* entity.c */,
 				C39E3A4019CA4FCB00C2EA3E /* entity.h */,
 				C34A4F0119D24E18004B2A7A /* game_map.c */,
@@ -71,6 +76,7 @@
 		C39E3A4E19CA607200C2EA3E /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				C329184019E4F2E1002BEBA9 /* test_animated_sprites.c */,
 				C39E3A4F19CA609D00C2EA3E /* test_entity.c */,
 				C34A4F0719D26FAF004B2A7A /* test_game_map_parsing.c */,
 				C39E3A5019CA629200C2EA3E /* tests.h */,

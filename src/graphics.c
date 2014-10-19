@@ -1,10 +1,10 @@
-//
+/*
 //  graphics.c
 //  zelda
 //
 //  Created by Grant Butler on 9/21/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #include "sdl.h"
 #include "graphics.h"
@@ -42,13 +42,19 @@ void graphics_frame_delay(Uint8 delay) {
 }
 
 void graphics_set_global_renderer(SDL_Renderer *renderer) {
+    int w, h;
+    
     assert(renderer != NULL);
     
     _graphics_global_renderer = renderer;
     
-    int w, h;
+    
     if (SDL_GetRendererOutputSize(renderer, &w, &h) >= 0) {
-        _graphics_global_renderer_size = (SDL_Point){ w, h };
+        SDL_Point size;
+        size.x = w;
+        size.y = h;
+        
+        _graphics_global_renderer_size = size;
     }
 }
 

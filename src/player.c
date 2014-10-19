@@ -1,10 +1,10 @@
-//
+/*
 //  player.c
 //  zelda
 //
 //  Created by Grant Butler on 10/4/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #include "player.h"
 #include "graphics.h"
@@ -13,14 +13,18 @@
 void _player_dealloc(entity_t *player);
 void _player_render(entity_t *player);
 void _player_think(entity_t *player);
+void _player_update(entity_t *player);
 
 entity_t *player_create() {
+    player_t *player_data;
+    animated_sprite_t *sprite;
     entity_t *player = entity_create();
+    
     if (!player) {
         return NULL;
     }
     
-    player_t *player_data = malloc(sizeof(player_t));
+    player_data = malloc(sizeof(player_t));
     if (player_data == NULL) {
         entity_release(player);
         
@@ -33,16 +37,18 @@ entity_t *player_create() {
     player->entity_data = player_data;
     player->dealloc = _player_dealloc;
     player->render = _player_render;
+    player->update = _player_update;
     
     player->think = _player_think;
     player->thinkRate = 10;
     
-    sprite_t *sprite = sprite_create("res/sprites/link.png", (SDL_Point){ 16, 22 });
+    sprite = animated_sprite_create("res/sprites/link.yaml");
     if (!sprite) {
         entity_release(player);
         
         return NULL;
     }
+    animated_sprite_set_current_animation(sprite, "walk_down");
     
     player_data->sprite = sprite;
     
@@ -50,47 +56,63 @@ entity_t *player_create() {
 }
 
 void _player_render(entity_t *player) {
-    SDL_Renderer *renderer = graphics_get_global_renderer();
-    
     player_t *player_data = (player_t *)player->entity_data;
     
-    SDL_Point frame_size = player_data->sprite->frame_size;
+    SDL_Point position;
+    position.x = 0;
+    position.y = 0;
     
-    SDL_Rect srcRect;
-    srcRect.x = 0;
-    srcRect.y = 0;
-    srcRect.w = frame_size.x;
-    srcRect.h = frame_size.y;
-    
-    SDL_Rect destRect;
-    destRect.x = 0;
-    destRect.y = 0;
-    destRect.w = frame_size.x;
-    destRect.h = frame_size.y;
-    
-    if (SDL_RenderCopy(renderer, player_data->sprite->texture, &srcRect, &destRect) != 0) {
-        printf("Error copying: %s\n", SDL_GetError());
-        
-        return;
-    }
+    animated_sprite_render_frame(player_data->sprite, position);
 }
 
 void _player_think(entity_t *player) {
-    if (input_is_key_down(SDL_SCANCODE_W)) {
+    player_t *player_data = (player_t *)player->entity_data;
+    animated_sprite_t *sprite = player_data->sprite;
+    
+    bool is_up = input_is_key_down(SDL_SCANCODE_W);
+    bool is_down = input_is_key_down(SDL_SCANCODE_S);
+    bool is_left = input_is_key_down(SDL_SCANCODE_A);
+    bool is_right = input_is_key_down(SDL_SCANCODE_D);
+    
+    if (is_up) {
         player->position.y -= 1;
     }
     
-    if (input_is_key_down(SDL_SCANCODE_S)) {
+    if (is_down) {
         player->position.y += 1;
     }
     
-    if (input_is_key_down(SDL_SCANCODE_A)) {
+    if (is_left) {
         player->position.x -= 1;
     }
     
-    if (input_is_key_down(SDL_SCANCODE_D)) {
+    if (is_right) {
         player->position.x += 1;
     }
+    
+    if (!(is_up && is_down)) {
+        if (input_was_key_up(SDL_SCANCODE_W) || (is_up && input_was_key_down(SDL_SCANCODE_S))) {
+            animated_sprite_set_current_animation(sprite, "walk_up");
+        }
+        else if(input_was_key_up(SDL_SCANCODE_S) || (is_down && input_was_key_down(SDL_SCANCODE_W))) {
+            animated_sprite_set_current_animation(sprite, "walk_down");
+        }
+    }
+    
+    if (!(is_left && is_right)) {
+        if (input_was_key_up(SDL_SCANCODE_A) || (is_left && input_was_key_down(SDL_SCANCODE_D))) {
+            animated_sprite_set_current_animation(sprite, "walk_left");
+        }
+        else if(input_was_key_up(SDL_SCANCODE_D) || (is_right && input_was_key_down(SDL_SCANCODE_A))) {
+            animated_sprite_set_current_animation(sprite, "walk_right");
+        }
+    }
+}
+
+void _player_update(entity_t *player) {
+    player_t *player_data = (player_t *)player->entity_data;
+    
+    animated_sprite_update(player_data->sprite);
 }
 
 void _player_dealloc(entity_t *player) {

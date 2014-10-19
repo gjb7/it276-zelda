@@ -1,10 +1,10 @@
-//
+/*
 //  game_world.h
 //  zelda
 //
 //  Created by Grant Butler on 9/20/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #ifndef __zelda__game_world__
 #define __zelda__game_world__

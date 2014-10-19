@@ -1,10 +1,10 @@
-//
+/*
 //  entity.c
 //  zelda
 //
 //  Created by Grant Butler on 9/17/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #include "entity.h"
 #include "sdl.h"
@@ -73,13 +73,15 @@ void entity_add_child(entity_t *parent, entity_t *child) {
 }
 
 void entity_remove_from_parent(entity_t *e) {
+    entity_t *parent;
+    
     assert(e != NULL);
     
     if (e->parent == NULL) {
         return;
     }
     
-    entity_t *parent = e->parent;
+    parent = e->parent;
     parent->children = g_slist_remove(parent->children, e);
     e->parent = NULL;
     entity_release(e);

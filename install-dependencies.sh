@@ -31,11 +31,13 @@ then
 	
 	if [[ $? -ne 0 ]]
 	then
-		echo "Install from apt-get failed. Compiling from source."
+		echo "Install from apt-get failed."
 		echo "Installing necessary dependencies."
 		
 		sudo apt-get install -qq -y build-essential xorg-dev libudev-dev libts-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libvorbis-dev libaudiofile-dev libpng12-dev libfreetype6-dev libusb-dev libdbus-1-dev zlib1g-dev libdirectfb-dev
-		
+
+        echo "Compiling from source."
+
 		compile_from_source http://www.libsdl.org/release/SDL2-2.0.3.tar.gz
 	fi
 	
@@ -54,6 +56,9 @@ then
 	
 	echo "Installing glib through apt-get"
 	sudo apt-get install -qq -y libglib2.0-dev
+
+    echo "Installing libyaml-dev through apt-get"
+    sudo apt-get install -qq -y libyaml-dev
 elif [[ -n `which brew` ]]
 then
 	echo "Installing check via homebrew."
@@ -61,4 +66,7 @@ then
 	
 	echo "Installing glib via homebrew."
 	brew install glib
+
+    echo "installing libyaml via homebrew."
+    brew install libyaml
 fi
