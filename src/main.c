@@ -82,5 +82,5 @@ int main(int argc, char **argv) {
     window_free(window);
 #endif
 	
-	return 0;
+	return EXIT_SUCCESS;
 }
