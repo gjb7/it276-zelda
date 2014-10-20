@@ -48,6 +48,9 @@ resource_t *resource_load(char *file, resource_type type) {
                 SDL_Renderer *renderer = graphics_get_global_renderer();
                 
                 resource->data.image.texture = IMG_LoadTexture(renderer, file);
+                if (!resource->data.image.texture) {
+                    goto cleanup;
+                }
                 
                 break;
             }
