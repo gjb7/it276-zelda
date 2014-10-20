@@ -6,6 +6,7 @@
 #include "window.h"
 #include "game_world.h"
 #include "input.h"
+#include "resource.h"
 
 #ifdef TESTS
 #include <check.h>
@@ -47,6 +48,12 @@ int main(int argc, char **argv) {
     
     if (!init_input()) {
         fprintf(stderr, "Error initializing input.");
+        
+        return EXIT_FAILURE;
+    }
+    
+    if (!init_resource()) {
+        fprintf(stderr, "Error initializing the resource manager.");
         
         return EXIT_FAILURE;
     }
