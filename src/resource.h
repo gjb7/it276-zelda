@@ -43,6 +43,8 @@ typedef union resource_s {
 
 bool resource_init(void);
 
+resource_t *resource_load(char *file, resource_type type);
+
 void resource_retain(resource_t *resource);
 void resource_release(resource_t *resource);
 
