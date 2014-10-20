@@ -28,14 +28,14 @@ sprite_t *sprite_create(char *filename, SDL_Point frame_size) {
     
     memset(sprite, 0, sizeof(sprite_t));
     
-    sprite->texture = IMG_LoadTexture(renderer, filename);
-    if (sprite->texture == NULL) {
+    sprite->resource = resource_load(filename, RESOURCE_TYPE_IMAGE);
+    if (sprite->resource == NULL) {
         sprite_free(sprite);
         
         return NULL;
     }
     
-    if (SDL_QueryTexture(sprite->texture, NULL, NULL, &texture_width, &texture_height) != 0) {
+    if (SDL_QueryTexture(sprite->resource->data.image.texture, NULL, NULL, &texture_width, &texture_height) != 0) {
         fprintf(stderr, "Error getting texture information: %s", SDL_GetError());
         
         sprite_free(sprite);
@@ -61,14 +61,14 @@ void sprite_render(sprite_t *sprite, int frame, SDL_Rect destRect) {
     srcRect.w = frame_size.x;
     srcRect.h = frame_size.y;
     
-    if (SDL_RenderCopy(renderer, sprite->texture, &srcRect, &destRect) != 0) {
+    if (SDL_RenderCopy(renderer, sprite->resource->data.image.texture, &srcRect, &destRect) != 0) {
         printf("Error copying: %s\n", SDL_GetError());
     }
 }
 
 void sprite_free(sprite_t *sprite) {
-    if (sprite->texture) {
-        SDL_DestroyTexture(sprite->texture);
+    if (sprite->resource) {
+        resource_release(sprite->resource);
     }
     
     free(sprite);
