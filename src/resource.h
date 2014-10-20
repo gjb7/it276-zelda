@@ -27,13 +27,15 @@ typedef struct image_resource_s {
     SDL_Texture *texture;
 } image_resource_t;
 
-typedef union resource_s {
+typedef struct resource_s {
     int retain_count;
     
     resource_type type;
     
-    image_resource image;
-    audio_resource audio;
+    union {
+        image_resource_t image;
+        audio_resource_t audio;
+    } data;
 } resource_t;
 
 bool resource_init(void);
