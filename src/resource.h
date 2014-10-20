@@ -18,19 +18,14 @@ typedef enum resource_type {
     RESOURCE_TYPE_AUDIO = 2
 } resource_type;
 
-typedef struct audio_resource {
-    int retain_count;
-    
-    resource_type type;
-} audio_resource;
+typedef struct audio_resource_s {
+    /* Add an unused field so the compiler won't complain. */
+    int unused;
+} audio_resource_t;
 
-typedef struct image_resource {
-    int retain_count;
-    
-    resource_type type;
-    
+typedef struct image_resource_s {
     SDL_Texture *texture;
-} image_resource;
+} image_resource_t;
 
 typedef union resource_s {
     int retain_count;
