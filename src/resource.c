@@ -54,9 +54,7 @@ resource_t *resource_load(char *file, resource_type type) {
             default:
                 fprintf(stderr, "Unable to initialize resource type: %i", type);
                 
-                free(resource);
-                
-                return NULL;
+                goto cleanup;
                 
                 break;
         }
@@ -65,6 +63,11 @@ resource_t *resource_load(char *file, resource_type type) {
     resource_retain(resource);
     
     return resource;
+
+cleanup:
+    free(resource);
+    
+    return NULL;
 }
 
 void resource_retain(resource_t *resource) {
