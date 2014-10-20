@@ -52,7 +52,7 @@ START_TEST(test_resource_retain)
 END_TEST
 
 void resource_setup(void) {
-    if (!resource_init()) {
+    if (!init_resource()) {
         ck_abort_msg("Could not setup resource manager.");
     }
     
