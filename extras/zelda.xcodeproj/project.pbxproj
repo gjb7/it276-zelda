@@ -22,6 +22,7 @@
 		C34A4F0719D26FAF004B2A7A /* test_game_map_parsing.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test_game_map_parsing.c; sourceTree = "<group>"; };
 		C3640A0619F41BBB0062CF23 /* resource.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = resource.c; sourceTree = "<group>"; };
 		C3640A0719F41BBB0062CF23 /* resource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = resource.h; sourceTree = "<group>"; };
+		C3640A0819F4B3B90062CF23 /* test_resource_manager.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test_resource_manager.c; sourceTree = "<group>"; };
 		C38F667D19CA4BF100A7718A /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		C393DC7B19CF9D9900AFE296 /* graphics.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = graphics.c; sourceTree = "<group>"; };
 		C393DC7C19CF9D9900AFE296 /* graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = graphics.h; sourceTree = "<group>"; };
@@ -83,6 +84,7 @@
 				C329184019E4F2E1002BEBA9 /* test_animated_sprites.c */,
 				C39E3A4F19CA609D00C2EA3E /* test_entity.c */,
 				C34A4F0719D26FAF004B2A7A /* test_game_map_parsing.c */,
+				C3640A0819F4B3B90062CF23 /* test_resource_manager.c */,
 				C39E3A5019CA629200C2EA3E /* tests.h */,
 				C39E3A5319CDF4B400C2EA3E /* test_support.h */,
 			);
