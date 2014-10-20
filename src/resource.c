@@ -9,6 +9,7 @@
 #include "resource.h"
 #include "graphics.h"
 
+#include <stdio.h>
 #include <glib.h>
 #include <assert.h>
 
@@ -51,7 +52,7 @@ resource_t *resource_load(char *file, resource_type type) {
                 break;
             }
             default:
-                // TODO: Do an error.
+                fprintf(stderr, "Unable to initialize resource type: %i", type);
                 
                 free(resource);
                 
@@ -83,7 +84,7 @@ void resource_release(resource_t *resource) {
                 break;
                 
             default:
-                // TODO: Log a message that says that we can't handle an unknown type.
+                fprintf(stderr, "Don't know how to dealloc resource of type: %i", resource->type);
                 
                 break;
         }
