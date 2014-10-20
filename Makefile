@@ -6,7 +6,7 @@ UNAME = $(shell uname)
 LIB_PATH = $(addsuffix /lib/osx/, $(shell pwd))
 
 ifeq ($(UNAME), Darwin)
-	CC_FLAGS += -F lib/osx/ -I/usr/local/opt/libyaml/include/
+	CC_FLAGS += -F lib/osx/ -I/usr/local/opt/libyaml/include/ -Wno-gnu-zero-variadic-macro-arguments
 	L_FLAGS += -F lib/osx/ -framework SDL2 -framework SDL2_image -Wl,-rpath,$(LIB_PATH)
 else ifeq ($(UNAME), Linux)
 	CC_FLAGS += -lm `pkg-config sdl2 --cflags` `pkg-config SDL2_image --cflags`
@@ -27,7 +27,7 @@ lint: dirs clean $(OBJECTS)
 
 # ----
 
-test: CC_FLAGS += -DTESTS `pkg-config --cflags check` -Wno-gnu-zero-variadic-macro-arguments
+test: CC_FLAGS += -DTESTS `pkg-config --cflags check`
 test: L_FLAGS += `pkg-config --libs check`
 test: clean-tests test-dirs $(OBJECTS)
 	$(CC) $(OBJECTS) $(L_FLAGS) -o bin/tests
