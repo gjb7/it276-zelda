@@ -31,6 +31,8 @@ void _resource_quit(void) {
 }
 
 resource_t *resource_load(char *file, resource_type type) {
+    assert(_resource_table != NULL);
+    
     resource_t *resource = g_hash_table_lookup(_resource_table, file);
     
     if (!resource) {
