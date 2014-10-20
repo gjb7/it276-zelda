@@ -47,7 +47,7 @@ resource_t *resource_load(char *file, resource_type type) {
             case RESOURCE_TYPE_IMAGE: {
                 SDL_Renderer *renderer = graphics_get_global_renderer();
                 
-                resource->image.texture = IMG_LoadTexture(renderer, file);
+                resource->data.image.texture = IMG_LoadTexture(renderer, file);
                 
                 break;
             }
@@ -82,7 +82,7 @@ void resource_release(resource_t *resource) {
     if (--resource->retain_count == 0) {
         switch (resource->type) {
             case RESOURCE_TYPE_IMAGE:
-                SDL_DestroyTexture(resource->image.texture);
+                SDL_DestroyTexture(resource->data.image.texture);
                 
                 break;
                 
