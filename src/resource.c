@@ -18,7 +18,7 @@ static GHashTable *_resource_table = NULL;
 void _resource_quit(void);
 void _resource_free(resource_t *resource);
 
-bool resource_init(void) {
+bool init_resource(void) {
     _resource_table = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, NULL);
     
     atexit(_resource_quit);

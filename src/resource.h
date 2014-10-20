@@ -38,7 +38,7 @@ typedef struct resource_s {
     } data;
 } resource_t;
 
-bool resource_init(void);
+bool init_resource(void);
 
 resource_t *resource_load(char *file, resource_type type);
 
