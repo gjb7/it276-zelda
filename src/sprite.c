@@ -11,7 +11,6 @@
 #include <assert.h>
 
 sprite_t *sprite_create(char *filename, SDL_Point frame_size) {
-    SDL_Renderer *renderer;
     SDL_Texture *texture;
     int texture_width, texture_height;
     sprite_t *sprite;
@@ -19,8 +18,6 @@ sprite_t *sprite_create(char *filename, SDL_Point frame_size) {
     assert(filename != NULL);
     assert(frame_size.x > 0);
     assert(frame_size.y > 0);
-    
-    renderer = graphics_get_global_renderer();
     
     sprite = malloc(sizeof(sprite_t));
     if (sprite == NULL) {
