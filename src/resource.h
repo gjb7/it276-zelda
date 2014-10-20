@@ -15,7 +15,7 @@
 typedef enum resource_type {
     RESOURCE_TYPE_UNKNOWN = 0,
     RESOURCE_TYPE_IMAGE = 1,
-    RESOURCE_TYPE_AUDIO = 2,
+    RESOURCE_TYPE_AUDIO = 2
 } resource_type;
 
 typedef struct audio_resource {
