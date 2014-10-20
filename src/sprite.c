@@ -12,6 +12,7 @@
 
 sprite_t *sprite_create(char *filename, SDL_Point frame_size) {
     SDL_Renderer *renderer;
+    SDL_Texture *texture;
     int texture_width, texture_height;
     sprite_t *sprite;
     
@@ -35,7 +36,9 @@ sprite_t *sprite_create(char *filename, SDL_Point frame_size) {
         return NULL;
     }
     
-    if (SDL_QueryTexture(sprite->resource->data.image.texture, NULL, NULL, &texture_width, &texture_height) != 0) {
+    texture = sprite->resource->data.image.texture;
+    
+    if (SDL_QueryTexture(texture, NULL, NULL, &texture_width, &texture_height) != 0) {
         fprintf(stderr, "Error getting texture information: %s", SDL_GetError());
         
         sprite_free(sprite);
@@ -54,6 +57,7 @@ void sprite_render(sprite_t *sprite, int frame, SDL_Rect destRect) {
     int column_count = sprite->column_count;
     SDL_Point frame_size = sprite->frame_size;
     SDL_Renderer *renderer = graphics_get_global_renderer();
+    SDL_Texture *texture = sprite->resource->data.image.texture;
     
     SDL_Rect srcRect;
     srcRect.x = (frame % column_count) * frame_size.x;
@@ -61,7 +65,7 @@ void sprite_render(sprite_t *sprite, int frame, SDL_Rect destRect) {
     srcRect.w = frame_size.x;
     srcRect.h = frame_size.y;
     
-    if (SDL_RenderCopy(renderer, sprite->resource->data.image.texture, &srcRect, &destRect) != 0) {
+    if (SDL_RenderCopy(renderer, texture, &srcRect, &destRect) != 0) {
         printf("Error copying: %s\n", SDL_GetError());
     }
 }
