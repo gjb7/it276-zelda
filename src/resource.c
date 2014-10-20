@@ -81,6 +81,10 @@ void resource_retain(resource_t *resource) {
     resource->retain_count++;
 }
 
+gboolean _resource_remove(gpointer key, gpointer value, gpointer user_data) {
+    return (gboolean)(value == user_data);
+}
+
 void resource_release(resource_t *resource) {
     assert(resource != NULL);
     
@@ -96,6 +100,8 @@ void resource_release(resource_t *resource) {
                 
                 break;
         }
+        
+        g_hash_table_foreach_remove(_resource_table, _resource_remove, resource);
         
         free(resource);
     }
