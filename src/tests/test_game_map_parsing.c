@@ -12,6 +12,7 @@
 #include "game_map.h"
 #include "graphics.h"
 #include "sdl.h"
+#include "resource.h"
 
 extern entity_t *_game_map_create_from_map(SDL_RWops *fp);
 
@@ -134,6 +135,10 @@ START_TEST(test_invalid_game_map_no_layers)
 END_TEST
 
 void parsing_setup(void) {
+    if (!init_resource()) {
+        ck_abort_msg("Could not setup resource manager.");
+    }
+    
     SDL_Surface *surface = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
     SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(surface);
     SDL_FreeSurface(surface);

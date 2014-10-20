@@ -6,6 +6,7 @@
 #include "window.h"
 #include "game_world.h"
 #include "input.h"
+#include "resource.h"
 
 #ifdef TESTS
 #include <check.h>
@@ -21,6 +22,7 @@ int main(int argc, char **argv) {
     runner = srunner_create(entity_suite());
     srunner_add_suite(runner, game_map_parsing_suite());
     srunner_add_suite(runner, animated_sprite_suite());
+    srunner_add_suite(runner, resource_manager_suite());
     
     srunner_run_all(runner, CK_NORMAL);
     number_failed = srunner_ntests_failed(runner);
@@ -46,6 +48,12 @@ int main(int argc, char **argv) {
     
     if (!init_input()) {
         fprintf(stderr, "Error initializing input.");
+        
+        return EXIT_FAILURE;
+    }
+    
+    if (!init_resource()) {
+        fprintf(stderr, "Error initializing the resource manager.");
         
         return EXIT_FAILURE;
     }
@@ -82,5 +90,5 @@ int main(int argc, char **argv) {
     window_free(window);
 #endif
 	
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -11,6 +11,7 @@
 
 #include "graphics.h"
 #include "animated_sprite.h"
+#include "resource.h"
 
 START_TEST(test_animated_sprite_loading)
 {
@@ -25,6 +26,10 @@ START_TEST(test_animated_sprite_loading)
 END_TEST
 
 void loading_setup(void) {
+    if (!init_resource()) {
+        ck_abort_msg("Could not setup resource manager.");
+    }
+    
     SDL_Surface *surface = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
     SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(surface);
     SDL_FreeSurface(surface);

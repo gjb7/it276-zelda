@@ -80,6 +80,7 @@ void animated_sprite_update(animated_sprite_t *sprite) {
 
 void animated_sprite_render_frame(animated_sprite_t *sprite, SDL_Point destPoint) {
     SDL_Renderer *renderer = graphics_get_global_renderer();
+    SDL_Texture *texture = sprite->resource->data.image.texture;
     animation_t *animation = sprite->current_animation;
     frame_t frame = g_array_index(animation->frames, frame_t, animation->current_frame);
     
@@ -89,7 +90,7 @@ void animated_sprite_render_frame(animated_sprite_t *sprite, SDL_Point destPoint
     destRect.w = frame.rect.w;
     destRect.h = frame.rect.h;
     
-    if (SDL_RenderCopy(renderer, sprite->texture, &frame.rect, &destRect) != 0) {
+    if (SDL_RenderCopy(renderer, texture, &frame.rect, &destRect) != 0) {
         printf("Error copying: %s\n", SDL_GetError());
         
         return;
@@ -112,8 +113,8 @@ void animated_sprite_set_current_animation(animated_sprite_t *sprite, const char
 }
 
 void animated_sprite_free(animated_sprite_t *sprite) {
-    if (sprite->texture) {
-        SDL_DestroyTexture(sprite->texture);
+    if (sprite->resource) {
+        resource_release(sprite->resource);
     }
     
     free(sprite);
@@ -127,7 +128,6 @@ bool load_animated_sprite_from_yaml_file(char *filename, animated_sprite_t *spri
     yaml_parser_t parser;
     yaml_event_t  event;
     FILE *input;
-    SDL_Renderer *renderer;
     char *currentKey = NULL;
     
     yaml_parser_initialize(&parser);
@@ -136,8 +136,6 @@ bool load_animated_sprite_from_yaml_file(char *filename, animated_sprite_t *spri
     assert(input != NULL);
     
     yaml_parser_set_input_file(&parser, input);
-    
-    renderer = graphics_get_global_renderer();
     
     do {
         int handledValue = 0;
@@ -166,8 +164,8 @@ bool load_animated_sprite_from_yaml_file(char *filename, animated_sprite_t *spri
                 }
                 else {
                     if (strcmp(currentKey, "sprite") == 0) {
-                        sprite->texture = IMG_LoadTexture(renderer, (char *)event.data.scalar.value);
-                        if (sprite->texture == NULL) {
+                        sprite->resource = resource_load((char *)event.data.scalar.value, RESOURCE_TYPE_IMAGE);
+                        if (sprite->resource == NULL) {
                             goto error;
                         }
                         

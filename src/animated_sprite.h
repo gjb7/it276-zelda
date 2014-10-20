@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <glib.h>
+#include "resource.h"
 #include "sdl.h"
 
 typedef struct frame_s {
@@ -31,7 +32,7 @@ typedef struct animation_s {
 } animation_t;
 
 typedef struct animated_sprite_s {
-    SDL_Texture *texture;
+    resource_t *resource;
     GHashTable *animations;
     animation_t *current_animation;
 } animated_sprite_t;

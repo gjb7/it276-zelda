@@ -11,9 +11,10 @@
 
 #include <stdlib.h>
 #include "sdl.h"
+#include "resource.h"
 
 typedef struct sprite_s {
-    SDL_Texture *texture;
+    resource_t *resource;
     SDL_Point frame_size;
     int column_count;
     int row_count;
