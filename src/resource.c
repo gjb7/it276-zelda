@@ -61,6 +61,8 @@ resource_t *resource_load(char *file, resource_type type) {
                 
                 break;
         }
+        
+        g_hash_table_insert(_resource_table, file, resource);
     }
     
     resource_retain(resource);
