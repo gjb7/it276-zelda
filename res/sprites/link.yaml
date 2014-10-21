@@ -2,6 +2,46 @@
 sprite: res/sprites/link.png
 animations:
   -
+    name: face_down
+    start_frame: 0
+    loops: false
+    frames:
+      -
+        x: 48
+        y: 0
+        w: 16
+        h: 24
+  -
+    name: face_up
+    start_frame: 0
+    loops: false
+    frames:
+      -
+        x: 48
+        y: 24
+        w: 16
+        h: 24
+  -
+    name: face_right
+    start_frame: 0
+    loops: false
+    frames:
+      -
+        x: 48
+        y: 48
+        w: 16
+        h: 24
+  -
+    name: face_left
+    start_frame: 0
+    loops: false
+    frames:
+      -
+        x: 49
+        y: 72
+        w: 16
+        h: 24
+  -
     name: walk_down
     start_frame: 3
     loops: true
