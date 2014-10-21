@@ -115,6 +115,27 @@ void _player_think(entity_t *player) {
             player->facing = ENTITY_DIRECTION_RIGHT;
         }
     }
+    
+    if (!is_up && !is_down && !is_left && !is_right) {
+        switch (player->facing) {
+            case ENTITY_DIRECTION_DOWN:
+                animated_sprite_set_current_animation(sprite, "face_down");
+                
+                break;
+            case ENTITY_DIRECTION_LEFT:
+                animated_sprite_set_current_animation(sprite, "face_left");
+                
+                break;
+            case ENTITY_DIRECTION_UP:
+                animated_sprite_set_current_animation(sprite, "face_up");
+                
+                break;
+            case ENTITY_DIRECTION_RIGHT:
+                animated_sprite_set_current_animation(sprite, "face_right");
+                
+                break;
+        }
+    }
 }
 
 void _player_update(entity_t *player) {
