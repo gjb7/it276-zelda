@@ -48,7 +48,7 @@ entity_t *player_create() {
         
         return NULL;
     }
-    animated_sprite_set_current_animation(sprite, "walk_down");
+    animated_sprite_set_current_animation(sprite, "face_down");
     
     player_data->sprite = sprite;
     
@@ -93,18 +93,47 @@ void _player_think(entity_t *player) {
     if (!(is_up && is_down)) {
         if (input_was_key_up(SDL_SCANCODE_W) || (is_up && input_was_key_down(SDL_SCANCODE_S))) {
             animated_sprite_set_current_animation(sprite, "walk_up");
+            
+            player->facing = ENTITY_DIRECTION_UP;
         }
         else if(input_was_key_up(SDL_SCANCODE_S) || (is_down && input_was_key_down(SDL_SCANCODE_W))) {
             animated_sprite_set_current_animation(sprite, "walk_down");
+            
+            player->facing = ENTITY_DIRECTION_DOWN;
         }
     }
     
     if (!(is_left && is_right)) {
         if (input_was_key_up(SDL_SCANCODE_A) || (is_left && input_was_key_down(SDL_SCANCODE_D))) {
             animated_sprite_set_current_animation(sprite, "walk_left");
+            
+            player->facing = ENTITY_DIRECTION_LEFT;
         }
         else if(input_was_key_up(SDL_SCANCODE_D) || (is_right && input_was_key_down(SDL_SCANCODE_A))) {
             animated_sprite_set_current_animation(sprite, "walk_right");
+            
+            player->facing = ENTITY_DIRECTION_RIGHT;
+        }
+    }
+    
+    if (!is_up && !is_down && !is_left && !is_right) {
+        switch (player->facing) {
+            case ENTITY_DIRECTION_DOWN:
+                animated_sprite_set_current_animation(sprite, "face_down");
+                
+                break;
+            case ENTITY_DIRECTION_LEFT:
+                animated_sprite_set_current_animation(sprite, "face_left");
+                
+                break;
+            case ENTITY_DIRECTION_UP:
+                animated_sprite_set_current_animation(sprite, "face_up");
+                
+                break;
+            case ENTITY_DIRECTION_RIGHT:
+                animated_sprite_set_current_animation(sprite, "face_right");
+                
+                break;
         }
     }
 }
