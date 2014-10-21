@@ -14,6 +14,13 @@
 #include <glib.h>
 #include "sdl.h"
 
+typedef enum {
+    ENTITY_DIRECTION_DOWN = 0,
+    ENTITY_DIRECTION_LEFT,
+    ENTITY_DIRECTION_UP,
+    ENTITY_DIRECTION_RIGHT
+} entity_direction;
+
 /**
  * An entity within the game. An entity is anything that acts or is acted upon by the game.
  */
@@ -43,6 +50,8 @@ typedef struct entity_s {
     char class_name[128];
     
     SDL_Point position;
+    
+    entity_direction facing;
     
     void *entity_data;
 } entity_t;
