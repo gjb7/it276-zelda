@@ -48,7 +48,7 @@ entity_t *player_create() {
         
         return NULL;
     }
-    animated_sprite_set_current_animation(sprite, "walk_down");
+    animated_sprite_set_current_animation(sprite, "face_down");
     
     player_data->sprite = sprite;
     
