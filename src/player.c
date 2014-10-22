@@ -145,6 +145,12 @@ void _player_update(entity_t *player) {
 }
 
 void _player_dealloc(entity_t *player) {
+    player_t *player_data = (player_t *)player->entity_data;
+    
+    if (player_data->sprite) {
+        animated_sprite_free(player_data->sprite);
+    }
+    
     free(player->entity_data);
     player->entity_data = NULL;
 }
