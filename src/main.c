@@ -35,6 +35,7 @@ int main(int argc, char **argv) {
     window_t *window;
     entity_t *gameMap;
     entity_t *gameWorld;
+    entity_t *testGuard;
     bool done = false;
     
     if (!init_sdl()) {
@@ -72,11 +73,11 @@ int main(int argc, char **argv) {
     gameWorld = game_world_create();
     game_world_set_current_map(gameWorld, gameMap);
     
-    entity_t *guard = guard_create();
-    guard->position.x = 32;
-    guard->position.y = 32;
-    entity_add_child(gameWorld, guard);
-    entity_release(guard);
+    testGuard = guard_create();
+    testGuard->position.x = 32;
+    testGuard->position.y = 32;
+    entity_add_child(gameWorld, testGuard);
+    entity_release(testGuard);
     
     entity_release(gameMap);
     
