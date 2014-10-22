@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 #include "graphics.h"
 #include "window.h"
@@ -57,6 +58,8 @@ int main(int argc, char **argv) {
         
         return EXIT_FAILURE;
     }
+    
+    srand(time(NULL));
     
     window = window_create("Hello World!", 512, 448);
     SDL_RenderSetScale(window->renderer, 2, 2);
