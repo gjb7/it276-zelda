@@ -9,6 +9,8 @@
 #include "input.h"
 #include "resource.h"
 
+#include "enemies/guard.h"
+
 #ifdef TESTS
 #include <check.h>
 
@@ -69,6 +71,13 @@ int main(int argc, char **argv) {
     gameMap = game_map_create_from_file("res/maps/level1.map");
     gameWorld = game_world_create();
     game_world_set_current_map(gameWorld, gameMap);
+    
+    entity_t *guard = guard_create();
+    guard->position.x = 32;
+    guard->position.y = 32;
+    entity_add_child(gameWorld, guard);
+    entity_release(guard);
+    
     entity_release(gameMap);
     
     while (!done) {
