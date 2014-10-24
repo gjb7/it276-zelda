@@ -79,4 +79,5 @@ void _game_world_dealloc(entity_t *self) {
     entity_release(game_world_data->player);
     
     free(game_world_data);
+    self->entity_data = NULL;
 }

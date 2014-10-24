@@ -23,6 +23,8 @@
 		C3640A0619F41BBB0062CF23 /* resource.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = resource.c; sourceTree = "<group>"; };
 		C3640A0719F41BBB0062CF23 /* resource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = resource.h; sourceTree = "<group>"; };
 		C3640A0819F4B3B90062CF23 /* test_resource_manager.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test_resource_manager.c; sourceTree = "<group>"; };
+		C3640A0A19F686590062CF23 /* guard.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = guard.c; sourceTree = "<group>"; };
+		C3640A0B19F686590062CF23 /* guard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = guard.h; sourceTree = "<group>"; };
 		C38F667D19CA4BF100A7718A /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		C393DC7B19CF9D9900AFE296 /* graphics.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = graphics.c; sourceTree = "<group>"; };
 		C393DC7C19CF9D9900AFE296 /* graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = graphics.h; sourceTree = "<group>"; };
@@ -39,6 +41,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		C3640A0919F6864D0062CF23 /* enemies */ = {
+			isa = PBXGroup;
+			children = (
+				C3640A0A19F686590062CF23 /* guard.c */,
+				C3640A0B19F686590062CF23 /* guard.h */,
+			);
+			path = enemies;
+			sourceTree = "<group>";
+		};
 		C38F667119CA4B2900A7718A = {
 			isa = PBXGroup;
 			children = (
@@ -49,6 +60,7 @@
 		C38F667C19CA4BF100A7718A /* src */ = {
 			isa = PBXGroup;
 			children = (
+				C3640A0919F6864D0062CF23 /* enemies */,
 				C39E3A4E19CA607200C2EA3E /* tests */,
 				C38F667D19CA4BF100A7718A /* main.c */,
 				C3306F8B19E3846B001573EB /* animated_sprite.c */,

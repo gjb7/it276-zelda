@@ -1,0 +1,135 @@
+---
+sprite: res/sprites/guard.png
+animations:
+  -
+    name: walk_down
+    frames:
+      -
+        x: 0
+        y: 0
+        w: 16
+        h: 28
+        step: 10
+      -
+        x: 16
+        y: 0
+        w: 16
+        h: 28
+        step: 10
+  -
+    name: face_down_look_right
+    loops: false
+    frames:
+      -
+        x: 32
+        y: 0
+        w: 16
+        h: 28
+  -
+    name: face_down_look_left
+    loops: false
+    frames:
+      -
+        x: 48
+        y: 0
+        w: 16
+        h: 28
+  -
+    name: walk_right
+    frames:
+      -
+        x: 64
+        y: 0
+        w: 18
+        h: 28
+        step: 10
+      -
+        x: 82
+        y: 0
+        w: 18
+        h: 28
+        step: 10
+  -
+    name: face_right_look_up
+    loops: false
+    frames:
+      -
+        x: 100
+        y: 0
+        w: 17
+        h: 28
+  -
+    name: face_right_look_down
+    loops: false
+    frames:
+      -
+        x: 117
+        y: 0
+        w: 17
+        h: 28
+  -
+    name: walk_left
+    frames:
+      -
+        x: 134
+        y: 0
+        w: 18
+        h: 28
+        step: 10
+      -
+        x: 152
+        y: 0
+        w: 18
+        h: 28
+        step: 10
+  -
+    name: face_left_look_down
+    loops: false
+    frames:
+      -
+        x: 170
+        y: 0
+        w: 17
+        h: 28
+  -
+    name: face_left_look_up
+    loops: false
+    frames:
+      -
+        x: 187
+        y: 0
+        w: 17
+        h: 28
+  -
+    name: walk_up
+    frames:
+      -
+        x: 204
+        y: 0
+        w: 16
+        h: 28
+        step: 10
+      -
+        x: 220
+        y: 0
+        w: 16
+        h: 28
+        step: 10
+  -
+    name: face_up_look_left
+    loops: false
+    frames:
+      -
+        x: 236
+        y: 0
+        w: 16
+        h: 28
+  -
+    name: face_up_look_right
+    loops: false
+    frames:
+      -
+        x: 252
+        y: 0
+        w: 16
+        h: 28
