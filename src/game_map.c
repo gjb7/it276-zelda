@@ -142,8 +142,6 @@ void _game_map_update(entity_t *self) {
                 }
             }
         }
-        
-        g_slist_free(returnObjects);
     }
 }
 
