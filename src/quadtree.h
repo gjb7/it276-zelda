@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <glib.h>
 #include "sdl.h"
+#include "entity.h"
 
 #define QUADTREE_NODES_LENGTH 4
 
@@ -24,7 +25,7 @@ typedef struct quadtree_s {
 
 quadtree_t *quadtree_create(int level, SDL_Rect rect);
 void quadtree_clear(quadtree_t *quadtree);
-void quadtree_insert(quadtree_t *quadtree, SDL_Rect *rect);
-GSList *quadtree_retrieve(quadtree_t *quadtree, GSList *returnObjects, SDL_Rect *rect);
+void quadtree_insert(quadtree_t *quadtree, entity_t *entity);
+GSList *quadtree_retrieve(quadtree_t *quadtree, GSList *returnObjects, entity_t *entity);
 
 #endif /* defined(__zelda__quadtree__) */

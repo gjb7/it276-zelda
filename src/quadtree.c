@@ -62,15 +62,16 @@ void quadtree_split(quadtree_t *quadtree) {
     quadtree->nodes[3] = quadtree_create(subLevel, graphics_rect_make(x + subWidth, y + subWidth, subWidth, subHeight));
 }
 
-int quadtree_get_index(quadtree_t *quadtree, SDL_Rect *rect) {
+int quadtree_get_index(quadtree_t *quadtree, entity_t *entity) {
     int index = -1;
     double verticalMidpoint = quadtree->bounds.y + (quadtree->bounds.h / 2.0);
     double horizontalMidpoint = quadtree->bounds.x + (quadtree->bounds.w / 2.0);
+    SDL_Rect rect = entity_get_collision_box(entity);
     
-    bool isInTopQuadrant = (rect->y < horizontalMidpoint && rect->y + rect->h < horizontalMidpoint);
-    bool isInBottomQuadrant = (rect->y > horizontalMidpoint);
-    bool isInLeftQuadrant = (rect->x < verticalMidpoint && rect->x + rect->w < horizontalMidpoint);
-    bool isInRightQuadrant = (rect->x > verticalMidpoint);
+    bool isInTopQuadrant = (rect.y < horizontalMidpoint && rect.y + rect.h < horizontalMidpoint);
+    bool isInBottomQuadrant = (rect.y > horizontalMidpoint);
+    bool isInLeftQuadrant = (rect.x < verticalMidpoint && rect.x + rect.w < horizontalMidpoint);
+    bool isInRightQuadrant = (rect.x > verticalMidpoint);
     
     if (isInLeftQuadrant) {
         if (isInTopQuadrant) {
@@ -92,18 +93,18 @@ int quadtree_get_index(quadtree_t *quadtree, SDL_Rect *rect) {
     return index;
 }
 
-void quadtree_insert(quadtree_t *quadtree, SDL_Rect *rect) {
+void quadtree_insert(quadtree_t *quadtree, entity_t *entity) {
     if (quadtree->nodes[0] != NULL) {
-        int index = quadtree_get_index(quadtree, rect);
+        int index = quadtree_get_index(quadtree, entity);
         
         if (index != -1) {
-            quadtree_insert(quadtree->nodes[index], rect);
+            quadtree_insert(quadtree->nodes[index], entity);
             
             return;
         }
     }
     
-    quadtree->objects = g_slist_append(quadtree->objects, &rect);
+    quadtree->objects = g_slist_append(quadtree->objects, entity);
     
     if (g_slist_length(quadtree->objects) > MAX_OBJECTS && quadtree->level < MAX_LEVELS) {
         int i = 0;
@@ -113,13 +114,13 @@ void quadtree_insert(quadtree_t *quadtree, SDL_Rect *rect) {
         }
         
         while (i < g_slist_length(quadtree->objects)) {
-            SDL_Rect *aRect = g_slist_nth_data(quadtree->objects, i);
-            int index = quadtree_get_index(quadtree, aRect);
+            entity_t *anEntity = g_slist_nth_data(quadtree->objects, i);
+            int index = quadtree_get_index(quadtree, anEntity);
             if (index != -1) {
-                SDL_Rect *removedRect = (SDL_Rect *)g_slist_nth_data(quadtree->objects, i);
-                quadtree->objects = g_slist_remove(quadtree->objects, removedRect);
+                entity_t *removedEntity = (entity_t *)g_slist_nth_data(quadtree->objects, i);
+                quadtree->objects = g_slist_remove(quadtree->objects, removedEntity);
                 
-                quadtree_insert(quadtree->nodes[index], removedRect);
+                quadtree_insert(quadtree->nodes[index], removedEntity);
             }
             else {
                 i++;
@@ -128,10 +129,10 @@ void quadtree_insert(quadtree_t *quadtree, SDL_Rect *rect) {
     }
 }
 
-GSList *quadtree_retrieve(quadtree_t *quadtree, GSList *returnObjects, SDL_Rect *rect) {
-    int index = quadtree_get_index(quadtree, rect);
+GSList *quadtree_retrieve(quadtree_t *quadtree, GSList *returnObjects, entity_t *entity) {
+    int index = quadtree_get_index(quadtree, entity);
     if (index != -1 && quadtree->nodes[0] != NULL) {
-        quadtree_retrieve(quadtree->nodes[index], returnObjects, rect);
+        returnObjects = quadtree_retrieve(quadtree->nodes[index], returnObjects, entity);
     }
     
     returnObjects = g_slist_concat(returnObjects, quadtree->objects);
