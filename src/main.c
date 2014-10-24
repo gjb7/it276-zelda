@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
     testGuard = guard_create();
     testGuard->position.x = 32;
     testGuard->position.y = 32;
-    entity_add_child(gameWorld, testGuard);
+    entity_add_child(gameMap, testGuard);
     entity_release(testGuard);
     
     entity_release(gameMap);
