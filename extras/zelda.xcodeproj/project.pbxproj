@@ -12,6 +12,8 @@
 		C329184019E4F2E1002BEBA9 /* test_animated_sprites.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test_animated_sprites.c; sourceTree = "<group>"; };
 		C3306F8B19E3846B001573EB /* animated_sprite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = animated_sprite.c; sourceTree = "<group>"; };
 		C3306F8C19E3846B001573EB /* animated_sprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = animated_sprite.h; sourceTree = "<group>"; };
+		C340FAE519F9D9030040D9BB /* quadtree.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quadtree.c; sourceTree = "<group>"; };
+		C340FAE619F9D9030040D9BB /* quadtree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quadtree.h; sourceTree = "<group>"; };
 		C34A4EFC19D22657004B2A7A /* window.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = window.c; sourceTree = "<group>"; };
 		C34A4EFD19D22657004B2A7A /* window.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = window.h; sourceTree = "<group>"; };
 		C34A4EFE19D236F8004B2A7A /* sprite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sprite.c; sourceTree = "<group>"; };
@@ -66,6 +68,8 @@
 				C3A61D1419E096D20060B94B /* logging.h */,
 				C3A61D0F19E079710060B94B /* player.c */,
 				C3A61D1019E079710060B94B /* player.h */,
+				C340FAE519F9D9030040D9BB /* quadtree.c */,
+				C340FAE619F9D9030040D9BB /* quadtree.h */,
 				C3640A0619F41BBB0062CF23 /* resource.c */,
 				C3640A0719F41BBB0062CF23 /* resource.h */,
 				C34A4EFE19D236F8004B2A7A /* sprite.c */,
