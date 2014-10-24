@@ -126,7 +126,18 @@ void _game_map_update(entity_t *self) {
         returnObjectsCount = g_slist_length(returnObjects);
         
         for (j = 0; j < returnObjectsCount; j++) {
-            // TODO: Collision detection!
+            entity_t *collidedObject = g_slist_nth_data(returnObjects, j);
+            SDL_Rect collidedObjectCollisionBox = entity_get_collision_box(collidedObject);
+            
+            if (SDL_HasIntersection(&collisionBox, &collidedObjectCollisionBox)) {
+                if (child->touch != NULL) {
+                    child->touch(child, collidedObject);
+                }
+                
+                if (collidedObject->touch != NULL) {
+                    collidedObject->touch(collidedObject, child);
+                }
+            }
         }
         
         g_slist_free(returnObjects);
