@@ -108,7 +108,7 @@ void _game_map_update(entity_t *self) {
         
         SDL_Rect collisionBox = entity_get_collision_box(child);
         if (collisionBox.w > 0 && collisionBox.h > 0) {
-            quadtree_insert(gameMap->quad, &collisionBox);
+            quadtree_insert(gameMap->quad, child);
         }
     }
     
@@ -124,8 +124,7 @@ void _game_map_update(entity_t *self) {
             continue;
         }
         
-        quadtree_retrieve(gameMap->quad, returnObjects, &collisionBox);
-        
+        returnObjects = quadtree_retrieve(gameMap->quad, returnObjects, child);
         returnObjectsCount = g_slist_length(returnObjects);
         
         for (j = 0; j < returnObjectsCount; j++) {
