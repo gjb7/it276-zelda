@@ -50,6 +50,7 @@ typedef struct entity_s {
     char class_name[128];
     
     SDL_Point position;
+    SDL_Rect collision_box;
     
     entity_direction facing;
     
