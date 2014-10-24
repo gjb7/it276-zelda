@@ -47,6 +47,8 @@ typedef struct entity_s {
     void (*update)(struct entity_s *self);
     void (*dealloc)(struct entity_s *self);
     
+    void (*touch)(struct entity_s *self, struct entity_s *other);
+    
     char class_name[128];
     
     SDL_Point position;
