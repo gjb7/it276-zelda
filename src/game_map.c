@@ -102,7 +102,9 @@ void _game_map_update(entity_t *self) {
     int i;
     for (i = 0; i < childCount; i++) {
         entity_t *child = g_slist_nth_data(self->children, i);
-        quadtree_insert(gameMap->quad, &(child->collision_box));
+        
+        SDL_Rect collisionBox = entity_get_collision_box(child);
+        quadtree_insert(gameMap->quad, &collisionBox);
     }
     
     for (i = 0; i < childCount; i++) {
@@ -111,7 +113,8 @@ void _game_map_update(entity_t *self) {
         entity_t *child = g_slist_nth_data(self->children, i);
         int j;
         
-        quadtree_retrieve(gameMap->quad, returnObjects, &(child->collision_box));
+        SDL_Rect collisionBox = entity_get_collision_box(child);
+        quadtree_retrieve(gameMap->quad, returnObjects, &collisionBox);
         
         returnObjectsCount = g_slist_length(returnObjects);
         
