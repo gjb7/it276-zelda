@@ -10,6 +10,7 @@
 #include "sdl.h"
 #include "graphics.h"
 #include "logging.h"
+#include "debug.h"
 #include <assert.h>
 
 entity_t *entity_create() {
@@ -130,6 +131,16 @@ void entity_render(entity_t *e) {
         SDL_RenderSetViewport(graphics_get_global_renderer(), &viewportSize);
         
         e->render(e);
+    }
+    
+    if (debug_get_render_collision_boxes()) {
+        if (e->collision_box.w > 0 && e->collision_box.h > 0) {
+            SDL_Renderer *renderer = graphics_get_global_renderer();
+            
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 128);
+            SDL_RenderFillRect(renderer, &(e->collision_box));
+        }
     }
     
     g_slist_foreach(e->children, _entity_render_iterator, NULL);
