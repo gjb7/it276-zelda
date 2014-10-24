@@ -12,6 +12,9 @@
 #include <assert.h>
 #include <math.h>
 
+static int _game_map_frame_width = 16;
+static int _game_map_frame_height = 16;
+
 void _game_map_update(entity_t *self);
 void _game_map_render(entity_t *self);
 void _game_map_dealloc(entity_t *self);
@@ -55,7 +58,7 @@ entity_t *game_map_create(int layer_count, int width, int height) {
     game_map_data->layer_count = layer_count;
     game_map_data->layer_width = width;
     game_map_data->layer_height = height;
-    game_map_data->quad = quadtree_create(0, graphics_rect_make(0, 0, width, height));
+    game_map_data->quad = quadtree_create(0, graphics_rect_make(0, 0, width * _game_map_frame_width, height * _game_map_frame_height));
     
     game_map->entity_data = (void *)game_map_data;
     
@@ -457,8 +460,8 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     
     new_map_data->tilemap_filename = tilemap_filename;
     
-    frame_size.x = 16;
-    frame_size.y = 16;
+    frame_size.x = _game_map_frame_width;
+    frame_size.y = _game_map_frame_height;
     
     new_map_data->tilemap = sprite_create(new_map_data->tilemap_filename, frame_size);
     
