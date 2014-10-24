@@ -140,10 +140,6 @@ void _game_map_update(entity_t *self) {
                 if (child->touch != NULL) {
                     child->touch(child, collidedObject);
                 }
-                
-                if (collidedObject->touch != NULL) {
-                    collidedObject->touch(collidedObject, child);
-                }
             }
         }
     }
