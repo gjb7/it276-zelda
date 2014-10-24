@@ -12,6 +12,7 @@
 #include <assert.h>
 #include <math.h>
 
+void _game_map_update(entity_t *self);
 void _game_map_render(entity_t *self);
 void _game_map_dealloc(entity_t *self);
 entity_t *_game_map_create_from_map(SDL_RWops *fp);
@@ -54,10 +55,12 @@ entity_t *game_map_create(int layer_count, int width, int height) {
     game_map_data->layer_count = layer_count;
     game_map_data->layer_width = width;
     game_map_data->layer_height = height;
+    game_map_data->quad = quadtree_create(0, graphics_rect_make(0, 0, width, height));
     
     game_map->entity_data = (void *)game_map_data;
     
     strcpy(game_map->class_name, "game_map");
+    game_map->update = _game_map_update;
     game_map->render = _game_map_render;
     game_map->dealloc = _game_map_dealloc;
     
@@ -89,6 +92,35 @@ entity_t *game_map_create_from_file(char *filename) {
     
 cleanup:
     return game_map;
+}
+
+void _game_map_update(entity_t *self) {
+    game_map_t *gameMap = (game_map_t *)self->entity_data;
+    
+    quadtree_clear(gameMap->quad);
+    int childCount = g_slist_length(self->children);
+    int i;
+    for (i = 0; i < childCount; i++) {
+        entity_t *child = g_slist_nth_data(self->children, i);
+        quadtree_insert(gameMap->quad, &(child->collision_box));
+    }
+    
+    for (i = 0; i < childCount; i++) {
+        GSList *returnObjects = NULL;
+        int returnObjectsCount;
+        entity_t *child = g_slist_nth_data(self->children, i);
+        int j;
+        
+        quadtree_retrieve(gameMap->quad, returnObjects, &(child->collision_box));
+        
+        returnObjectsCount = g_slist_length(returnObjects);
+        
+        for (j = 0; j < returnObjectsCount; j++) {
+            // TODO: Collision detection!
+        }
+        
+        g_slist_free(returnObjects);
+    }
 }
 
 void _game_map_render(entity_t *self) {
