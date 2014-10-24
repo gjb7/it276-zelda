@@ -24,7 +24,7 @@ quadtree_t *quadtree_create(int level, SDL_Rect rect) {
     
     quadtree->level = level;
     quadtree->bounds = rect;
-    quadtree->objects = g_slist_alloc();
+    quadtree->objects = NULL;
     
     for (i = 0; i < QUADTREE_NODES_LENGTH; i++) {
         quadtree->nodes[i] = NULL;
@@ -36,8 +36,10 @@ quadtree_t *quadtree_create(int level, SDL_Rect rect) {
 void quadtree_clear(quadtree_t *quadtree) {
     int i;
     
-    g_slist_free(quadtree->objects);
-    quadtree->objects = g_slist_alloc();
+    if (quadtree->objects != NULL) {
+        g_slist_free(quadtree->objects);
+        quadtree->objects = NULL;
+    }
     
     for (i = 0; i < QUADTREE_NODES_LENGTH; i++) {
         if (quadtree->nodes[i] != NULL) {
