@@ -170,6 +170,7 @@ void _game_map_dealloc(entity_t *self) {
     }
     
     free(game_map_data->layers);
+    free(game_map_data);
 }
 
 /**

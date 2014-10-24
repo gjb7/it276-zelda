@@ -1,12 +1,15 @@
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 #include "graphics.h"
 #include "window.h"
 #include "game_world.h"
 #include "input.h"
 #include "resource.h"
+
+#include "enemies/guard.h"
 
 #ifdef TESTS
 #include <check.h>
@@ -32,6 +35,7 @@ int main(int argc, char **argv) {
     window_t *window;
     entity_t *gameMap;
     entity_t *gameWorld;
+    entity_t *testGuard;
     bool done = false;
     
     if (!init_sdl()) {
@@ -58,6 +62,8 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
     
+    srand(time(NULL));
+    
     window = window_create("Hello World!", 512, 448);
     SDL_RenderSetScale(window->renderer, 2, 2);
     
@@ -66,6 +72,13 @@ int main(int argc, char **argv) {
     gameMap = game_map_create_from_file("res/maps/level1.map");
     gameWorld = game_world_create();
     game_world_set_current_map(gameWorld, gameMap);
+    
+    testGuard = guard_create();
+    testGuard->position.x = 32;
+    testGuard->position.y = 32;
+    entity_add_child(gameWorld, testGuard);
+    entity_release(testGuard);
+    
     entity_release(gameMap);
     
     while (!done) {

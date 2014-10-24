@@ -14,7 +14,7 @@ else ifeq ($(UNAME), Linux)
 endif
 
 EXEC = zelda
-SOURCES = $(wildcard src/*.c src/tests/*.c)
+SOURCES = $(wildcard src/*.c src/enemies/*.c src/tests/*.c)
 SOURCES_MINUS_TESTS = $(filter-out src/tests/%.c, $(SOURCES))
 SOURCES_MINUS_MAIN = $(filter-out src/main.c, $(SOURCES_MINUS_TESTS))
 OBJECTS = $(SOURCES:src/%.c=obj/%.o)
@@ -42,7 +42,7 @@ test-dirs: dirs
 # ----
 
 dirs:
-	@mkdir -p bin/ obj/
+	@mkdir -p bin/ obj/ obj/enemies
 
 bin/$(EXEC): $(OBJECTS_MINUS_TESTS)
 	$(CC) $(OBJECTS_MINUS_TESTS) $(L_FLAGS) -o $@
