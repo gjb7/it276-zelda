@@ -8,6 +8,7 @@
 #include "game_world.h"
 #include "input.h"
 #include "resource.h"
+#include "debug.h"
 
 #include "enemies/guard.h"
 
@@ -37,6 +38,8 @@ int main(int argc, char **argv) {
     entity_t *gameWorld;
     entity_t *testGuard;
     bool done = false;
+    
+    debug_set_render_collision_boxes(true);
     
     if (!init_sdl()) {
         fprintf(stderr, "Error initializing SDL: %s", SDL_GetError());
@@ -76,7 +79,7 @@ int main(int argc, char **argv) {
     testGuard = guard_create();
     testGuard->position.x = 32;
     testGuard->position.y = 32;
-    entity_add_child(gameWorld, testGuard);
+    entity_add_child(gameMap, testGuard);
     entity_release(testGuard);
     
     entity_release(gameMap);

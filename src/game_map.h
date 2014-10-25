@@ -13,6 +13,7 @@
 #include "entity.h"
 #include "sdl.h"
 #include "sprite.h"
+#include "quadtree.h"
 
 typedef struct game_map_s {
     char *tilemap_filename;
@@ -21,6 +22,7 @@ typedef struct game_map_s {
     int layer_count;
     int layer_width;
     int layer_height;
+    quadtree_t *quad;
 } game_map_t;
 
 entity_t *game_map_create(int layer_count, int width, int height);

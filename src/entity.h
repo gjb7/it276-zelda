@@ -47,9 +47,12 @@ typedef struct entity_s {
     void (*update)(struct entity_s *self);
     void (*dealloc)(struct entity_s *self);
     
+    void (*touch)(struct entity_s *self, struct entity_s *other);
+    
     char class_name[128];
     
     SDL_Point position;
+    SDL_Rect collision_box;
     
     entity_direction facing;
     
@@ -66,5 +69,12 @@ void entity_remove_from_parent(entity_t *e);
 void entity_think(entity_t *e);
 void entity_render(entity_t *e);
 void entity_update(entity_t *e);
+
+SDL_Point entity_get_absolute_position(entity_t *e);
+
+/**
+ Returns the collision box adjusted with the entity's position.
+ */
+SDL_Rect entity_get_collision_box(entity_t *e);
 
 #endif /* defined(__zelda__entity__) */

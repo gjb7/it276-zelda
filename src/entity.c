@@ -10,6 +10,7 @@
 #include "sdl.h"
 #include "graphics.h"
 #include "logging.h"
+#include "debug.h"
 #include <assert.h>
 
 entity_t *entity_create() {
@@ -119,27 +120,27 @@ void entity_render(entity_t *e) {
     assert(e != NULL);
     
     if (e->render != NULL) {
+        SDL_Point absolutePosition = entity_get_absolute_position(e);
         SDL_Point rendererSize = graphics_global_renderer_size();
         SDL_Rect viewportSize;
-        viewportSize.x = e->position.x;
-        viewportSize.y = e->position.y;
+        viewportSize.x = absolutePosition.x;
+        viewportSize.y = absolutePosition.y;
         viewportSize.w = rendererSize.x;
         viewportSize.h = rendererSize.y;
-        
-        if (e->parent) {
-            entity_t *parent = e->parent;
-            
-            do {
-                viewportSize.x += parent->position.x;
-                viewportSize.y += parent->position.y;
-                
-                parent = parent->parent;
-            } while(parent != NULL);
-        }
         
         SDL_RenderSetViewport(graphics_get_global_renderer(), &viewportSize);
         
         e->render(e);
+    }
+    
+    if (debug_get_render_collision_boxes()) {
+        if (e->collision_box.w > 0 && e->collision_box.h > 0) {
+            SDL_Renderer *renderer = graphics_get_global_renderer();
+            
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 128);
+            SDL_RenderFillRect(renderer, &(e->collision_box));
+        }
     }
     
     g_slist_foreach(e->children, _entity_render_iterator, NULL);
@@ -159,4 +160,35 @@ void entity_update(entity_t *e) {
     }
     
     g_slist_foreach(e->children, _entity_update_iterator, NULL);
+}
+
+SDL_Point entity_get_absolute_position(entity_t *e) {
+    SDL_Point position = e->position;
+    position.x = e->position.x;
+    position.y = e->position.y;
+    
+    if (e->parent) {
+        entity_t *parent = e->parent;
+        
+        do {
+            position.x += parent->position.x;
+            position.y += parent->position.y;
+            
+            parent = parent->parent;
+        } while(parent != NULL);
+    }
+    
+    return position;
+}
+
+SDL_Rect entity_get_collision_box(entity_t *e) {
+    SDL_Rect collisionBox;
+    SDL_Point absolutePosition = entity_get_absolute_position(e);
+    
+    collisionBox.x = absolutePosition.x + e->collision_box.x;
+    collisionBox.y = absolutePosition.y + e->collision_box.y;
+    collisionBox.w = e->collision_box.w;
+    collisionBox.h = e->collision_box.h;
+    
+    return collisionBox;
 }

@@ -12,6 +12,10 @@
 #include <assert.h>
 #include <math.h>
 
+static int _game_map_frame_width = 16;
+static int _game_map_frame_height = 16;
+
+void _game_map_update(entity_t *self);
 void _game_map_render(entity_t *self);
 void _game_map_dealloc(entity_t *self);
 entity_t *_game_map_create_from_map(SDL_RWops *fp);
@@ -54,10 +58,12 @@ entity_t *game_map_create(int layer_count, int width, int height) {
     game_map_data->layer_count = layer_count;
     game_map_data->layer_width = width;
     game_map_data->layer_height = height;
+    game_map_data->quad = quadtree_create(0, graphics_rect_make(0, 0, width * _game_map_frame_width, height * _game_map_frame_height));
     
     game_map->entity_data = (void *)game_map_data;
     
     strcpy(game_map->class_name, "game_map");
+    game_map->update = _game_map_update;
     game_map->render = _game_map_render;
     game_map->dealloc = _game_map_dealloc;
     
@@ -89,6 +95,54 @@ entity_t *game_map_create_from_file(char *filename) {
     
 cleanup:
     return game_map;
+}
+
+void _game_map_update(entity_t *self) {
+    game_map_t *gameMap = (game_map_t *)self->entity_data;
+    
+    quadtree_clear(gameMap->quad);
+    int childCount = g_slist_length(self->children);
+    int i;
+    for (i = 0; i < childCount; i++) {
+        entity_t *child = g_slist_nth_data(self->children, i);
+        
+        SDL_Rect collisionBox = entity_get_collision_box(child);
+        if (collisionBox.w > 0 && collisionBox.h > 0) {
+            quadtree_insert(gameMap->quad, child);
+        }
+    }
+    
+    for (i = 0; i < childCount; i++) {
+        GSList *returnObjects = NULL;
+        int returnObjectsCount;
+        entity_t *child = g_slist_nth_data(self->children, i);
+        int j;
+        
+        SDL_Rect collisionBox = entity_get_collision_box(child);
+        
+        if (collisionBox.w <= 0 || collisionBox.h <= 0) {
+            continue;
+        }
+        
+        returnObjects = quadtree_retrieve(gameMap->quad, returnObjects, child);
+        returnObjectsCount = g_slist_length(returnObjects);
+        
+        for (j = 0; j < returnObjectsCount; j++) {
+            entity_t *collidedObject = g_slist_nth_data(returnObjects, j);
+            
+            if (collidedObject == child) {
+                continue;
+            }
+            
+            SDL_Rect collidedObjectCollisionBox = entity_get_collision_box(collidedObject);
+            
+            if (SDL_HasIntersection(&collisionBox, &collidedObjectCollisionBox)) {
+                if (child->touch != NULL) {
+                    child->touch(child, collidedObject);
+                }
+            }
+        }
+    }
 }
 
 void _game_map_render(entity_t *self) {
@@ -404,8 +458,8 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     
     new_map_data->tilemap_filename = tilemap_filename;
     
-    frame_size.x = 16;
-    frame_size.y = 16;
+    frame_size.x = _game_map_frame_width;
+    frame_size.y = _game_map_frame_height;
     
     new_map_data->tilemap = sprite_create(new_map_data->tilemap_filename, frame_size);
     

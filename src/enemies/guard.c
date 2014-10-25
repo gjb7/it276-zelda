@@ -37,6 +37,11 @@ entity_t *guard_create() {
     guard->update = _guard_update;
     guard->render = _guard_render;
     
+    guard->collision_box.x = 6;
+    guard->collision_box.y = 24;
+    guard->collision_box.w = 4;
+    guard->collision_box.h = 4;
+    
     guard->facing = rand() % 4;
     
     switch (guard->facing) {
