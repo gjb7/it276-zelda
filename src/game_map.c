@@ -125,12 +125,13 @@ void _game_map_update(entity_t *self) {
         
         for (j = 0; j < returnObjectsCount; j++) {
             entity_t *collidedObject = g_slist_nth_data(returnObjects, j);
+            SDL_Rect collidedObjectCollisionBox;
             
             if (collidedObject == child) {
                 continue;
             }
             
-            SDL_Rect collidedObjectCollisionBox = entity_get_collision_box(collidedObject);
+            collidedObjectCollisionBox = entity_get_collision_box(collidedObject);
             
             if (SDL_HasIntersection(&collisionBox, &collidedObjectCollisionBox)) {
                 if (child->touch != NULL) {
