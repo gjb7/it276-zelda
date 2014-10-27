@@ -139,6 +139,16 @@ void entity_render(entity_t *e) {
         }
     }
     
+    if (debug_get_render_bounding_boxes()) {
+        if (e->bounding_box.w > 0 && e->bounding_box.h > 0) {
+            SDL_Renderer *renderer = graphics_get_global_renderer();
+            
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 96);
+            SDL_RenderFillRect(renderer, &(e->bounding_box));
+        }
+    }
+    
     g_slist_foreach(e->children, _entity_render_iterator, NULL);
 }
 
