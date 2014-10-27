@@ -15,4 +15,7 @@
 void debug_set_render_collision_boxes(bool renderCollisionBoxes);
 bool debug_get_render_collision_boxes();
 
+void debug_set_render_bounding_boxes(bool renderBoundingBoxes);
+bool debug_get_render_bounding_boxes();
+
 #endif /* defined(__zelda__debug__) */
