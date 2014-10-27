@@ -22,7 +22,7 @@ OBJECTS_MINUS_TESTS = $(SOURCES_MINUS_TESTS:src/%.c=obj/%.o)
 
 all: dirs clean bin/$(EXEC) package-resources
 
-lint: CC_FLAGS += -fsyntax-only -ansi
+lint: CC_FLAGS += -fsyntax-only -ansi -DNDEBUG
 lint: dirs clean $(OBJECTS)
 
 # ----
