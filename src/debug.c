@@ -1,10 +1,10 @@
-//
+/*
 //  debug.c
 //  zelda
 //
 //  Created by Grant Butler on 10/23/14.
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
-//
+*/
 
 #include "debug.h"
 
