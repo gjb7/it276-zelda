@@ -1,0 +1,48 @@
+---
+sprite: res/tilesheets/overworld.png
+tiles:
+  -
+    index: 57
+    collision_type: 0
+  -
+    index: 58
+    collision_type: 0
+  -
+    index: 59
+    collision_type: 0
+  -
+    index: 66
+    collision_type: 0
+  -
+    index: 67
+    collision_type: 0
+  -
+    index: 68
+    collision_type: 0
+  -
+    index: 75
+    collision_type: 0
+  -
+    index: 76
+    collision_type: 0
+  -
+    index: 77
+    collision_type: 0
+  -
+    index: 92
+    collision_type: 0
+  -
+    index: 93
+    collision_type: 0
+  -
+    index: 101
+    collision_type: 0
+  -
+    index: 102
+    collision_type: 0
+  -
+    index: 110
+    collision_type: 1
+  -
+    index: 111
+    collision_type: 2
