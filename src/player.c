@@ -64,9 +64,7 @@ entity_t *player_create() {
 void _player_render(entity_t *player) {
     player_t *player_data = (player_t *)player->entity_data;
     
-    SDL_Point position;
-    position.x = 0;
-    position.y = 0;
+    SDL_Point position = graphics_point_make(0, 0);
     
     animated_sprite_render_frame(player_data->sprite, position);
 }

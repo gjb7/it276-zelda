@@ -55,12 +55,7 @@ void sprite_render(sprite_t *sprite, int frame, SDL_Rect destRect) {
     SDL_Point frame_size = sprite->frame_size;
     SDL_Renderer *renderer = graphics_get_global_renderer();
     SDL_Texture *texture = sprite->resource->data.image.texture;
-    
-    SDL_Rect srcRect;
-    srcRect.x = (frame % column_count) * frame_size.x;
-    srcRect.y = floor(frame / column_count) * frame_size.y;
-    srcRect.w = frame_size.x;
-    srcRect.h = frame_size.y;
+    SDL_Rect srcRect = graphics_rect_make((frame % column_count) * frame_size.x, floor(frame / column_count) * frame_size.y, frame_size.x, frame_size.y);
     
     if (SDL_RenderCopy(renderer, texture, &srcRect, &destRect) != 0) {
         printf("Error copying: %s\n", SDL_GetError());

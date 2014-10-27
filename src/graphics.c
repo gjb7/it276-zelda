@@ -50,11 +50,7 @@ void graphics_set_global_renderer(SDL_Renderer *renderer) {
     
     
     if (SDL_GetRendererOutputSize(renderer, &w, &h) >= 0) {
-        SDL_Point size;
-        size.x = w;
-        size.y = h;
-        
-        _graphics_global_renderer_size = size;
+        _graphics_global_renderer_size = graphics_point_make(w, h);
     }
 }
 
@@ -69,5 +65,3 @@ SDL_Renderer *graphics_get_global_renderer(void) {
 SDL_Point graphics_global_renderer_size(void) {
     return _graphics_global_renderer_size;
 }
-
-

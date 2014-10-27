@@ -7,6 +7,7 @@
 */
 
 #include "guard.h"
+#include "graphics.h"
 
 void _guard_think(entity_t *guard);
 void _guard_update(entity_t *guard);
@@ -164,9 +165,7 @@ void _guard_update(entity_t *guard) {
 void _guard_render(entity_t *guard) {
     guard_t *guard_data = (guard_t *)guard->entity_data;
     
-    SDL_Point position;
-    position.x = 0;
-    position.y = 0;
+    SDL_Point position = graphics_point_make(0, 0);
     
     animated_sprite_render_frame(guard_data->sprite, position);
 }

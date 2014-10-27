@@ -84,12 +84,7 @@ void animated_sprite_render_frame(animated_sprite_t *sprite, SDL_Point destPoint
     animation_t *animation = sprite->current_animation;
     frame_t frame = g_array_index(animation->frames, frame_t, animation->current_frame);
     
-    SDL_Rect destRect;
-    destRect.x = destPoint.x;
-    destRect.y = destPoint.y;
-    destRect.w = frame.rect.w;
-    destRect.h = frame.rect.h;
-    
+    SDL_Rect destRect = graphics_rect_make(destPoint.x, destPoint.y, frame.rect.w, frame.rect.h);
     if (SDL_RenderCopy(renderer, texture, &frame.rect, &destRect) != 0) {
         printf("Error copying: %s\n", SDL_GetError());
         
