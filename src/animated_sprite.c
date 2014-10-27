@@ -128,7 +128,9 @@ bool load_animated_sprite_from_yaml_file(char *filename, animated_sprite_t *spri
     yaml_parser_initialize(&parser);
     
     input = fopen(filename, "rb");
-    assert(input != NULL);
+    if (input == NULL) {
+        goto error;
+    }
     
     yaml_parser_set_input_file(&parser, input);
     
