@@ -36,7 +36,6 @@ int main(int argc, char **argv) {
     window_t *window;
     entity_t *gameMap;
     entity_t *gameWorld;
-    entity_t *testGuard;
     bool done = false;
     
     debug_set_render_collision_boxes(true);
@@ -75,12 +74,6 @@ int main(int argc, char **argv) {
     gameMap = game_map_create_from_file("res/maps/level1.map");
     gameWorld = game_world_create();
     game_world_set_current_map(gameWorld, gameMap);
-    
-    testGuard = guard_create();
-    testGuard->position.x = 32;
-    testGuard->position.y = 32;
-    entity_add_child(gameMap, testGuard);
-    entity_release(testGuard);
     
     entity_release(gameMap);
     
