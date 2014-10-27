@@ -12,9 +12,6 @@
 #include <assert.h>
 #include <math.h>
 
-static int _game_map_frame_width = 16;
-static int _game_map_frame_height = 16;
-
 void _game_map_update(entity_t *self);
 void _game_map_render(entity_t *self);
 void _game_map_dealloc(entity_t *self);
@@ -29,7 +26,6 @@ entity_t *game_map_create(int layer_count, int width, int height) {
     assert(layer_count > 0);
     assert(width > 0);
     assert(height > 0);
-    
     
     game_map = entity_create();
     if (game_map == NULL) {
@@ -58,7 +54,7 @@ entity_t *game_map_create(int layer_count, int width, int height) {
     game_map_data->layer_count = layer_count;
     game_map_data->layer_width = width;
     game_map_data->layer_height = height;
-    game_map_data->quad = quadtree_create(0, graphics_rect_make(0, 0, width * _game_map_frame_width, height * _game_map_frame_height));
+    game_map_data->quad = quadtree_create(0, graphics_rect_make(0, 0, width * tilesheet_frame_width, height * tilesheet_frame_height));
     
     game_map->entity_data = (void *)game_map_data;
     
@@ -161,12 +157,7 @@ void _game_map_render(entity_t *self) {
     for (i = 0; i < gameMap->layer_count; i++) {
         for (j = 0; j < layer_size; j++) {
             Uint8 tile_index = gameMap->layers[i][j];
-            
-            SDL_Rect destRect;
-            destRect.x = (j % layer_width) * frame_size.x;
-            destRect.y = floor(j / layer_width) * frame_size.y;
-            destRect.w = frame_size.x;
-            destRect.h = frame_size.y;
+            SDL_Rect destRect = graphics_rect_make((j % layer_width) * frame_size.x, floor(j / layer_width) * frame_size.y, frame_size.x, frame_size.y);
             
             sprite_render(gameMap->tilemap, tile_index, destRect);
         }
