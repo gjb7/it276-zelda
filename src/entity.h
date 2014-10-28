@@ -78,4 +78,9 @@ SDL_Point entity_get_absolute_position(entity_t *e);
  */
 SDL_Rect entity_get_collision_box(entity_t *e);
 
+/**
+ Returns the bounding box adjueted with the entity's position.
+ */
+SDL_Rect entity_get_bounding_box(entity_t *e);
+
 #endif /* defined(__zelda__entity__) */

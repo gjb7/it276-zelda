@@ -190,3 +190,9 @@ SDL_Rect entity_get_collision_box(entity_t *e) {
     SDL_Rect collisionBox = graphics_rect_make(absolutePosition.x + e->collision_box.x, absolutePosition.y + e->collision_box.y, e->collision_box.w, e->collision_box.h);
     return collisionBox;
 }
+
+SDL_Rect entity_get_bounding_box(entity_t *e) {
+    SDL_Point absolutePosition = entity_get_absolute_position(e);
+    SDL_Rect boundingBox = graphics_rect_make(absolutePosition.x + e->bounding_box.x, absolutePosition.y + e->bounding_box.y, e->bounding_box.w, e->bounding_box.h);
+    return boundingBox;
+}
