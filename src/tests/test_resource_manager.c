@@ -30,6 +30,9 @@ START_TEST(test_resource_double_loading)
     resource_t *resourceA = resource_load("res/sprites/link.png", RESOURCE_TYPE_IMAGE);
     resource_t *resourceB = resource_load("res/sprites/link.png", RESOURCE_TYPE_IMAGE);
     
+    ck_assert_ptr_ne(resourceA, NULL);
+    ck_assert_ptr_ne(resourceB, NULL);
+    
     ck_assert_ptr_eq(resourceA, resourceB);
     ck_assert_int_eq(resourceA->retain_count, 2);
     ck_assert_int_eq(resourceB->retain_count, 2);
