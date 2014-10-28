@@ -15,10 +15,10 @@
 #include "sdl.h"
 
 typedef enum {
-    ENTITY_DIRECTION_DOWN = 0,
-    ENTITY_DIRECTION_LEFT,
-    ENTITY_DIRECTION_UP,
-    ENTITY_DIRECTION_RIGHT
+    ENTITY_DIRECTION_DOWN = 1 << 0,
+    ENTITY_DIRECTION_LEFT = 1 << 1,
+    ENTITY_DIRECTION_UP = 1 << 2,
+    ENTITY_DIRECTION_RIGHT = 1 << 3
 } entity_direction;
 
 /**
