@@ -18,8 +18,8 @@ bool load_tilesheet_from_yaml_file(char *filename, tilesheet_t *tilesheet);
 
 void tilesheet_free(tilesheet_t *tilesheet);
 
-void hash_table_tilesheet_free(void *gpointer) {
-    tilesheet_free((tilesheet_t *)gpointer);
+void hash_table_tilesheet_free_tile(void *gpointer) {
+    free(gpointer);
 }
 
 void hash_table_tilesheet_key_free(void *gpointer) {
@@ -32,7 +32,7 @@ tilesheet_t *tilesheet_create(char *filename) {
         return NULL;
     }
     
-    tilesheet->tiles = g_hash_table_new_full(g_int_hash, g_int_equal, hash_table_tilesheet_key_free, hash_table_tilesheet_free);
+    tilesheet->tiles = g_hash_table_new_full(g_int_hash, g_int_equal, hash_table_tilesheet_key_free, hash_table_tilesheet_free_tile);
     
     if (!load_tilesheet_from_yaml_file(filename, tilesheet)) {
         tilesheet_free(tilesheet);
