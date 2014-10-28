@@ -31,7 +31,6 @@ test: CC_FLAGS += -DTESTS `pkg-config --cflags check`
 test: L_FLAGS += `pkg-config --libs check`
 test: clean-tests test-dirs $(OBJECTS) package-resources
 	$(CC) $(OBJECTS) $(L_FLAGS) -o bin/tests
-	@bin/tests
 
 clean-tests: clean
 	rm -f obj/tests/*.o
