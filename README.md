@@ -2,6 +2,8 @@
 
 A Legend of Zelda: A Link to the Past clone for IT 276 at NJIT.
 
+[![Build Status](https://travis-ci.org/gjb7/it276-zelda.svg?branch=develop)](https://travis-ci.org/gjb7/it276-zelda)
+
 ## Dependencies
 
 1. glib
@@ -14,4 +16,4 @@ Running `./install-dependencies.sh` will install the dependencies necessary for 
 
 ## Tests
 
-Unit tests can be run by executing `make test`. Unit tests are handled by [check](http://check.sourceforge.net/), which is installed as part of `./install-dependencies.sh`.
+Unit tests can be run by executing `make test` and then `bin/tests`. Unit tests are handled by [check](http://check.sourceforge.net/), which is installed as part of `./install-dependencies.sh`.
