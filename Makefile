@@ -52,6 +52,7 @@ obj/%.o: src/%.c
 
 clean:
 	rm -f bin/$(EXEC) obj/*.o
+	rm -rf bin/res
 
 package-resources:
 	cp -r res/ bin/res/
