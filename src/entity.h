@@ -48,6 +48,7 @@ typedef struct entity_s {
     void (*dealloc)(struct entity_s *self);
     
     void (*touch)(struct entity_s *self, struct entity_s *other);
+    void (*touch_world)(struct entity_s *self, entity_direction direction);
     
     char class_name[128];
     
