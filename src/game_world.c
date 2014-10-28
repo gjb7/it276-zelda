@@ -8,6 +8,7 @@
 
 #include "game_world.h"
 #include "player.h"
+#include "graphics.h"
 #include <assert.h>
 
 void _game_world_dealloc(entity_t *self);
@@ -59,6 +60,8 @@ void game_world_set_current_map(entity_t *e, entity_t *game_map) {
     entity_retain(game_map);
     old_game_map = game_world->current_map;
     game_world->current_map = game_map;
+    
+    game_world->player->position = graphics_point_make(64, 64);
     
     entity_add_child(game_map, game_world->player);
     
