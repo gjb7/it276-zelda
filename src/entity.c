@@ -122,11 +122,7 @@ void entity_render(entity_t *e) {
     if (e->render != NULL) {
         SDL_Point absolutePosition = entity_get_absolute_position(e);
         SDL_Point rendererSize = graphics_global_renderer_size();
-        SDL_Rect viewportSize;
-        viewportSize.x = absolutePosition.x;
-        viewportSize.y = absolutePosition.y;
-        viewportSize.w = rendererSize.x;
-        viewportSize.h = rendererSize.y;
+        SDL_Rect viewportSize = graphics_rect_make(absolutePosition.x, absolutePosition.y, rendererSize.x, rendererSize.y);
         
         SDL_RenderSetViewport(graphics_get_global_renderer(), &viewportSize);
         
@@ -140,6 +136,16 @@ void entity_render(entity_t *e) {
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 128);
             SDL_RenderFillRect(renderer, &(e->collision_box));
+        }
+    }
+    
+    if (debug_get_render_bounding_boxes()) {
+        if (e->bounding_box.w > 0 && e->bounding_box.h > 0) {
+            SDL_Renderer *renderer = graphics_get_global_renderer();
+            
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 96);
+            SDL_RenderFillRect(renderer, &(e->bounding_box));
         }
     }
     
@@ -164,8 +170,6 @@ void entity_update(entity_t *e) {
 
 SDL_Point entity_get_absolute_position(entity_t *e) {
     SDL_Point position = e->position;
-    position.x = e->position.x;
-    position.y = e->position.y;
     
     if (e->parent) {
         entity_t *parent = e->parent;
@@ -182,13 +186,13 @@ SDL_Point entity_get_absolute_position(entity_t *e) {
 }
 
 SDL_Rect entity_get_collision_box(entity_t *e) {
-    SDL_Rect collisionBox;
     SDL_Point absolutePosition = entity_get_absolute_position(e);
-    
-    collisionBox.x = absolutePosition.x + e->collision_box.x;
-    collisionBox.y = absolutePosition.y + e->collision_box.y;
-    collisionBox.w = e->collision_box.w;
-    collisionBox.h = e->collision_box.h;
-    
+    SDL_Rect collisionBox = graphics_rect_make(absolutePosition.x + e->collision_box.x, absolutePosition.y + e->collision_box.y, e->collision_box.w, e->collision_box.h);
     return collisionBox;
+}
+
+SDL_Rect entity_get_bounding_box(entity_t *e) {
+    SDL_Point absolutePosition = entity_get_absolute_position(e);
+    SDL_Rect boundingBox = graphics_rect_make(absolutePosition.x + e->bounding_box.x, absolutePosition.y + e->bounding_box.y, e->bounding_box.w, e->bounding_box.h);
+    return boundingBox;
 }

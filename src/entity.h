@@ -15,10 +15,10 @@
 #include "sdl.h"
 
 typedef enum {
-    ENTITY_DIRECTION_DOWN = 0,
-    ENTITY_DIRECTION_LEFT,
-    ENTITY_DIRECTION_UP,
-    ENTITY_DIRECTION_RIGHT
+    ENTITY_DIRECTION_DOWN = 1 << 0,
+    ENTITY_DIRECTION_LEFT = 1 << 1,
+    ENTITY_DIRECTION_UP = 1 << 2,
+    ENTITY_DIRECTION_RIGHT = 1 << 3
 } entity_direction;
 
 /**
@@ -48,11 +48,13 @@ typedef struct entity_s {
     void (*dealloc)(struct entity_s *self);
     
     void (*touch)(struct entity_s *self, struct entity_s *other);
+    void (*touch_world)(struct entity_s *self, entity_direction direction);
     
     char class_name[128];
     
     SDL_Point position;
     SDL_Rect collision_box;
+    SDL_Rect bounding_box;
     
     entity_direction facing;
     
@@ -76,5 +78,10 @@ SDL_Point entity_get_absolute_position(entity_t *e);
  Returns the collision box adjusted with the entity's position.
  */
 SDL_Rect entity_get_collision_box(entity_t *e);
+
+/**
+ Returns the bounding box adjueted with the entity's position.
+ */
+SDL_Rect entity_get_bounding_box(entity_t *e);
 
 #endif /* defined(__zelda__entity__) */

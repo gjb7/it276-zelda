@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Grant Butler. All rights reserved.
 //
 
+#define INLINE
+
 #include "quadtree.h"
 #include "graphics.h"
 
@@ -33,6 +35,12 @@ quadtree_t *quadtree_create(int level, SDL_Rect rect) {
     return quadtree;
 }
 
+void quadtree_free(quadtree_t *quadtree) {
+    quadtree_clear(quadtree);
+    
+    free(quadtree);
+}
+
 void quadtree_clear(quadtree_t *quadtree) {
     int i;
     
@@ -43,7 +51,7 @@ void quadtree_clear(quadtree_t *quadtree) {
     
     for (i = 0; i < QUADTREE_NODES_LENGTH; i++) {
         if (quadtree->nodes[i] != NULL) {
-            quadtree_clear(quadtree->nodes[i]);
+            quadtree_free(quadtree->nodes[i]);
             quadtree->nodes[i] = NULL;
         }
     }

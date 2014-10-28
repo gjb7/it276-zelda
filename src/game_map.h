@@ -12,12 +12,11 @@
 #include <stdlib.h>
 #include "entity.h"
 #include "sdl.h"
-#include "sprite.h"
+#include "tilesheet.h"
 #include "quadtree.h"
 
 typedef struct game_map_s {
-    char *tilemap_filename;
-    sprite_t *tilemap;
+    tilesheet_t *tilesheet;
     Uint8 **layers;
     int layer_count;
     int layer_width;

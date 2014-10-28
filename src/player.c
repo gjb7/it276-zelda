@@ -14,6 +14,7 @@ void _player_dealloc(entity_t *player);
 void _player_render(entity_t *player);
 void _player_think(entity_t *player);
 void _player_update(entity_t *player);
+void _player_touch_world(entity_t *player, entity_direction direction);
 
 entity_t *player_create() {
     player_t *player_data;
@@ -39,14 +40,14 @@ entity_t *player_create() {
     player->render = _player_render;
     player->update = _player_update;
     
+    player->touch_world = _player_touch_world;
+    
     player->think = _player_think;
     player->thinkRate = 10;
     
     /** TODO: This should probably be loaded from a config file? */
-    player->collision_box.x = 6;
-    player->collision_box.y = 20;
-    player->collision_box.w = 4;
-    player->collision_box.h = 4;
+    player->collision_box = graphics_rect_make(6, 20, 4, 4);
+    player->bounding_box = graphics_rect_make(0, 8, 16, 16);
     
     sprite = animated_sprite_create("res/sprites/link.yaml");
     if (!sprite) {
@@ -64,9 +65,7 @@ entity_t *player_create() {
 void _player_render(entity_t *player) {
     player_t *player_data = (player_t *)player->entity_data;
     
-    SDL_Point position;
-    position.x = 0;
-    position.y = 0;
+    SDL_Point position = graphics_point_make(0, 0);
     
     animated_sprite_render_frame(player_data->sprite, position);
 }
@@ -148,6 +147,24 @@ void _player_update(entity_t *player) {
     player_t *player_data = (player_t *)player->entity_data;
     
     animated_sprite_update(player_data->sprite);
+}
+
+void _player_touch_world(entity_t *player, entity_direction direction) {
+    if ((direction & ENTITY_DIRECTION_DOWN) == ENTITY_DIRECTION_DOWN) {
+        player->position.y -= 1;
+    }
+    
+    if ((direction & ENTITY_DIRECTION_LEFT) == ENTITY_DIRECTION_LEFT) {
+        player->position.x += 1;
+    }
+    
+    if ((direction & ENTITY_DIRECTION_RIGHT) == ENTITY_DIRECTION_RIGHT) {
+        player->position.x -= 1;
+    }
+    
+    if ((direction & ENTITY_DIRECTION_UP) == ENTITY_DIRECTION_UP) {
+        player->position.y += 1;
+    }
 }
 
 void _player_dealloc(entity_t *player) {

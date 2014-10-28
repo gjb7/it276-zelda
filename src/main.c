@@ -23,6 +23,15 @@ int main(int argc, char **argv) {
     int number_failed;
     SRunner *runner;
     
+    if (!init_resource()) {
+        ck_abort_msg("Could not setup resource manager.");
+    }
+    
+    SDL_Surface *surface = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
+    SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(surface);
+    SDL_FreeSurface(surface);
+    graphics_set_global_renderer(renderer);
+
     runner = srunner_create(entity_suite());
     srunner_add_suite(runner, game_map_parsing_suite());
     srunner_add_suite(runner, animated_sprite_suite());
@@ -31,15 +40,18 @@ int main(int argc, char **argv) {
     srunner_run_all(runner, CK_NORMAL);
     number_failed = srunner_ntests_failed(runner);
     srunner_free(runner);
+    
+    SDL_DestroyRenderer(graphics_get_global_renderer());
+    
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 #else
     window_t *window;
     entity_t *gameMap;
     entity_t *gameWorld;
-    entity_t *testGuard;
     bool done = false;
     
     debug_set_render_collision_boxes(true);
+    debug_set_render_bounding_boxes(true);
     
     if (!init_sdl()) {
         fprintf(stderr, "Error initializing SDL: %s", SDL_GetError());
@@ -75,12 +87,6 @@ int main(int argc, char **argv) {
     gameMap = game_map_create_from_file("res/maps/level1.map");
     gameWorld = game_world_create();
     game_world_set_current_map(gameWorld, gameMap);
-    
-    testGuard = guard_create();
-    testGuard->position.x = 32;
-    testGuard->position.y = 32;
-    entity_add_child(gameMap, testGuard);
-    entity_release(testGuard);
     
     entity_release(gameMap);
     

@@ -9,11 +9,9 @@
 #include "game_map.h"
 #include "entity.h"
 #include "graphics.h"
+#include <glib.h>
 #include <assert.h>
 #include <math.h>
-
-static int _game_map_frame_width = 16;
-static int _game_map_frame_height = 16;
 
 void _game_map_update(entity_t *self);
 void _game_map_render(entity_t *self);
@@ -29,7 +27,6 @@ entity_t *game_map_create(int layer_count, int width, int height) {
     assert(layer_count > 0);
     assert(width > 0);
     assert(height > 0);
-    
     
     game_map = entity_create();
     if (game_map == NULL) {
@@ -58,7 +55,7 @@ entity_t *game_map_create(int layer_count, int width, int height) {
     game_map_data->layer_count = layer_count;
     game_map_data->layer_width = width;
     game_map_data->layer_height = height;
-    game_map_data->quad = quadtree_create(0, graphics_rect_make(0, 0, width * _game_map_frame_width, height * _game_map_frame_height));
+    game_map_data->quad = quadtree_create(0, graphics_rect_make(0, 0, width * tilesheet_frame_width, height * tilesheet_frame_height));
     
     game_map->entity_data = (void *)game_map_data;
     
@@ -97,12 +94,65 @@ cleanup:
     return game_map;
 }
 
+void _game_map_check_collision(game_map_t *map, entity_t *child, entity_direction edge, entity_direction *collision_direction) {
+    SDL_Rect boundingBox = entity_get_bounding_box(child);
+    SDL_Point firstPoint;
+    SDL_Point secondPoint;
+    int first_index, second_index;
+    int j;
+    
+    switch (edge) {
+        case ENTITY_DIRECTION_UP:
+            firstPoint = graphics_point_make(floor(boundingBox.x / tilesheet_frame_width), floor(boundingBox.y / tilesheet_frame_height));
+            secondPoint = graphics_point_make(floor((boundingBox.x + boundingBox.w) / tilesheet_frame_width), floor(boundingBox.y / tilesheet_frame_height));
+            break;
+        case ENTITY_DIRECTION_RIGHT:
+            firstPoint = graphics_point_make(floor((boundingBox.x + boundingBox.w) / tilesheet_frame_width), floor(boundingBox.y / tilesheet_frame_height));
+            secondPoint = graphics_point_make(floor((boundingBox.x + boundingBox.w) / tilesheet_frame_width), floor((boundingBox.y + boundingBox.h) / tilesheet_frame_height));
+            break;
+        case ENTITY_DIRECTION_DOWN:
+            firstPoint = graphics_point_make(floor((boundingBox.x + boundingBox.w) / tilesheet_frame_width), floor((boundingBox.y + boundingBox.h) / tilesheet_frame_height));
+            secondPoint = graphics_point_make(floor(boundingBox.x / tilesheet_frame_width), floor((boundingBox.y + boundingBox.h) / tilesheet_frame_height));
+            break;
+        case ENTITY_DIRECTION_LEFT:
+            firstPoint = graphics_point_make(floor(boundingBox.x / tilesheet_frame_width), floor((boundingBox.y + boundingBox.h) / tilesheet_frame_height));
+            secondPoint = graphics_point_make(floor(boundingBox.x / tilesheet_frame_width), floor(boundingBox.y / tilesheet_frame_height));
+            break;
+    }
+    
+    first_index = (firstPoint.y * map->layer_width) + firstPoint.x;
+    second_index = (secondPoint.y * map->layer_width) + secondPoint.x;
+    
+    /* TODO: We should just be checking one layer. Figure out which one. */
+    for (j = 0; j < map->layer_count; j++) {
+        int first_tile_index = (int)map->layers[j][first_index];
+        tile_t *first_tile = g_hash_table_lookup(map->tilesheet->tiles, &first_tile_index);
+        if (first_tile == NULL) {
+            continue;
+        }
+        
+        int second_tile_index = (int)map->layers[j][second_index];
+        tile_t *second_tile = g_hash_table_lookup(map->tilesheet->tiles, &second_tile_index);
+        if (second_tile == NULL) {
+            continue;
+        }
+        
+        /* TODO: We only support full block for now. */
+        if (first_tile->collision_type == TILE_COLLISION_TYPE_FULL_TILE && second_tile->collision_type == TILE_COLLISION_TYPE_FULL_TILE) {
+            *collision_direction |= edge;
+        }
+    }
+}
+
 void _game_map_update(entity_t *self) {
     game_map_t *gameMap = (game_map_t *)self->entity_data;
+    int i;
+    int childCount;
     
     quadtree_clear(gameMap->quad);
-    int childCount = g_slist_length(self->children);
-    int i;
+    
+    childCount = g_slist_length(self->children);
+    
     for (i = 0; i < childCount; i++) {
         entity_t *child = g_slist_nth_data(self->children, i);
         
@@ -129,18 +179,37 @@ void _game_map_update(entity_t *self) {
         
         for (j = 0; j < returnObjectsCount; j++) {
             entity_t *collidedObject = g_slist_nth_data(returnObjects, j);
+            SDL_Rect collidedObjectCollisionBox;
             
             if (collidedObject == child) {
                 continue;
             }
             
-            SDL_Rect collidedObjectCollisionBox = entity_get_collision_box(collidedObject);
+            collidedObjectCollisionBox = entity_get_collision_box(collidedObject);
             
             if (SDL_HasIntersection(&collisionBox, &collidedObjectCollisionBox)) {
                 if (child->touch != NULL) {
                     child->touch(child, collidedObject);
                 }
             }
+        }
+    }
+    
+    for (i = 0; i < childCount; i++) {
+        entity_direction collision_direction = 0;
+        entity_t *child = g_slist_nth_data(self->children, i);
+        
+        if (child->touch_world == NULL) {
+            continue;
+        }
+        
+        _game_map_check_collision(gameMap, child, ENTITY_DIRECTION_UP, &collision_direction);
+        _game_map_check_collision(gameMap, child, ENTITY_DIRECTION_RIGHT, &collision_direction);
+        _game_map_check_collision(gameMap, child, ENTITY_DIRECTION_DOWN, &collision_direction);
+        _game_map_check_collision(gameMap, child, ENTITY_DIRECTION_LEFT, &collision_direction);
+        
+        if (collision_direction != 0) {
+            child->touch_world(child, collision_direction);
         }
     }
 }
@@ -151,24 +220,21 @@ void _game_map_render(entity_t *self) {
     int layer_size;
     int layer_width;
     SDL_Point frame_size;
+    sprite_t *sprite;
     
-    assert(gameMap->tilemap != NULL);
+    assert(gameMap->tilesheet != NULL);
     
     layer_size = gameMap->layer_width * gameMap->layer_height;
     layer_width = gameMap->layer_width;
-    frame_size = gameMap->tilemap->frame_size;
+    sprite = gameMap->tilesheet->sprite;
+    frame_size = sprite->frame_size;
     
     for (i = 0; i < gameMap->layer_count; i++) {
         for (j = 0; j < layer_size; j++) {
             Uint8 tile_index = gameMap->layers[i][j];
+            SDL_Rect destRect = graphics_rect_make((j % layer_width) * frame_size.x, floor(j / layer_width) * frame_size.y, frame_size.x, frame_size.y);
             
-            SDL_Rect destRect;
-            destRect.x = (j % layer_width) * frame_size.x;
-            destRect.y = floor(j / layer_width) * frame_size.y;
-            destRect.w = frame_size.x;
-            destRect.h = frame_size.y;
-            
-            sprite_render(gameMap->tilemap, tile_index, destRect);
+            sprite_render(sprite, tile_index, destRect);
         }
     }
 }
@@ -177,14 +243,11 @@ void _game_map_dealloc(entity_t *self) {
     int i;
     game_map_t *game_map_data = (game_map_t *)self->entity_data;
     
-    if (game_map_data->tilemap != NULL) {
-        sprite_free(game_map_data->tilemap);
-        game_map_data->tilemap = NULL;
-    }
+    quadtree_free(game_map_data->quad);
     
-    if (game_map_data->tilemap_filename != NULL) {
-        free(game_map_data->tilemap_filename);
-        game_map_data->tilemap_filename = NULL;
+    if (game_map_data->tilesheet != NULL) {
+        tilesheet_free(game_map_data->tilesheet);
+        game_map_data->tilesheet = NULL;
     }
     
     for (i = 0; i < game_map_data->layer_count; i++) {
@@ -285,14 +348,13 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     char width = 0;
     char height = 0;
     char layer_count = 0;
-    SDL_Point frame_size;
     int data_size = SDL_RWsize(fp);
     int current_position = SDL_RWtell(fp);
     entity_t *new_map = NULL;
     game_map_t *new_map_data = NULL;
     int layer_size, current_layer = 0;
-    char *tilemap_filename = NULL;
-    int tilemap_filename_length = 0;
+    char *tilesheet_filename = NULL;
+    int tilesheet_filename_length = 0;
     char buffer;
     
     while (current_position < data_size) {
@@ -376,8 +438,8 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
                 break;
             
             case 'T': {
-                int tilemap_filename_start_location = SDL_RWtell(fp);
-                if (tilemap_filename_start_location == -1) {
+                int tilesheet_filename_start_location = SDL_RWtell(fp);
+                if (tilesheet_filename_start_location == -1) {
                     SDL_SetError("Error trying to determine current location.");
                     
                     goto cleanup;
@@ -394,29 +456,29 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
                         break;
                     }
                     
-                    tilemap_filename_length++;
+                    tilesheet_filename_length++;
                 }
                 
-                if (tilemap_filename_length <= 0) {
+                if (tilesheet_filename_length <= 0) {
                     SDL_SetError("Invalid file format. No tilemap filename provided.");
                     
                     goto cleanup;
                 }
                 
-                if (SDL_RWseek(fp, tilemap_filename_start_location, RW_SEEK_SET) == -1) {
+                if (SDL_RWseek(fp, tilesheet_filename_start_location, RW_SEEK_SET) == -1) {
                     SDL_SetError("Invalid file format. Could not seek back to beginning of tilemap filename.");
                     
                     goto cleanup;
                 }
                 
-                tilemap_filename = malloc(sizeof(char) * (tilemap_filename_length + 1));
-                if (SDL_RWread(fp, tilemap_filename, tilemap_filename_length, 1) == 0) {
+                tilesheet_filename = malloc(sizeof(char) * (tilesheet_filename_length + 1));
+                if (SDL_RWread(fp, tilesheet_filename, tilesheet_filename_length, 1) == 0) {
                     SDL_SetError("Unable to read tilemap filename.");
                     
                     goto cleanup;
                 }
                 
-                tilemap_filename[tilemap_filename_length] = '\0';
+                tilesheet_filename[tilesheet_filename_length] = '\0';
                 
                 break;
             }
@@ -450,18 +512,18 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
         goto cleanup;
     }
     
-    if (tilemap_filename == NULL) {
-        SDL_SetError("Invalid file format. No tilemap filename provided.");
+    if (tilesheet_filename == NULL) {
+        SDL_SetError("Invalid file format. No tilesheet filename provided.");
         
         goto cleanup;
     }
     
-    new_map_data->tilemap_filename = tilemap_filename;
-    
-    frame_size.x = _game_map_frame_width;
-    frame_size.y = _game_map_frame_height;
-    
-    new_map_data->tilemap = sprite_create(new_map_data->tilemap_filename, frame_size);
+    new_map_data->tilesheet = tilesheet_create(tilesheet_filename);
+    if (new_map_data->tilesheet == NULL) {
+        SDL_SetError("Could not load tilesheet at %s", tilesheet_filename);
+        
+        goto cleanup;
+    }
     
     if (current_layer < layer_count) {
         SDL_SetError("Invalid file format. Found %i layers when %i specified", current_layer, layer_count);

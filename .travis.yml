@@ -3,5 +3,4 @@ compiler:
   - gcc
   - clang
 install: ./install-dependencies.sh
-script: make test
-
+script: make test && bin/tests

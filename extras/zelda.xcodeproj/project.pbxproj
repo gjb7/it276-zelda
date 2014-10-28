@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		C300EC0019FBFDB900815D0F /* tilesheet.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tilesheet.c; sourceTree = "<group>"; };
+		C300EC0119FBFDB900815D0F /* tilesheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tilesheet.h; sourceTree = "<group>"; };
 		C31077FF19DA3ABD00D696E0 /* input.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = input.c; sourceTree = "<group>"; };
 		C310780019DA3ABD00D696E0 /* input.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = input.h; sourceTree = "<group>"; };
 		C329184019E4F2E1002BEBA9 /* test_animated_sprites.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test_animated_sprites.c; sourceTree = "<group>"; };
@@ -42,6 +44,7 @@
 		C3A61D0F19E079710060B94B /* player.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = player.c; sourceTree = "<group>"; };
 		C3A61D1019E079710060B94B /* player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = player.h; sourceTree = "<group>"; };
 		C3A61D1419E096D20060B94B /* logging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
+		C3DB852C19FE04C100865257 /* defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = defines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -71,6 +74,7 @@
 				C3306F8C19E3846B001573EB /* animated_sprite.h */,
 				C340FAE719FA054F0040D9BB /* debug.c */,
 				C340FAE819FA054F0040D9BB /* debug.h */,
+				C3DB852C19FE04C100865257 /* defines.h */,
 				C39E3A3F19CA4FCB00C2EA3E /* entity.c */,
 				C39E3A4019CA4FCB00C2EA3E /* entity.h */,
 				C34A4F0119D24E18004B2A7A /* game_map.c */,
@@ -90,6 +94,8 @@
 				C3640A0719F41BBB0062CF23 /* resource.h */,
 				C34A4EFE19D236F8004B2A7A /* sprite.c */,
 				C34A4EFF19D236F8004B2A7A /* sprite.h */,
+				C300EC0019FBFDB900815D0F /* tilesheet.c */,
+				C300EC0119FBFDB900815D0F /* tilesheet.h */,
 				C34A4EFC19D22657004B2A7A /* window.c */,
 				C34A4EFD19D22657004B2A7A /* window.h */,
 				C34A4F0019D24A7E004B2A7A /* sdl.h */,
@@ -128,6 +134,20 @@
 			passBuildSettingsInEnvironment = 1;
 			productName = zelda;
 		};
+		C3DB852E19FF477200865257 /* zelda-tests */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = test;
+			buildConfigurationList = C3DB852F19FF477200865257 /* Build configuration list for PBXLegacyTarget "zelda-tests" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/grantbutler/Projects/it276-zelda";
+			dependencies = (
+			);
+			name = "zelda-tests";
+			passBuildSettingsInEnvironment = 1;
+			productName = "zelda-tests";
+		};
 /* End PBXLegacyTarget section */
 
 /* Begin PBXProject section */
@@ -138,6 +158,9 @@
 				ORGANIZATIONNAME = "Grant Butler";
 				TargetAttributes = {
 					C38F667619CA4B2900A7718A = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					C3DB852E19FF477200865257 = {
 						CreatedOnToolsVersion = 6.0;
 					};
 				};
@@ -154,6 +177,7 @@
 			projectRoot = "";
 			targets = (
 				C38F667619CA4B2900A7718A /* zelda */,
+				C3DB852E19FF477200865257 /* zelda-tests */,
 			);
 		};
 /* End PBXProject section */
@@ -254,6 +278,31 @@
 			};
 			name = Release;
 		};
+		C3DB853019FF477200865257 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C3DB853119FF477200865257 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -274,6 +323,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		C3DB852F19FF477200865257 /* Build configuration list for PBXLegacyTarget "zelda-tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3DB853019FF477200865257 /* Debug */,
+				C3DB853119FF477200865257 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
