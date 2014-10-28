@@ -22,13 +22,17 @@ void hash_table_tilesheet_free(void *gpointer) {
     tilesheet_free((tilesheet_t *)gpointer);
 }
 
+void hash_table_tilesheet_key_free(void *gpointer) {
+    free(gpointer);
+}
+
 tilesheet_t *tilesheet_create(char *filename) {
     tilesheet_t *tilesheet = malloc(sizeof(tilesheet_t));
     if (tilesheet == NULL) {
         return NULL;
     }
     
-    tilesheet->tiles = g_hash_table_new_full(g_int_hash, g_int_equal, NULL, hash_table_tilesheet_free);
+    tilesheet->tiles = g_hash_table_new_full(g_int_hash, g_int_equal, hash_table_tilesheet_key_free, hash_table_tilesheet_free);
     
     load_tilesheet_from_yaml_file(filename, tilesheet);
     
@@ -153,7 +157,10 @@ bool load_tiles(yaml_parser_t *parser, tilesheet_t *tilesheet) {
                     goto error;
                 }
                 
-                g_hash_table_insert(tilesheet->tiles, &tile_index, tile);
+                int *key = malloc(sizeof(int));
+                *key = tile_index;
+                
+                g_hash_table_insert(tilesheet->tiles, key, tile);
                 
                 break;
                 
