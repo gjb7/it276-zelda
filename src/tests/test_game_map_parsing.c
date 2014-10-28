@@ -23,15 +23,12 @@ START_TEST(test_valid_game_map_parsing)
     };
     SDL_RWops *fp;
     entity_t *game_map;
-    game_map_t *map_data;
     
     fp = SDL_RWFromConstMem(valid_map, sizeof(valid_map));
     
     game_map = _game_map_create_from_map(fp);
     
     ck_assert_ptr_ne(game_map, NULL);
-    
-    map_data = (game_map_t *)game_map->entity_data;
     
     entity_release(game_map);
 }
