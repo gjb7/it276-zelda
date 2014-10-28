@@ -9,6 +9,7 @@
 #include "game_map.h"
 #include "entity.h"
 #include "graphics.h"
+#include <glib.h>
 #include <assert.h>
 #include <math.h>
 
@@ -93,6 +94,56 @@ cleanup:
     return game_map;
 }
 
+void _game_map_check_collision(game_map_t *map, entity_t *child, entity_direction edge, entity_direction *collision_direction) {
+    SDL_Rect boundingBox = entity_get_bounding_box(child);
+    SDL_Point firstPoint;
+    SDL_Point secondPoint;
+    int first_index, second_index;
+    int j;
+    
+    switch (edge) {
+        case ENTITY_DIRECTION_UP:
+            firstPoint = graphics_point_make(floor(boundingBox.x / tilesheet_frame_width), floor(boundingBox.y / tilesheet_frame_height));
+            secondPoint = graphics_point_make(floor((boundingBox.x + boundingBox.w) / tilesheet_frame_width), floor(boundingBox.y / tilesheet_frame_height));
+            break;
+        case ENTITY_DIRECTION_RIGHT:
+            firstPoint = graphics_point_make(floor((boundingBox.x + boundingBox.w) / tilesheet_frame_width), floor(boundingBox.y / tilesheet_frame_height));
+            secondPoint = graphics_point_make(floor((boundingBox.x + boundingBox.w) / tilesheet_frame_width), floor((boundingBox.y + boundingBox.h) / tilesheet_frame_height));
+            break;
+        case ENTITY_DIRECTION_DOWN:
+            firstPoint = graphics_point_make(floor((boundingBox.x + boundingBox.w) / tilesheet_frame_width), floor((boundingBox.y + boundingBox.h) / tilesheet_frame_height));
+            secondPoint = graphics_point_make(floor(boundingBox.x / tilesheet_frame_width), floor((boundingBox.y + boundingBox.h) / tilesheet_frame_height));
+            break;
+        case ENTITY_DIRECTION_LEFT:
+            firstPoint = graphics_point_make(floor(boundingBox.x / tilesheet_frame_width), floor((boundingBox.y + boundingBox.h) / tilesheet_frame_height));
+            secondPoint = graphics_point_make(floor(boundingBox.x / tilesheet_frame_width), floor(boundingBox.y / tilesheet_frame_height));
+            break;
+    }
+    
+    first_index = (firstPoint.y * map->layer_width) + firstPoint.x;
+    second_index = (secondPoint.y * map->layer_width) + secondPoint.x;
+    
+    /* TODO: We should just be checking one layer. Figure out which one. */
+    for (j = 0; j < map->layer_count; j++) {
+        int first_tile_index = (int)map->layers[j][first_index];
+        tile_t *first_tile = g_hash_table_lookup(map->tilesheet->tiles, &first_tile_index);
+        if (first_tile == NULL) {
+            continue;
+        }
+        
+        int second_tile_index = (int)map->layers[j][second_index];
+        tile_t *second_tile = g_hash_table_lookup(map->tilesheet->tiles, &second_tile_index);
+        if (second_tile == NULL) {
+            continue;
+        }
+        
+        /* TODO: We only support full block for now. */
+        if (first_tile->collision_type == TILE_COLLISION_TYPE_FULL_TILE && second_tile->collision_type == TILE_COLLISION_TYPE_FULL_TILE) {
+            *collision_direction |= edge;
+        }
+    }
+}
+
 void _game_map_update(entity_t *self) {
     game_map_t *gameMap = (game_map_t *)self->entity_data;
     int i;
@@ -141,6 +192,24 @@ void _game_map_update(entity_t *self) {
                     child->touch(child, collidedObject);
                 }
             }
+        }
+    }
+    
+    for (i = 0; i < childCount; i++) {
+        entity_direction collision_direction = 0;
+        entity_t *child = g_slist_nth_data(self->children, i);
+        
+        if (child->touch_world == NULL) {
+            continue;
+        }
+        
+        _game_map_check_collision(gameMap, child, ENTITY_DIRECTION_UP, &collision_direction);
+        _game_map_check_collision(gameMap, child, ENTITY_DIRECTION_RIGHT, &collision_direction);
+        _game_map_check_collision(gameMap, child, ENTITY_DIRECTION_DOWN, &collision_direction);
+        _game_map_check_collision(gameMap, child, ENTITY_DIRECTION_LEFT, &collision_direction);
+        
+        if (collision_direction != 0) {
+            child->touch_world(child, collision_direction);
         }
     }
 }
