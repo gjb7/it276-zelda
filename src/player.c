@@ -14,6 +14,7 @@ void _player_dealloc(entity_t *player);
 void _player_render(entity_t *player);
 void _player_think(entity_t *player);
 void _player_update(entity_t *player);
+void _player_touch_world(entity_t *player, entity_direction direction);
 
 entity_t *player_create() {
     player_t *player_data;
@@ -38,6 +39,8 @@ entity_t *player_create() {
     player->dealloc = _player_dealloc;
     player->render = _player_render;
     player->update = _player_update;
+    
+    player->touch_world = _player_touch_world;
     
     player->think = _player_think;
     player->thinkRate = 10;
@@ -144,6 +147,24 @@ void _player_update(entity_t *player) {
     player_t *player_data = (player_t *)player->entity_data;
     
     animated_sprite_update(player_data->sprite);
+}
+
+void _player_touch_world(entity_t *player, entity_direction direction) {
+    if ((direction & ENTITY_DIRECTION_DOWN) == ENTITY_DIRECTION_DOWN) {
+        player->position.y -= 1;
+    }
+    
+    if ((direction & ENTITY_DIRECTION_LEFT) == ENTITY_DIRECTION_LEFT) {
+        player->position.x += 1;
+    }
+    
+    if ((direction & ENTITY_DIRECTION_RIGHT) == ENTITY_DIRECTION_RIGHT) {
+        player->position.x -= 1;
+    }
+    
+    if ((direction & ENTITY_DIRECTION_UP) == ENTITY_DIRECTION_UP) {
+        player->position.y += 1;
+    }
 }
 
 void _player_dealloc(entity_t *player) {
