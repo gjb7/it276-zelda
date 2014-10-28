@@ -47,7 +47,10 @@ tilesheet_t *tilesheet_create(char *filename) {
 
 void tilesheet_free(tilesheet_t *tilesheet) {
     g_hash_table_destroy(tilesheet->tiles);
-    sprite_free(tilesheet->sprite);
+    
+    if (tilesheet->sprite) {
+        sprite_free(tilesheet->sprite);
+    }
     
     free(tilesheet);
 }
