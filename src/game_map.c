@@ -519,6 +519,11 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     }
     
     new_map_data->tilesheet = tilesheet_create(tilesheet_filename);
+    if (new_map_data->tilesheet == NULL) {
+        SDL_SetError("Could not load tilesheet at %s", tilesheet_filename);
+        
+        goto cleanup;
+    }
     
     if (current_layer < layer_count) {
         SDL_SetError("Invalid file format. Found %i layers when %i specified", current_layer, layer_count);
