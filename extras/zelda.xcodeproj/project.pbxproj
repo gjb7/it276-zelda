@@ -134,6 +134,20 @@
 			passBuildSettingsInEnvironment = 1;
 			productName = zelda;
 		};
+		C3DB852E19FF477200865257 /* zelda-tests */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = test;
+			buildConfigurationList = C3DB852F19FF477200865257 /* Build configuration list for PBXLegacyTarget "zelda-tests" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/grantbutler/Projects/it276-zelda";
+			dependencies = (
+			);
+			name = "zelda-tests";
+			passBuildSettingsInEnvironment = 1;
+			productName = "zelda-tests";
+		};
 /* End PBXLegacyTarget section */
 
 /* Begin PBXProject section */
@@ -144,6 +158,9 @@
 				ORGANIZATIONNAME = "Grant Butler";
 				TargetAttributes = {
 					C38F667619CA4B2900A7718A = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					C3DB852E19FF477200865257 = {
 						CreatedOnToolsVersion = 6.0;
 					};
 				};
@@ -160,6 +177,7 @@
 			projectRoot = "";
 			targets = (
 				C38F667619CA4B2900A7718A /* zelda */,
+				C3DB852E19FF477200865257 /* zelda-tests */,
 			);
 		};
 /* End PBXProject section */
@@ -260,6 +278,31 @@
 			};
 			name = Release;
 		};
+		C3DB853019FF477200865257 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C3DB853119FF477200865257 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -280,6 +323,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		C3DB852F19FF477200865257 /* Build configuration list for PBXLegacyTarget "zelda-tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3DB853019FF477200865257 /* Debug */,
+				C3DB853119FF477200865257 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
