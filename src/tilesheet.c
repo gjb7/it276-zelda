@@ -34,7 +34,11 @@ tilesheet_t *tilesheet_create(char *filename) {
     
     tilesheet->tiles = g_hash_table_new_full(g_int_hash, g_int_equal, hash_table_tilesheet_key_free, hash_table_tilesheet_free);
     
-    load_tilesheet_from_yaml_file(filename, tilesheet);
+    if (!load_tilesheet_from_yaml_file(filename, tilesheet)) {
+        tilesheet_free(tilesheet);
+        
+        return NULL;
+    }
     
     return tilesheet;
 }
