@@ -148,7 +148,7 @@ bool load_tiles(yaml_parser_t *parser, tilesheet_t *tilesheet) {
                 tile = malloc(sizeof(tile_t));
                 memset(tile, 0, sizeof(tile_t));
                 
-                tile->collision_type = COLLISION_TYPE_NONE;
+                tile->collision_type = TILE_COLLISION_TYPE_NONE;
                 
                 break;
                 

@@ -18,12 +18,12 @@ extern const int tilesheet_frame_width;
 extern const int tilesheet_frame_height;
 
 enum {
-    COLLISION_TYPE_NONE = 0,
-    COLLISION_TYPE_FULL_TILE = 1,
-    COLLISION_TYPE_LEFT_UP = 2,
-    COLLISION_TYPE_RIGHT_UP = 3,
-    COLLISION_TYPE_RIGHT_DOWN = 4,
-    COLLISION_TYPE_LEFT_DOWN = 5
+    TILE_COLLISION_TYPE_NONE = 0,
+    TILE_COLLISION_TYPE_FULL_TILE = 1,
+    TILE_COLLISION_TYPE_LEFT_UP = 2,
+    TILE_COLLISION_TYPE_RIGHT_UP = 3,
+    TILE_COLLISION_TYPE_RIGHT_DOWN = 4,
+    TILE_COLLISION_TYPE_LEFT_DOWN = 5
 };
 
 typedef struct tile_s {
