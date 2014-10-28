@@ -51,28 +51,12 @@ START_TEST(test_resource_retain)
 }
 END_TEST
 
-void resource_setup(void) {
-    if (!init_resource()) {
-        ck_abort_msg("Could not setup resource manager.");
-    }
-    
-    SDL_Surface *surface = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
-    SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(surface);
-    SDL_FreeSurface(surface);
-    graphics_set_global_renderer(renderer);
-}
-
-void resource_teardown(void) {
-    SDL_DestroyRenderer(graphics_get_global_renderer());
-}
-
 Suite *resource_manager_suite() {
     Suite *s;
     TCase *tc_loading;
     s = suite_create("Resource Manager");
     
     tc_loading = tcase_create("Core");
-    tcase_add_checked_fixture(tc_loading, resource_setup, resource_teardown);
     tcase_add_test(tc_loading, test_resource_loading);
     tcase_add_test(tc_loading, test_resource_double_loading);
     tcase_add_test(tc_loading, test_resource_retain);

@@ -130,33 +130,16 @@ START_TEST(test_invalid_game_map_no_layers)
 }
 END_TEST
 
-void parsing_setup(void) {
-    if (!init_resource()) {
-        ck_abort_msg("Could not setup resource manager.");
-    }
-    
-    SDL_Surface *surface = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
-    SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(surface);
-    SDL_FreeSurface(surface);
-    graphics_set_global_renderer(renderer);
-}
-
-void parsing_teardown(void) {
-    SDL_DestroyRenderer(graphics_get_global_renderer());
-}
-
 Suite *game_map_parsing_suite() {
     Suite *s;
     TCase *tc_valid_map, *tc_invalid_map;
     s = suite_create("Game Map Parsing");
     
     tc_valid_map = tcase_create("Valid Map");
-    tcase_add_checked_fixture(tc_valid_map, parsing_setup, parsing_teardown);
     tcase_add_test(tc_valid_map, test_valid_game_map_parsing);
     suite_add_tcase(s, tc_valid_map);
     
     tc_invalid_map = tcase_create("Invalid Map");
-    tcase_add_checked_fixture(tc_invalid_map, parsing_setup, parsing_teardown);
     tcase_add_test(tc_invalid_map, test_invalid_game_map_version);
     tcase_add_test(tc_invalid_map, test_invalid_game_map_size_too_large);
     tcase_add_test(tc_invalid_map, test_invalid_game_map_size_too_small);

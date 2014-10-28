@@ -25,28 +25,12 @@ START_TEST(test_animated_sprite_loading)
 }
 END_TEST
 
-void loading_setup(void) {
-    if (!init_resource()) {
-        ck_abort_msg("Could not setup resource manager.");
-    }
-    
-    SDL_Surface *surface = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
-    SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(surface);
-    SDL_FreeSurface(surface);
-    graphics_set_global_renderer(renderer);
-}
-
-void loading_teardown(void) {
-    SDL_DestroyRenderer(graphics_get_global_renderer());
-}
-
 Suite *animated_sprite_suite() {
     Suite *s;
     TCase *tc_loading;
     s = suite_create("Animated Sprite");
     
     tc_loading = tcase_create("Loading");
-    tcase_add_checked_fixture(tc_loading, loading_setup, loading_teardown);
     tcase_add_test(tc_loading, test_animated_sprite_loading);
     suite_add_tcase(s, tc_loading);
     
