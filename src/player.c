@@ -49,6 +49,8 @@ entity_t *player_create() {
     player->collision_box = graphics_rect_make(6, 20, 4, 4);
     player->bounding_box = graphics_rect_make(0, 8, 16, 16);
     
+    player->facing = ENTITY_DIRECTION_DOWN;
+    
     sprite = animated_sprite_create("res/sprites/link.yaml");
     if (!sprite) {
         entity_release(player);
