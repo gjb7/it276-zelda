@@ -29,6 +29,7 @@ typedef struct animation_s {
     int time;
     bool loops;
     bool reverses;
+    bool is_at_end;
 } animation_t;
 
 typedef struct animated_sprite_s {
