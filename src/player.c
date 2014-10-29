@@ -60,6 +60,7 @@ entity_t *player_create() {
     animated_sprite_set_current_animation(sprite, "face_down");
     
     player_data->sprite = sprite;
+    player_data->input_list = NULL;
     
     return player;
 }
@@ -97,30 +98,32 @@ void _player_think(entity_t *player) {
         player->position.x += 1;
     }
     
-    if (!(is_up && is_down)) {
-        if (input_was_key_up(SDL_SCANCODE_W) || (is_up && input_was_key_down(SDL_SCANCODE_S))) {
-            animated_sprite_set_current_animation(sprite, "walk_up");
-            
-            player->facing = ENTITY_DIRECTION_UP;
-        }
-        else if(input_was_key_up(SDL_SCANCODE_S) || (is_down && input_was_key_down(SDL_SCANCODE_W))) {
-            animated_sprite_set_current_animation(sprite, "walk_down");
-            
-            player->facing = ENTITY_DIRECTION_DOWN;
-        }
+    if (input_was_key_up(SDL_SCANCODE_W)) {
+        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_W));
     }
-    
-    if (!(is_left && is_right)) {
-        if (input_was_key_up(SDL_SCANCODE_A) || (is_left && input_was_key_down(SDL_SCANCODE_D))) {
-            animated_sprite_set_current_animation(sprite, "walk_left");
-            
-            player->facing = ENTITY_DIRECTION_LEFT;
-        }
-        else if(input_was_key_up(SDL_SCANCODE_D) || (is_right && input_was_key_down(SDL_SCANCODE_A))) {
-            animated_sprite_set_current_animation(sprite, "walk_right");
-            
-            player->facing = ENTITY_DIRECTION_RIGHT;
-        }
+    else if (input_was_key_down(SDL_SCANCODE_W)) {
+        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_W));
+    }
+
+    if (input_was_key_up(SDL_SCANCODE_S)) {
+        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_S));
+    }
+    else if (input_was_key_down(SDL_SCANCODE_S)) {
+        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_S));
+    }
+
+    if (input_was_key_up(SDL_SCANCODE_A)) {
+        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_A));
+    }
+    else if (input_was_key_down(SDL_SCANCODE_A)) {
+        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_A));
+    }
+
+    if (input_was_key_up(SDL_SCANCODE_D)) {
+        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_D));
+    }
+    else if (input_was_key_down(SDL_SCANCODE_D)) {
+        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_D));
     }
     
     if (!is_up && !is_down && !is_left && !is_right) {
@@ -141,6 +144,31 @@ void _player_think(entity_t *player) {
                 animated_sprite_set_current_animation(sprite, "face_right");
                 
                 break;
+        }
+    }
+    else {
+        GList *last_input_list = g_list_last(player_data->input_list);
+        int last_input = GPOINTER_TO_INT(last_input_list->data);
+        
+        if (last_input == SDL_SCANCODE_W && strcmp(sprite->current_animation_name, "walk_up") != 0) {
+            animated_sprite_set_current_animation(sprite, "walk_up");
+
+            player->facing = ENTITY_DIRECTION_UP;
+        }
+        else if (last_input == SDL_SCANCODE_S && strcmp(sprite->current_animation_name, "walk_down") != 0) {
+            animated_sprite_set_current_animation(sprite, "walk_down");
+            
+            player->facing = ENTITY_DIRECTION_DOWN;
+        }
+        else if (last_input == SDL_SCANCODE_A && strcmp(sprite->current_animation_name, "walk_left") != 0) {
+            animated_sprite_set_current_animation(sprite, "walk_left");
+            
+            player->facing = ENTITY_DIRECTION_LEFT;
+        }
+        else if (last_input == SDL_SCANCODE_D && strcmp(sprite->current_animation_name, "walk_right") != 0) {
+            animated_sprite_set_current_animation(sprite, "walk_right");
+            
+            player->facing = ENTITY_DIRECTION_RIGHT;
         }
     }
 }

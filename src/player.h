@@ -10,11 +10,13 @@
 #define __zelda__player__
 
 #include <stdio.h>
+#include <glib.h>
 #include "entity.h"
 #include "animated_sprite.h"
 
 typedef struct player_s {
     animated_sprite_t *sprite;
+    GList *input_list;
 } player_t;
 
 entity_t *player_create();
