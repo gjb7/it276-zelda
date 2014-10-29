@@ -73,6 +73,9 @@ void animated_sprite_update(animated_sprite_t *sprite) {
         if (animation->current_frame != animation->frame_count - 1) {
             animation->current_frame += animation->frame_step;
         }
+        else {
+            animation->is_at_end = true;
+        }
     }
     
     animation->time = 0;
@@ -118,6 +121,7 @@ void animated_sprite_set_current_animation(animated_sprite_t *sprite, const char
     
     animation->current_frame = animation->start_frame;
     animation->frame_step = 1;
+    animation->is_at_end = false;
     sprite->current_animation = animation;
     strncpy(sprite->current_animation_name, name, strlen(name));
     sprite->current_animation_name[strlen(name)] = '\0';
