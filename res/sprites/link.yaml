@@ -233,3 +233,47 @@ animations:
         w: 16
         h: 24
         step: 3
+  -
+    name: swing_down
+    loops: false
+    frames:
+      -
+        x: 0
+        y: 96
+        w: 20
+        h: 23
+        render_x: -6
+        render_y: 0
+        step: 3
+      -
+        x: 20
+        y: 96
+        w: 21
+        h: 30
+        render_x: -6
+        render_y: 0
+        step: 3
+      -
+        x: 61
+        y: 96
+        w: 20
+        h: 33
+        render_x: -4
+        render_y: 0
+        step: 3
+      -
+        x: 81
+        y: 96
+        w: 28
+        h: 31
+        render_x: -4
+        render_y: 0
+        step: 3
+      -
+        x: 109
+        y: 96
+        w: 32
+        h: 29
+        render_x: -4
+        render_y: 0
+        step: 3
