@@ -17,6 +17,7 @@
 
 typedef struct frame_s {
     SDL_Rect rect;
+    SDL_Point render_origin;
     int step;
 } frame_t;
 
