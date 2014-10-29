@@ -81,6 +81,19 @@ void _player_think(entity_t *player) {
     bool is_down = input_is_key_down(SDL_SCANCODE_S);
     bool is_left = input_is_key_down(SDL_SCANCODE_A);
     bool is_right = input_is_key_down(SDL_SCANCODE_D);
+    bool is_enter = input_was_key_up(SDL_SCANCODE_RETURN);
+    
+    if (is_enter) {
+        animated_sprite_set_current_animation(sprite, "swing_down");
+        
+        return;
+    }
+    
+    if (strcmp(sprite->current_animation_name, "swing_down") == 0) {
+        if (!sprite->current_animation->is_at_end) {
+            return;
+        }
+    }
     
     if (is_up) {
         player->position.y -= 1;
