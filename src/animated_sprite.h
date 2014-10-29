@@ -37,6 +37,7 @@ typedef struct animated_sprite_s {
     resource_t *resource;
     GHashTable *animations;
     animation_t *current_animation;
+    char current_animation_name[64];
 } animated_sprite_t;
 
 animated_sprite_t *animated_sprite_create(char *filename);

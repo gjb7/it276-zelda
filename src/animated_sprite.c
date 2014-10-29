@@ -105,6 +105,8 @@ void animated_sprite_set_current_animation(animated_sprite_t *sprite, const char
     animation->current_frame = animation->start_frame;
     animation->frame_step = 1;
     sprite->current_animation = animation;
+    strncpy(sprite->current_animation_name, name, strlen(name));
+    sprite->current_animation_name[strlen(name)] = '\0';
 }
 
 void animated_sprite_free(animated_sprite_t *sprite) {
