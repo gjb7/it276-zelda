@@ -13,6 +13,7 @@ void _guard_think(entity_t *guard);
 void _guard_update(entity_t *guard);
 void _guard_render(entity_t *guard);
 void _guard_dealloc(entity_t *guard);
+void _guard_touch_world(entity_t *guard, entity_direction direction);
 
 entity_t *guard_create() {
     entity_t *guard = entity_create();
@@ -37,7 +38,9 @@ entity_t *guard_create() {
     guard->thinkRate = (rand() % 1080) + 720;
     guard->update = _guard_update;
     guard->render = _guard_render;
+    guard->touch_world = _guard_touch_world;
     
+    guard->bounding_box = graphics_rect_make(0, 12, 16, 16);
     
     guard->facing = rand() % 4;
     
@@ -186,6 +189,15 @@ void _guard_render(entity_t *guard) {
     SDL_Point position = graphics_point_make(0, 0);
     
     animated_sprite_render_frame(guard_data->sprite, position);
+}
+
+void _guard_touch_world(entity_t *guard, entity_direction direction) {
+    guard_t *guard_data = (guard_t *)guard->entity_data;
+    
+    if (guard_data->state == GUARD_STATE_IDLE ||
+        guard_data->state == GUARD_STATE_MOVING) {
+        _guard_think(guard);
+    }
 }
 
 void _guard_dealloc(entity_t *guard) {
