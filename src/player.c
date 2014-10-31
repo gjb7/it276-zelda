@@ -10,6 +10,8 @@
 #include "graphics.h"
 #include "input.h"
 #include "str.h"
+#include "quadtree.h"
+#include "sword.h"
 
 void _player_dealloc(entity_t *player);
 void _player_render(entity_t *player);
@@ -57,10 +59,15 @@ entity_t *player_create() {
         
         return NULL;
     }
+    
     animated_sprite_set_current_animation(sprite, "face_down");
     
     player_data->sprite = sprite;
     player_data->input_list = NULL;
+    
+    player_data->sword = sword_create();
+    player_data->sword->position = graphics_point_make(-6, 24);
+    entity_add_child(player, player_data->sword);
     
     return player;
 }
@@ -200,8 +207,55 @@ void _player_think(entity_t *player) {
 
 void _player_update(entity_t *player) {
     player_t *player_data = (player_t *)player->entity_data;
+    entity_t *sword = player_data->sword;
+    SDL_Rect swordBoundingBox = entity_get_bounding_box(sword);
+    entity_t *parent = player->parent;
+    int childCount, i, j;
+    GSList *returnObjects = NULL;
+    int returnObjectsCount;
     
     animated_sprite_update(player_data->sprite);
+    
+    if (player_data->is_swinging) {
+        quadtree_t *quadtree = quadtree_create(0, swordBoundingBox);
+        
+        childCount = g_slist_length(parent->children);
+        
+        for (i = 0; i < childCount; i++) {
+            entity_t *child = g_slist_nth_data(parent->children, i);
+            
+            if (!str_starts_with(child->class_name, "enemy")) {
+                continue;
+            }
+            
+            SDL_Rect boundingBox = entity_get_bounding_box(child);
+            if (boundingBox.w > 0 && boundingBox.h > 0) {
+                quadtree_insert(quadtree, child);
+            }
+        }
+        
+        returnObjects = quadtree_retrieve(quadtree, returnObjects, sword);
+        returnObjectsCount = g_slist_length(returnObjects);
+        
+        for (j = 0; j < returnObjectsCount; j++) {
+            entity_t *collidedObject = g_slist_nth_data(returnObjects, j);
+            SDL_Rect collidedObjectBoundingBox;
+            
+            if (collidedObject == sword) {
+                continue;
+            }
+            
+            collidedObjectBoundingBox = entity_get_bounding_box(collidedObject);
+            
+            if (SDL_HasIntersection(&swordBoundingBox, &collidedObjectBoundingBox)) {
+                if (sword->touch != NULL) {
+                    sword->touch(sword, collidedObject);
+                }
+            }
+        }
+        
+        quadtree_free(quadtree);
+    }
 }
 
 void _player_touch_world(entity_t *player, entity_direction direction) {
@@ -228,6 +282,8 @@ void _player_dealloc(entity_t *player) {
     if (player_data->sprite) {
         animated_sprite_free(player_data->sprite);
     }
+    
+    entity_release(player_data->sword);
     
     free(player->entity_data);
     player->entity_data = NULL;
