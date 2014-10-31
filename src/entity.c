@@ -119,13 +119,13 @@ void _entity_render_iterator(gpointer data, gpointer user_data) {
 void entity_render(entity_t *e) {
     assert(e != NULL);
     
+    SDL_Point absolutePosition = entity_get_absolute_position(e);
+    SDL_Point rendererSize = graphics_global_renderer_size();
+    SDL_Rect viewportSize = graphics_rect_make(absolutePosition.x, absolutePosition.y, rendererSize.x, rendererSize.y);
+    
+    SDL_RenderSetViewport(graphics_get_global_renderer(), &viewportSize);
+    
     if (e->render != NULL) {
-        SDL_Point absolutePosition = entity_get_absolute_position(e);
-        SDL_Point rendererSize = graphics_global_renderer_size();
-        SDL_Rect viewportSize = graphics_rect_make(absolutePosition.x, absolutePosition.y, rendererSize.x, rendererSize.y);
-        
-        SDL_RenderSetViewport(graphics_get_global_renderer(), &viewportSize);
-        
         e->render(e);
     }
     
