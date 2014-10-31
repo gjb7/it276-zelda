@@ -17,6 +17,9 @@
 typedef struct player_s {
     animated_sprite_t *sprite;
     GList *input_list;
+    bool is_swinging;
+    
+    entity_t *sword;
 } player_t;
 
 entity_t *player_create();
