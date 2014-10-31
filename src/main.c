@@ -50,7 +50,6 @@ int main(int argc, char **argv) {
     entity_t *gameWorld;
     bool done = false;
     
-    debug_set_render_collision_boxes(true);
     debug_set_render_bounding_boxes(true);
     
     if (!init_sdl()) {

@@ -129,16 +129,6 @@ void entity_render(entity_t *e) {
         e->render(e);
     }
     
-    if (debug_get_render_collision_boxes()) {
-        if (e->collision_box.w > 0 && e->collision_box.h > 0) {
-            SDL_Renderer *renderer = graphics_get_global_renderer();
-            
-            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 128);
-            SDL_RenderFillRect(renderer, &(e->collision_box));
-        }
-    }
-    
     if (debug_get_render_bounding_boxes()) {
         if (e->bounding_box.w > 0 && e->bounding_box.h > 0) {
             SDL_Renderer *renderer = graphics_get_global_renderer();
@@ -183,12 +173,6 @@ SDL_Point entity_get_absolute_position(entity_t *e) {
     }
     
     return position;
-}
-
-SDL_Rect entity_get_collision_box(entity_t *e) {
-    SDL_Point absolutePosition = entity_get_absolute_position(e);
-    SDL_Rect collisionBox = graphics_rect_make(absolutePosition.x + e->collision_box.x, absolutePosition.y + e->collision_box.y, e->collision_box.w, e->collision_box.h);
-    return collisionBox;
 }
 
 SDL_Rect entity_get_bounding_box(entity_t *e) {

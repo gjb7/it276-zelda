@@ -46,7 +46,6 @@ entity_t *player_create() {
     player->thinkRate = 10;
     
     /** TODO: This should probably be loaded from a config file? */
-    player->collision_box = graphics_rect_make(6, 20, 4, 4);
     player->bounding_box = graphics_rect_make(0, 8, 16, 16);
     
     player->facing = ENTITY_DIRECTION_DOWN;
