@@ -9,6 +9,7 @@
 #include "player.h"
 #include "graphics.h"
 #include "input.h"
+#include "str.h"
 
 void _player_dealloc(entity_t *player);
 void _player_render(entity_t *player);
@@ -111,14 +112,26 @@ void _player_think(entity_t *player) {
     }
     
     if (is_enter) {
-        animated_sprite_set_current_animation(sprite, "swing_down");
+        switch (player->facing) {
+            case ENTITY_DIRECTION_DOWN:
+                animated_sprite_set_current_animation(sprite, "swing_down");
+                break;
+                
+            default:
+                break;
+        }
+        
+        player_data->is_swinging = true;
         
         return;
     }
     
-    if (strcmp(sprite->current_animation_name, "swing_down") == 0) {
+    if (str_starts_with(sprite->current_animation_name, "swing")) {
         if (!sprite->current_animation->is_at_end) {
             return;
+        }
+        else {
+            player_data->is_swinging = false;
         }
     }
     
