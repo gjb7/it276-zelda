@@ -45,6 +45,10 @@
 		C3A61D1019E079710060B94B /* player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = player.h; sourceTree = "<group>"; };
 		C3A61D1419E096D20060B94B /* logging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
 		C3DB852C19FE04C100865257 /* defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = defines.h; sourceTree = "<group>"; };
+		C3DB85321A0191A400865257 /* str.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = str.c; sourceTree = "<group>"; };
+		C3DB85331A0191A400865257 /* str.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = str.h; sourceTree = "<group>"; };
+		C3DB85341A01A75300865257 /* sword.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sword.c; sourceTree = "<group>"; };
+		C3DB85351A01A75300865257 /* sword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sword.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -94,6 +98,10 @@
 				C3640A0719F41BBB0062CF23 /* resource.h */,
 				C34A4EFE19D236F8004B2A7A /* sprite.c */,
 				C34A4EFF19D236F8004B2A7A /* sprite.h */,
+				C3DB85321A0191A400865257 /* str.c */,
+				C3DB85331A0191A400865257 /* str.h */,
+				C3DB85341A01A75300865257 /* sword.c */,
+				C3DB85351A01A75300865257 /* sword.h */,
 				C300EC0019FBFDB900815D0F /* tilesheet.c */,
 				C300EC0119FBFDB900815D0F /* tilesheet.h */,
 				C34A4EFC19D22657004B2A7A /* window.c */,
@@ -331,6 +339,7 @@
 				C3DB853119FF477200865257 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
