@@ -156,6 +156,28 @@ void _guard_update(entity_t *guard) {
     guard_t *guard_data = (guard_t *)guard->entity_data;
     
     animated_sprite_update(guard_data->sprite);
+    
+    if (guard_data->state == GUARD_STATE_MOVING) {
+        if (SDL_GetTicks() % 2 == 0) {
+            switch (guard->facing) {
+                case ENTITY_DIRECTION_UP:
+                    guard->position.y -= 1;
+                    break;
+                case ENTITY_DIRECTION_DOWN:
+                    guard->position.y += 1;
+                    break;
+                case ENTITY_DIRECTION_LEFT:
+                    guard->position.x -= 1;
+                    break;
+                case ENTITY_DIRECTION_RIGHT:
+                    guard->position.x += 1;
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 void _guard_render(entity_t *guard) {
