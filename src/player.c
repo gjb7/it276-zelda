@@ -82,6 +82,34 @@ void _player_think(entity_t *player) {
     bool is_right = input_is_key_down(SDL_SCANCODE_D);
     bool is_enter = input_was_key_up(SDL_SCANCODE_RETURN);
     
+    if (input_was_key_up(SDL_SCANCODE_W)) {
+        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_W));
+    }
+    else if (input_was_key_down(SDL_SCANCODE_W)) {
+        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_W));
+    }
+    
+    if (input_was_key_up(SDL_SCANCODE_S)) {
+        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_S));
+    }
+    else if (input_was_key_down(SDL_SCANCODE_S)) {
+        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_S));
+    }
+    
+    if (input_was_key_up(SDL_SCANCODE_A)) {
+        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_A));
+    }
+    else if (input_was_key_down(SDL_SCANCODE_A)) {
+        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_A));
+    }
+    
+    if (input_was_key_up(SDL_SCANCODE_D)) {
+        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_D));
+    }
+    else if (input_was_key_down(SDL_SCANCODE_D)) {
+        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_D));
+    }
+    
     if (is_enter) {
         animated_sprite_set_current_animation(sprite, "swing_down");
         
@@ -108,34 +136,6 @@ void _player_think(entity_t *player) {
     
     if (is_right) {
         player->position.x += 1;
-    }
-    
-    if (input_was_key_up(SDL_SCANCODE_W)) {
-        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_W));
-    }
-    else if (input_was_key_down(SDL_SCANCODE_W)) {
-        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_W));
-    }
-
-    if (input_was_key_up(SDL_SCANCODE_S)) {
-        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_S));
-    }
-    else if (input_was_key_down(SDL_SCANCODE_S)) {
-        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_S));
-    }
-
-    if (input_was_key_up(SDL_SCANCODE_A)) {
-        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_A));
-    }
-    else if (input_was_key_down(SDL_SCANCODE_A)) {
-        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_A));
-    }
-
-    if (input_was_key_up(SDL_SCANCODE_D)) {
-        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_D));
-    }
-    else if (input_was_key_down(SDL_SCANCODE_D)) {
-        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_D));
     }
     
     if (!is_up && !is_down && !is_left && !is_right) {
