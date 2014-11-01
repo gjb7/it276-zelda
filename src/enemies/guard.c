@@ -61,6 +61,11 @@ entity_t *guard_create() {
             animated_sprite_set_current_animation(guard_data->sprite, "walk_right");
             
             break;
+        
+        default:
+            guard->facing = ENTITY_DIRECTION_DOWN;
+            animated_sprite_set_current_animation(guard_data->sprite, "walk_down");
+            break;
     }
     
     return guard;
