@@ -187,14 +187,27 @@ void _player_think(entity_t *player) {
         int last_input = GPOINTER_TO_INT(last_input_list->data);
         
         if (last_input == SDL_SCANCODE_W && strcmp(sprite->current_animation_name, "walk_up") != 0) {
+            SDL_Rect sword_bounding_box;
+            SDL_Rect player_bounding_box;
+            
             animated_sprite_set_current_animation(sprite, "walk_up");
 
             player->facing = ENTITY_DIRECTION_UP;
+            
+            player_data->sword->bounding_box.h = sword_bounding_box_height_for_direction(player_data->sword, player->facing);
+            
+            sword_bounding_box = player_data->sword->bounding_box;
+            player_bounding_box = player->bounding_box;
+            
+            player_data->sword->position = graphics_point_make(-11, player_bounding_box.y - sword_bounding_box.h);
         }
         else if (last_input == SDL_SCANCODE_S && strcmp(sprite->current_animation_name, "walk_down") != 0) {
             animated_sprite_set_current_animation(sprite, "walk_down");
             
             player->facing = ENTITY_DIRECTION_DOWN;
+            
+            player_data->sword->bounding_box.h = sword_bounding_box_height_for_direction(player_data->sword, player->facing);
+            player_data->sword->position = graphics_point_make(-6, 24);
         }
         else if (last_input == SDL_SCANCODE_A && strcmp(sprite->current_animation_name, "walk_left") != 0) {
             animated_sprite_set_current_animation(sprite, "walk_left");
