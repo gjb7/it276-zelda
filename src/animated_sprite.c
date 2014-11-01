@@ -11,6 +11,7 @@
 #include <yaml.h>
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 
 bool load_animations(yaml_parser_t *parser, animated_sprite_t *sprite);
 bool load_frames(yaml_parser_t *parser, animation_t *animation);
