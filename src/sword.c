@@ -27,3 +27,16 @@ entity_t *sword_create() {
 void _sword_touch(entity_t *sword, entity_t *enemy) {
     printf("COLLIDE");
 }
+
+int sword_bounding_box_height_for_direction(entity_t *sword, entity_direction facing) {
+    switch (facing) {
+        case ENTITY_DIRECTION_DOWN:
+            return 12;
+        
+        case ENTITY_DIRECTION_UP:
+            return 19;
+            
+        default:
+            return 12;
+    }
+}

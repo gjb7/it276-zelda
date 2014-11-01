@@ -14,4 +14,6 @@
 
 entity_t *sword_create();
 
+int sword_bounding_box_height_for_direction(entity_t *sword, entity_direction facing);
+
 #endif /* defined(__zelda__sword__) */
