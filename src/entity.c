@@ -97,6 +97,8 @@ void _entity_think_iterator(gpointer data, gpointer user_data) {
 void entity_think(entity_t *e) {
     assert(e != NULL);
     
+    g_slist_foreach(e->children, _entity_think_iterator, NULL);
+    
     if (e->think != NULL) {
         if (SDL_GetTicks() > e->thinkNext) {
             e->think(e);
@@ -106,8 +108,6 @@ void entity_think(entity_t *e) {
             }
         }
     }
-    
-    g_slist_foreach(e->children, _entity_think_iterator, NULL);
 }
 
 void _entity_render_iterator(gpointer data, gpointer user_data) {
@@ -151,11 +151,11 @@ void _entity_update_iterator(gpointer data, gpointer user_data) {
 void entity_update(entity_t *e) {
     assert(e != NULL);
     
+    g_slist_foreach(e->children, _entity_update_iterator, NULL);
+    
     if (e->update != NULL) {
         e->update(e);
     }
-    
-    g_slist_foreach(e->children, _entity_update_iterator, NULL);
 }
 
 SDL_Point entity_get_absolute_position(entity_t *e) {
