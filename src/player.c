@@ -120,6 +120,10 @@ void _player_think(entity_t *player) {
     
     if (is_enter) {
         switch (player->facing) {
+            case ENTITY_DIRECTION_UP:
+                animated_sprite_set_current_animation(sprite, "swing_up");
+                break;
+            
             case ENTITY_DIRECTION_DOWN:
                 animated_sprite_set_current_animation(sprite, "swing_down");
                 break;
