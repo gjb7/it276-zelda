@@ -277,3 +277,79 @@ animations:
         render_x: -4
         render_y: 0
         step: 3
+  -
+    name: swing_up
+    loops: false
+    frames:
+      -
+        x: 0
+        y: 129
+        w: 23
+        h: 35
+        step: 2
+        render_x: 0
+        render_y: -11
+      -
+        x: 23
+        y: 129
+        w: 22
+        h: 35
+        step: 2
+        render_x: 0
+        render_y: -11
+      - 
+        x: 45
+        y: 129
+        w: 23
+        h: 35
+        step: 2
+        render_x: 0
+        render_y: -11
+      -
+        x: 68
+        y: 129
+        w: 22
+        h: 35
+        step: 2
+        render_x: 0
+        render_y: -11
+      -
+        x: 90
+        y: 129
+        w: 20
+        h: 35
+        step: 2
+        render_x: 0
+        render_y: -11
+      -
+        x: 110
+        y: 129
+        w: 20
+        h: 35
+        step: 2
+        render_x: 0
+        render_y: -11
+      -
+        x: 130
+        y: 129
+        w: 24
+        h: 35
+        render_x: -4
+        render_y: -11
+        step: 2
+      -
+        x: 154
+        y: 129
+        w: 29
+        h: 35
+        render_x: -9
+        render_y: -11
+        step: 2
+      -
+        x: 183
+        y: 129
+        w: 32
+        h: 35
+        render_x: -12
+        render_y: -11
+        step: 2
