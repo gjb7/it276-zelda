@@ -202,6 +202,22 @@ void _guard_touch_world(entity_t *guard, entity_direction direction) {
     if (guard_data->state == GUARD_STATE_IDLE ||
         guard_data->state == GUARD_STATE_MOVING) {
         _guard_think(guard);
+        
+        if ((direction & ENTITY_DIRECTION_DOWN) == ENTITY_DIRECTION_DOWN) {
+            guard->position.y -= 1;
+        }
+        
+        if ((direction & ENTITY_DIRECTION_LEFT) == ENTITY_DIRECTION_LEFT) {
+            guard->position.x += 1;
+        }
+        
+        if ((direction & ENTITY_DIRECTION_RIGHT) == ENTITY_DIRECTION_RIGHT) {
+            guard->position.x -= 1;
+        }
+        
+        if ((direction & ENTITY_DIRECTION_UP) == ENTITY_DIRECTION_UP) {
+            guard->position.y += 1;
+        }
     }
 }
 
