@@ -48,6 +48,19 @@ entity_t *game_world_create() {
     
     game_world_data->player = player;
     
+    entity_t *inventory_hud = hud_create(player_get_inventory(player));
+    if (!inventory_hud) {
+        entity_release(game_world);
+        
+        return NULL;
+    }
+    
+    inventory_hud->position = graphics_point_make(18, 12);
+    
+    game_world_data->inventory_hud = inventory_hud;
+    entity_add_child(game_world, inventory_hud);
+    
+    
     return game_world;
 }
 
