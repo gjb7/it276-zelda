@@ -12,7 +12,14 @@
 #include <stdio.h>
 #include "entity.h"
 
+typedef struct sword_s {
+    entity_t *owner;
+} sword_t;
+
 entity_t *sword_create();
+
+entity_t *sword_get_owner(entity_t *sword);
+void sword_set_owner(entity_t *sword, entity_t *owner);
 
 int sword_bounding_box_height_for_direction(entity_t *sword, entity_direction facing);
 
