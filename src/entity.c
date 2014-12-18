@@ -99,6 +99,27 @@ void entity_think(entity_t *e) {
     
     g_slist_foreach(e->children, _entity_think_iterator, NULL);
     
+    if (e->is_hit) {
+        if (e->knockback_cooldown % e->knockback_step == 0) {
+            e->position.x += e->knockback.x;
+            e->position.y += e->knockback.y;
+        }
+        
+        e->knockback_cooldown -= 1;
+        
+        if (e->knockback_cooldown == 0) {
+            e->is_hit = false;
+            
+            if (e->health <= 0) {
+                e->die(e);
+                
+                entity_remove_from_parent(e);
+            }
+        }
+        
+        return;
+    }
+    
     if (e->think != NULL) {
         if (SDL_GetTicks() > e->thinkNext) {
             e->think(e);
