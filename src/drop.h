@@ -30,6 +30,11 @@ typedef struct drop_s {
     drop_type_t type;
 } drop_t;
 
+typedef struct entity_drop_s {
+    drop_type_t type;
+    int weight;
+} entity_drop_t;
+
 entity_t *spawn_drop(drop_type_t drop_type, entity_t *source);
 
 int drop_think_interval(drop_type_t drop_type, drop_state_t drop_state);
