@@ -79,7 +79,12 @@ void _drop_update(entity_t *drop) {
 #pragma mark - 
 
 int drop_think_interval(drop_type_t drop_type, drop_state_t drop_state) {
-    return 200;
+    switch (drop_state) {
+        case ZELDA_DROP_STATE_DROPPED:
+            return 200;
+        case ZELDA_DROP_STATE_DYING:
+            return 20;
+    }
 }
 
 char *drop_name(drop_type_t drop_type) {
