@@ -14,6 +14,8 @@
 #include <glib.h>
 #include "sdl.h"
 
+#define ENTITY_CLASS_NAME_LENGTH 128
+
 typedef enum {
     ENTITY_DIRECTION_DOWN = 1 << 0,
     ENTITY_DIRECTION_LEFT = 1 << 1,
@@ -50,7 +52,7 @@ typedef struct entity_s {
     void (*touch)(struct entity_s *self, struct entity_s *other);
     void (*touch_world)(struct entity_s *self, entity_direction direction);
     
-    char class_name[128];
+    char class_name[ENTITY_CLASS_NAME_LENGTH];
     
     SDL_Point position;
     SDL_Rect bounding_box;
