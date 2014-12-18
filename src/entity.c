@@ -11,7 +11,12 @@
 #include "graphics.h"
 #include "logging.h"
 #include "debug.h"
+#include "drop.h"
 #include <assert.h>
+#include <yaml.h>
+
+bool _load_entity_config_from_yaml_file(char *path, entity_t *entity);
+void load_drops(yaml_parser_t *parser, entity_t *entity);
 
 entity_t *entity_create() {
     entity_t *e = malloc(sizeof(entity_t));
@@ -25,7 +30,18 @@ entity_t *entity_create() {
     e->position.x = 0;
     e->position.y = 0;
     
+    e->drop_frequency = -1;
+    e->drops = NULL;
+    
     return e;
+}
+
+entity_t *entity_create_from_file(char *path) {
+    entity_t *entity = entity_create();
+    
+    _load_entity_config_from_yaml_file(path, entity);
+    
+    return entity;
 }
 
 void entity_retain(entity_t *e) {
@@ -112,6 +128,8 @@ void entity_think(entity_t *e) {
             
             if (e->health <= 0) {
                 e->die(e);
+                
+                /** TODO: Spawn drop. */
                 
                 entity_remove_from_parent(e);
             }
@@ -200,4 +218,155 @@ SDL_Rect entity_get_bounding_box(entity_t *e) {
     SDL_Point absolutePosition = entity_get_absolute_position(e);
     SDL_Rect boundingBox = graphics_rect_make(absolutePosition.x + e->bounding_box.x, absolutePosition.y + e->bounding_box.y, e->bounding_box.w, e->bounding_box.h);
     return boundingBox;
+}
+
+/**
+ * Entity config parsing
+ */
+
+bool _load_entity_config_from_yaml_file(char *path, entity_t *entity) {
+    yaml_parser_t parser;
+    yaml_event_t  event;
+    FILE *input;
+    char *currentKey = NULL;
+    
+    yaml_parser_initialize(&parser);
+    
+    input = fopen(path, "rb");
+    if (input == NULL) {
+        goto error;
+    }
+    
+    yaml_parser_set_input_file(&parser, input);
+    
+    do {
+        int handledValue = 0;
+        
+        if (!yaml_parser_parse(&parser, &event)) {
+            break;
+        }
+        
+        switch (event.type) {
+            case YAML_SEQUENCE_START_EVENT:
+                if (strcmp(currentKey, "drops") == 0) {
+                    load_drops(&parser, entity);
+                    
+                    handledValue = 1;
+                }
+                
+                break;
+            case YAML_SCALAR_EVENT:
+                if (!currentKey) {
+                    char *aKey = (char *)event.data.scalar.value;
+                    int length = (strlen(aKey) + 1);
+                    
+                    currentKey = malloc(length * sizeof(char));
+                    strncpy(currentKey, aKey, length);
+                    currentKey[length - 1] = '\0';
+                }
+                else {
+                    if (strcmp(currentKey, "drop_frequency") == 0) {
+                        entity->drop_frequency = atoi((char *)event.data.scalar.value);
+                        
+                        handledValue = 1;
+                    }
+                }
+                
+                break;
+            default:
+                break;
+        }
+        
+        if (handledValue) {
+            free(currentKey);
+            currentKey = NULL;
+            
+            handledValue = 0;
+        }
+        
+        if (event.type != YAML_STREAM_END_EVENT) {
+            yaml_event_delete(&event);
+        }
+    } while (event.type != YAML_STREAM_END_EVENT);
+    
+    yaml_event_delete(&event);
+    
+    yaml_parser_delete(&parser);
+    
+    fclose(input);
+    
+    return true;
+    
+error:
+    yaml_event_delete(&event);
+    yaml_parser_delete(&parser);
+    fclose(input);
+    
+    return false;
+}
+
+void load_drops(yaml_parser_t *parser, entity_t *entity) {
+    yaml_event_t event;
+    char *currentKey = NULL;
+    entity_drop_t *drop = NULL;
+    
+    do {
+        int handledValue = 0;
+        
+        if (!yaml_parser_parse(parser, &event)) {
+            break;
+        }
+        
+        switch (event.type) {
+            case YAML_MAPPING_START_EVENT:
+                drop = malloc(sizeof(entity_drop_t));
+                memset(drop, 0, sizeof(entity_drop_t));
+                
+                break;
+                
+            case YAML_MAPPING_END_EVENT:
+                entity->drops = g_list_prepend(entity->drops, drop);
+                
+                break;
+                
+            case YAML_SCALAR_EVENT:
+                if (!currentKey) {
+                    char *aKey = (char *)event.data.scalar.value;
+                    int length = (strlen(aKey) + 1);
+                    
+                    currentKey = malloc(length * sizeof(char));
+                    strncpy(currentKey, aKey, length);
+                    currentKey[length - 1] = '\0';
+                }
+                else {
+                    if (strcmp(currentKey, "type") == 0) {
+                        drop->type = atoi((char *)event.data.scalar.value);
+                    }
+                    else if (strcmp(currentKey, "weight") == 0) {
+                        drop->weight = atoi((char *)event.data.scalar.value);
+                    }
+                    
+                    handledValue = 1;
+                }
+                
+                break;
+            default:
+                break;
+        }
+        
+        if (handledValue) {
+            free(currentKey);
+            currentKey = NULL;
+            
+            handledValue = 0;
+        }
+        
+        if (event.type != YAML_SEQUENCE_END_EVENT) {
+            yaml_event_delete(&event);
+        }
+    } while (event.type != YAML_SEQUENCE_END_EVENT);
+    
+    entity->drops = g_list_reverse(entity->drops);
+    
+    yaml_event_delete(&event);
 }

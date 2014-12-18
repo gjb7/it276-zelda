@@ -101,6 +101,7 @@ typedef struct entity_s {
 } entity_t;
 
 entity_t *entity_create();
+entity_t *entity_create_from_file(char *path);
 void entity_retain(entity_t *e);
 void entity_release(entity_t *e);
 
