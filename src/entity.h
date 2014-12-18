@@ -11,6 +11,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <glib.h>
 #include "sdl.h"
 
@@ -52,12 +53,39 @@ typedef struct entity_s {
     void (*touch)(struct entity_s *self, struct entity_s *other);
     void (*touch_world)(struct entity_s *self, entity_direction direction);
     
+    void (*die)(struct entity_s *self);
+    
     char class_name[ENTITY_CLASS_NAME_LENGTH];
     
     SDL_Point position;
     SDL_Rect bounding_box;
     
     entity_direction facing;
+    
+    /**
+     * Whether the entity was hit recently. Gets set to false after the knockback has finished being applied.
+     */
+    bool is_hit;
+    
+    /**
+     * How much knockback should be applied in each direction.
+     */
+    SDL_Point knockback;
+    
+    /**
+     * Tick interval that the knockback should be applied.
+     */
+    int knockback_step;
+    
+    /**
+     * How long before the knock back effect wears off.
+     *
+     * Decremented on each update call. When it reaches 0, no more knockback.
+     */
+    int knockback_cooldown;
+    
+    int health;
+    int max_health;
     
     void *entity_data;
 } entity_t;
