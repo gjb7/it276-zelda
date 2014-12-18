@@ -111,10 +111,10 @@ int drop_think_interval(drop_type_t drop_type, drop_state_t drop_state) {
     switch (drop_state) {
         case ZELDA_DROP_STATE_DROPPED:
             return 6000;
-            break;
         case ZELDA_DROP_STATE_DYING:
             return 60;
-            break;
+        default:
+            return 0;
     }
 }
 
