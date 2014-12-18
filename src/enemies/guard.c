@@ -17,7 +17,7 @@ void _guard_touch_world(entity_t *guard, entity_direction direction);
 void _guard_die(entity_t *guard);
 
 entity_t *guard_create() {
-    entity_t *guard = entity_create();
+    entity_t *guard = entity_create_from_file("res/entities/guard.yaml");
     if (!guard) {
         return NULL;
     }
