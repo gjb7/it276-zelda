@@ -27,4 +27,6 @@ typedef struct game_map_s {
 entity_t *game_map_create(int layer_count, int width, int height);
 entity_t *game_map_create_from_file(char *filename);
 
+SDL_Point game_map_get_size(entity_t *entity);
+
 #endif /* defined(__zelda__game_map__) */

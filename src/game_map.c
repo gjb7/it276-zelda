@@ -94,6 +94,12 @@ cleanup:
     return game_map;
 }
 
+SDL_Point game_map_get_size(entity_t *entity) {
+    game_map_t *map = (game_map_t *)entity->entity_data;
+    
+    return graphics_point_make(map->layer_width * tilesheet_frame_width, map->layer_height * tilesheet_frame_height);
+}
+
 void _game_map_check_collision(game_map_t *map, entity_t *child, entity_direction edge, entity_direction *collision_direction) {
     SDL_Rect boundingBox = entity_get_bounding_box(child);
     SDL_Point firstPoint;
