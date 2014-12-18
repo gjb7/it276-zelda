@@ -69,3 +69,10 @@ SDL_Point graphics_global_renderer_size(void) {
 void graphics_global_renderer_scale(float *x, float *y) {
     SDL_RenderGetScale(_graphics_global_renderer, x, y);
 }
+
+bool graphics_rect_contains_point(SDL_Rect rect, SDL_Point point) {
+    return (rect.x <= point.x &&
+            rect.y <= point.y &&
+            rect.x + rect.w >= point.x &&
+            rect.y + rect.h >= point.y);
+}
