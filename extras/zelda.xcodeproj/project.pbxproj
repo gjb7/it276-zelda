@@ -44,6 +44,8 @@
 		C3A61D0F19E079710060B94B /* player.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = player.c; sourceTree = "<group>"; };
 		C3A61D1019E079710060B94B /* player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = player.h; sourceTree = "<group>"; };
 		C3A61D1419E096D20060B94B /* logging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
+		C3D148A51A4380AC00D95070 /* inventory.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = inventory.c; sourceTree = "<group>"; };
+		C3D148A61A4380AC00D95070 /* inventory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inventory.h; sourceTree = "<group>"; };
 		C3DB852C19FE04C100865257 /* defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = defines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,10 +83,12 @@
 				C34A4F0219D24E18004B2A7A /* game_map.h */,
 				C39E3A5119CDC2A600C2EA3E /* game_world.c */,
 				C39E3A5219CDC2A600C2EA3E /* game_world.h */,
-				C31077FF19DA3ABD00D696E0 /* input.c */,
-				C310780019DA3ABD00D696E0 /* input.h */,
 				C393DC7B19CF9D9900AFE296 /* graphics.c */,
 				C393DC7C19CF9D9900AFE296 /* graphics.h */,
+				C31077FF19DA3ABD00D696E0 /* input.c */,
+				C310780019DA3ABD00D696E0 /* input.h */,
+				C3D148A51A4380AC00D95070 /* inventory.c */,
+				C3D148A61A4380AC00D95070 /* inventory.h */,
 				C3A61D1419E096D20060B94B /* logging.h */,
 				C3A61D0F19E079710060B94B /* player.c */,
 				C3A61D1019E079710060B94B /* player.h */,
@@ -331,6 +335,7 @@
 				C3DB853119FF477200865257 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
