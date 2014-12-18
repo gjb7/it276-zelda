@@ -23,6 +23,9 @@ void graphics_set_global_renderer(SDL_Renderer *renderer);
 SDL_Renderer *graphics_get_global_renderer(void);
 
 SDL_Point graphics_global_renderer_size(void);
+void graphics_global_renderer_scale(float *x, float *y);
+
+bool graphics_rect_contains_point(SDL_Rect rect, SDL_Point point);
 
 INLINE SDL_Rect graphics_rect_make(int x, int y, int w, int h) {
     SDL_Rect rect;
