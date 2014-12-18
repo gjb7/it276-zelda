@@ -15,7 +15,7 @@ void _drop_think(entity_t *drop);
 void _drop_touch(entity_t *drop, entity_t *other);
 void _drop_update(entity_t *drop);
 
-entity_t *spawn_drop(drop_type_t drop_type, entity_t *source) {
+entity_t *drop_create(drop_type_t drop_type, entity_t *source) {
     drop_t *drop_data;
     entity_t *drop = entity_create();
     if (!drop) {
