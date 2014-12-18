@@ -71,7 +71,7 @@ void game_world_set_current_map(entity_t *e, entity_t *game_map) {
     assert(game_map != NULL);
     
     entity_remove_from_parent(game_world->player);
-    entity_add_child(e, game_map);
+    entity_insert_child_below_child(e, game_map, game_world->inventory_hud);
     
     entity_retain(game_map);
     old_game_map = game_world->current_map;
