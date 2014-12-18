@@ -7,6 +7,7 @@
 //
 
 #include "inventory.h"
+#include <string.h>
 
 inventory_t *inventory_create() {
     inventory_t *inventory = malloc(sizeof(inventory_t));
