@@ -13,6 +13,7 @@
 #include "animated_sprite.h"
 
 typedef enum {
+    ZELDA_DROP_TYPE_NONE = 0,
     ZELDA_DROP_TYPE_HEART = 1,
     ZELDA_DROP_TYPE_GREEN_RUPEE = 2,
     ZELDA_DROP_TYPE_BLUE_RUPEE = 3,
