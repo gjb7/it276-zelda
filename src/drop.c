@@ -103,9 +103,7 @@ void _drop_render(entity_t *drop) {
     if (drop_data->sprite) {
         animated_sprite_render_frame(drop_data->sprite, graphics_point_make(0, 0));
     }
-}
-
-#pragma mark - 
+} 
 
 int drop_think_interval(drop_type_t drop_type, drop_state_t drop_state) {
     switch (drop_state) {
