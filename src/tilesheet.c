@@ -48,8 +48,8 @@ tilesheet_t *tilesheet_create(char *filename) {
 void tilesheet_free(tilesheet_t *tilesheet) {
     g_hash_table_destroy(tilesheet->tiles);
     
-    if (tilesheet->sprite) {
-        sprite_free(tilesheet->sprite);
+    if (tilesheet->spritesheet) {
+        spritesheet_free(tilesheet->spritesheet);
     }
     
     free(tilesheet);
@@ -97,8 +97,8 @@ bool load_tilesheet_from_yaml_file(char *filename, tilesheet_t *tilesheet) {
                 }
                 else {
                     if (strcmp(currentKey, "sprite") == 0) {
-                        tilesheet->sprite = sprite_create((char *)event.data.scalar.value, graphics_point_make(tilesheet_frame_width, tilesheet_frame_height));
-                        if (tilesheet->sprite == NULL) {
+                        tilesheet->spritesheet = spritesheet_create((char *)event.data.scalar.value, graphics_point_make(tilesheet_frame_width, tilesheet_frame_height));
+                        if (tilesheet->spritesheet == NULL) {
                             goto error;
                         }
                         

@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <glib.h>
 
-#include "sprite.h"
+#include "spritesheet.h"
 
 extern const int tilesheet_frame_width;
 extern const int tilesheet_frame_height;
@@ -31,7 +31,7 @@ typedef struct tile_s {
 } tile_t;
 
 typedef struct tilesheet_s {
-    sprite_t *sprite;
+    spritesheet_t *spritesheet;
     GHashTable *tiles;
 } tilesheet_t;
 

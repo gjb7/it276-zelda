@@ -226,21 +226,21 @@ void _game_map_render(entity_t *self) {
     int layer_size;
     int layer_width;
     SDL_Point frame_size;
-    sprite_t *sprite;
+    spritesheet_t *spritesheet;
     
     assert(gameMap->tilesheet != NULL);
     
     layer_size = gameMap->layer_width * gameMap->layer_height;
     layer_width = gameMap->layer_width;
-    sprite = gameMap->tilesheet->sprite;
-    frame_size = sprite->frame_size;
+    spritesheet = gameMap->tilesheet->spritesheet;
+    frame_size = spritesheet->frame_size;
     
     for (i = 0; i < gameMap->layer_count; i++) {
         for (j = 0; j < layer_size; j++) {
             Uint8 tile_index = gameMap->layers[i][j];
             SDL_Rect destRect = graphics_rect_make((j % layer_width) * frame_size.x, floor(j / layer_width) * frame_size.y, frame_size.x, frame_size.y);
             
-            sprite_render(sprite, tile_index, destRect);
+            spritesheet_render(spritesheet, tile_index, destRect);
         }
     }
 }
