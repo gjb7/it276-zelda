@@ -66,6 +66,7 @@ void entity_retain(entity_t *e);
 void entity_release(entity_t *e);
 
 void entity_add_child(entity_t *parent, entity_t *child);
+void entity_insert_child_below_child(entity_t *parent, entity_t *newChild, entity_t *existingChild);
 void entity_remove_from_parent(entity_t *e);
 
 void entity_think(entity_t *e);
