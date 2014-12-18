@@ -22,6 +22,14 @@ inventory_t *inventory_create() {
     return inventory;
 }
 
-inventory_free(inventory_t *inventory) {
+bool inventory_has_item(inventory_t *inventory, inventory_item_t item) {
+    return ((inventory->items & item) == item);
+}
+
+void inventory_give_item(inventory_t *inventory, inventory_item_t item) {
+    inventory->items |= item;
+}
+
+void inventory_free(inventory_t *inventory) {
     free(inventory);
 }

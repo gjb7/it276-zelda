@@ -9,7 +9,15 @@
 #ifndef __zelda__inventory__
 #define __zelda__inventory__
 
-#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+typedef enum {
+    INVENTORY_ITEM_BOW = 1 << 1,
+    INVENTORY_ITEM_BOOMERANG = 1 << 2,
+    INVENTORY_ITEM_BOMBS = 1 << 3,
+    INVENTORY_ITEM_LANTERN = 1 << 4,
+} inventory_item_t;
 
 typedef struct inventory_s {
     int magic;
@@ -24,11 +32,14 @@ typedef struct inventory_s {
     int bombs;
     int max_bombs;
     
-    
+    int items;
 } inventory_t;
 
 inventory_t *inventory_create();
 
-inventory_free(inventory_t *inventory);
+bool inventory_has_item(inventory_t *inventory, inventory_item_t item);
+void inventory_give_item(inventory_t *inventory, inventory_item_t item);
+
+void inventory_free(inventory_t *inventory);
 
 #endif /* defined(__zelda__inventory__) */
