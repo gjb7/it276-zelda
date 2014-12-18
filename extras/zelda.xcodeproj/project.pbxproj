@@ -46,6 +46,8 @@
 		C3A61D1419E096D20060B94B /* logging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
 		C3D148A51A4380AC00D95070 /* inventory.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = inventory.c; sourceTree = "<group>"; };
 		C3D148A61A4380AC00D95070 /* inventory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inventory.h; sourceTree = "<group>"; };
+		C3D148A71A4385EC00D95070 /* inventory_hud.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = inventory_hud.c; sourceTree = "<group>"; };
+		C3D148A81A4385EC00D95070 /* inventory_hud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inventory_hud.h; sourceTree = "<group>"; };
 		C3D148A91A43881A00D95070 /* spritesheet.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = spritesheet.c; sourceTree = "<group>"; };
 		C3D148AA1A43881A00D95070 /* spritesheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = spritesheet.h; sourceTree = "<group>"; };
 		C3DB852C19FE04C100865257 /* defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = defines.h; sourceTree = "<group>"; };
@@ -91,6 +93,8 @@
 				C310780019DA3ABD00D696E0 /* input.h */,
 				C3D148A51A4380AC00D95070 /* inventory.c */,
 				C3D148A61A4380AC00D95070 /* inventory.h */,
+				C3D148A71A4385EC00D95070 /* inventory_hud.c */,
+				C3D148A81A4385EC00D95070 /* inventory_hud.h */,
 				C3A61D1419E096D20060B94B /* logging.h */,
 				C3A61D0F19E079710060B94B /* player.c */,
 				C3A61D1019E079710060B94B /* player.h */,
