@@ -1,0 +1,12 @@
+---
+drop_frequency: 4
+drops:
+  - 
+    type: 1
+    weight: 4
+  -
+    type: 2
+    weight: 2
+  -
+    type: 3
+    weight: 1
