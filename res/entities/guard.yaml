@@ -1,5 +1,5 @@
 ---
-drop_frequency: 4
+drop_frequency: 3
 drops:
   - 
     type: 1
