@@ -11,11 +11,14 @@
 
 #include "entity.h"
 #include "sprite.h"
+#include "inventory.h"
 
 typedef struct inventory_hud_s {
     sprite_t *background_sprite;
+    
+    inventory_t *inventory;
 } inventory_hud_t;
 
-entity_t *hud_create();
+entity_t *hud_create(inventory_t *inventory);
 
 #endif /* defined(__zelda__inventory_hud__) */
