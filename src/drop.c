@@ -36,8 +36,8 @@ entity_t *spawn_drop(drop_type_t drop_type, entity_t *source) {
         return NULL;
     }
     
-    drop_state->state = ZELDA_DROP_STATE_DROPPED;
-    drop_state->type = drop_type;
+    drop_data->state = ZELDA_DROP_STATE_DROPPED;
+    drop_data->type = drop_type;
     
     drop->entity_data = drop_data;
     
@@ -76,7 +76,7 @@ void _drop_touch(entity_t *drop, entity_t *other) {
 }
 
 void _drop_update(entity_t *drop) {
-    drop_t *drop_data = (drop_t *)drop->entity_data;
+//    drop_t *drop_data = (drop_t *)drop->entity_data;
     
 //    if (drop_data->)
 }
