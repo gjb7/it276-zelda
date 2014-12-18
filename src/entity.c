@@ -18,6 +18,8 @@
 bool _load_entity_config_from_yaml_file(char *path, entity_t *entity);
 void load_drops(yaml_parser_t *parser, entity_t *entity);
 
+entity_t *entity_spawn_drop_from_entity(entity_t *source);
+
 entity_t *entity_create() {
     entity_t *e = malloc(sizeof(entity_t));
     if (e == NULL) {
@@ -129,7 +131,10 @@ void entity_think(entity_t *e) {
             if (e->health <= 0) {
                 e->die(e);
                 
-                /** TODO: Spawn drop. */
+                entity_t *drop = entity_spawn_drop_from_entity(e);
+                if (drop) {
+                    entity_add_child(e->parent, drop);
+                }
                 
                 entity_remove_from_parent(e);
             }
@@ -218,6 +223,42 @@ SDL_Rect entity_get_bounding_box(entity_t *e) {
     SDL_Point absolutePosition = entity_get_absolute_position(e);
     SDL_Rect boundingBox = graphics_rect_make(absolutePosition.x + e->bounding_box.x, absolutePosition.y + e->bounding_box.y, e->bounding_box.w, e->bounding_box.h);
     return boundingBox;
+}
+
+entity_t *entity_spawn_drop_from_entity(entity_t *source) {
+    bool should_spawn_drop = (rand() % source->drop_frequency) == 0;
+    if (!should_spawn_drop) {
+        return NULL;
+    }
+    
+    int drop_count = g_list_length(source->drops);
+    int weights[drop_count];
+    int max_weight = 0;
+    
+    for (int i = 0; i < drop_count; i++) {
+        entity_drop_t *drop_info = g_list_nth_data(source->drops, i);
+        max_weight += drop_info->weight;
+        weights[i] = max_weight - 1;
+    }
+    
+    drop_type_t drop_type = ZELDA_DROP_TYPE_NONE;
+    int selected_weight = rand() % max_weight;
+    
+    for (int i = 0; i < drop_count; i++) {
+        int weight = weights[i];
+        if (weight >= selected_weight) {
+            entity_drop_t *drop_info = g_list_nth_data(source->drops, i);
+            drop_type = drop_info->type;
+            
+            break;
+        }
+    }
+    
+    if (drop_type == ZELDA_DROP_TYPE_NONE) {
+        return NULL;
+    }
+    
+    return drop_create(drop_type, source);
 }
 
 /**
