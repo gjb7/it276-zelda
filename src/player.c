@@ -66,7 +66,9 @@ entity_t *player_create() {
     player_data->input_list = NULL;
     
     player_data->sword = sword_create();
+    sword_set_owner(player_data->sword, player);
     player_data->sword->position = graphics_point_make(-6, 24);
+    player_data->sword->facing = ENTITY_DIRECTION_DOWN;
     entity_add_child(player, player_data->sword);
     
     return player;
@@ -200,6 +202,7 @@ void _player_think(entity_t *player) {
             player_bounding_box = player->bounding_box;
             
             player_data->sword->position = graphics_point_make(-11, player_bounding_box.y - sword_bounding_box.h);
+            player_data->sword->facing = ENTITY_DIRECTION_UP;
         }
         else if (last_input == SDL_SCANCODE_S && strcmp(sprite->current_animation_name, "walk_down") != 0) {
             animated_sprite_set_current_animation(sprite, "walk_down");
@@ -208,6 +211,7 @@ void _player_think(entity_t *player) {
             
             player_data->sword->bounding_box.h = sword_bounding_box_height_for_direction(player_data->sword, player->facing);
             player_data->sword->position = graphics_point_make(-6, 24);
+            player_data->sword->facing = ENTITY_DIRECTION_DOWN;
         }
         else if (last_input == SDL_SCANCODE_A && strcmp(sprite->current_animation_name, "walk_left") != 0) {
             animated_sprite_set_current_animation(sprite, "walk_left");
