@@ -17,6 +17,8 @@ inventory_t *inventory_create() {
     
     memset(inventory, 0, sizeof(inventory_t));
     
+    inventory->max_magic = 100;
+    inventory->max_rupees = 99;
     inventory->max_bombs = 10;
     inventory->max_arrows = 30;
     
