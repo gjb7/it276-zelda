@@ -29,6 +29,9 @@ entity_t *drop_create(drop_type_t drop_type, entity_t *source) {
     drop->touch = _drop_touch;
     drop->update = _drop_update;
     
+    /** TODO: Revisit this to better position drop. */
+    drop->position = source->position;
+    
     drop_data = malloc(sizeof(drop_t));
     if (!drop_data) {
         entity_release(drop);
