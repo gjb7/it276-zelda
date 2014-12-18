@@ -24,7 +24,7 @@ entity_t *spawn_drop(drop_type_t drop_type, entity_t *source) {
     
     snprintf(drop->class_name, ENTITY_CLASS_NAME_LENGTH, "drop:%s", drop_name(drop_type));
     drop->dealloc = _drop_dealloc;
-//    drop->think_
+    drop->thinkRate = drop_think_interval(drop_type, ZELDA_DROP_STATE_DROPPED);
     drop->think = _drop_think;
     drop->touch = _drop_touch;
     drop->update = _drop_update;
@@ -56,6 +56,8 @@ void _drop_think(entity_t *drop) {
     
     if (drop_data->state == ZELDA_DROP_STATE_DROPPED) {
         drop_data->state = ZELDA_DROP_STATE_DYING;
+        
+        drop->thinkRate = drop_think_interval(drop_data->type, ZELDA_DROP_STATE_DYING);
     }
     else if (drop_data->state == ZELDA_DROP_STATE_DYING) {
         /** TODO: Delete this from the world. */
