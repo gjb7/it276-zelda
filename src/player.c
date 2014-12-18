@@ -69,6 +69,12 @@ entity_t *player_create() {
     return player;
 }
 
+inventory_t *player_get_inventory(entity_t *player) {
+    player_t *player_data = (player_t *)player->entity_data;
+    
+    return player_data->inventory;
+}
+
 void _player_render(entity_t *player) {
     player_t *player_data = (player_t *)player->entity_data;
     

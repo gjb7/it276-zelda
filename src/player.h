@@ -22,4 +22,6 @@ typedef struct player_s {
 
 entity_t *player_create();
 
+inventory_t *player_get_inventory(entity_t *player);
+
 #endif /* defined(__zelda__player__) */
