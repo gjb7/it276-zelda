@@ -59,6 +59,13 @@ entity_t *player_create() {
     
     player_data->sprite = sprite;
     
+    player_data->inventory = inventory_create();
+    if (!player_data->inventory) {
+        entity_release(player);
+        
+        return NULL;
+    }
+    
     return player;
 }
 
@@ -172,6 +179,10 @@ void _player_dealloc(entity_t *player) {
     
     if (player_data->sprite) {
         animated_sprite_free(player_data->sprite);
+    }
+    
+    if (player_data->inventory) {
+        inventory_free(player_data->inventory);
     }
     
     free(player->entity_data);

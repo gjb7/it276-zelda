@@ -12,9 +12,12 @@
 #include <stdio.h>
 #include "entity.h"
 #include "animated_sprite.h"
+#include "inventory.h"
 
 typedef struct player_s {
     animated_sprite_t *sprite;
+    
+    inventory_t *inventory;
 } player_t;
 
 entity_t *player_create();
