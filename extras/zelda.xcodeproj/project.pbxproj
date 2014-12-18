@@ -46,6 +46,8 @@
 		C3A61D1419E096D20060B94B /* logging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
 		C3D148A51A4380AC00D95070 /* inventory.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = inventory.c; sourceTree = "<group>"; };
 		C3D148A61A4380AC00D95070 /* inventory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inventory.h; sourceTree = "<group>"; };
+		C3D148A91A43881A00D95070 /* spritesheet.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = spritesheet.c; sourceTree = "<group>"; };
+		C3D148AA1A43881A00D95070 /* spritesheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = spritesheet.h; sourceTree = "<group>"; };
 		C3DB852C19FE04C100865257 /* defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = defines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,6 +100,8 @@
 				C3640A0719F41BBB0062CF23 /* resource.h */,
 				C34A4EFE19D236F8004B2A7A /* sprite.c */,
 				C34A4EFF19D236F8004B2A7A /* sprite.h */,
+				C3D148A91A43881A00D95070 /* spritesheet.c */,
+				C3D148AA1A43881A00D95070 /* spritesheet.h */,
 				C300EC0019FBFDB900815D0F /* tilesheet.c */,
 				C300EC0119FBFDB900815D0F /* tilesheet.h */,
 				C34A4EFC19D22657004B2A7A /* window.c */,

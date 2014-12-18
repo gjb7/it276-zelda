@@ -10,14 +10,12 @@
 #include "graphics.h"
 #include <assert.h>
 
-sprite_t *sprite_create(char *filename, SDL_Point frame_size) {
+sprite_t *sprite_create(char *filename) {
     SDL_Texture *texture;
     int texture_width, texture_height;
     sprite_t *sprite;
     
     assert(filename != NULL);
-    assert(frame_size.x > 0);
-    assert(frame_size.y > 0);
     
     sprite = malloc(sizeof(sprite_t));
     if (sprite == NULL) {
@@ -43,20 +41,16 @@ sprite_t *sprite_create(char *filename, SDL_Point frame_size) {
         return NULL;
     }
     
-    sprite->frame_size = frame_size;
-    sprite->column_count = texture_width / frame_size.x;
-    sprite->row_count = texture_height / frame_size.y;
+    sprite->texture_width = texture_width;
+    sprite->texture_height = texture_height;
     
     return sprite;
 }
 
-void sprite_render(sprite_t *sprite, int frame, SDL_Rect destRect) {
-    int column_count = sprite->column_count;
-    SDL_Point frame_size = sprite->frame_size;
+void sprite_render(sprite_t *sprite, SDL_Rect srcRect, SDL_Rect destRect) {
     SDL_Renderer *renderer = graphics_get_global_renderer();
     SDL_Texture *texture = sprite->resource->data.image.texture;
-    SDL_Rect srcRect = graphics_rect_make((frame % column_count) * frame_size.x, floor(frame / column_count) * frame_size.y, frame_size.x, frame_size.y);
-    
+
     if (SDL_RenderCopy(renderer, texture, &srcRect, &destRect) != 0) {
         printf("Error copying: %s\n", SDL_GetError());
     }
