@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
     
     graphics_set_global_renderer(window->renderer);
     
-    gameMap = game_map_create_from_file("res/maps/level1.map");
+    gameMap = game_map_create_from_file("res/maps/large.map");
     gameWorld = game_world_create();
     game_world_set_current_map(gameWorld, gameMap);
     
