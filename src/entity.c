@@ -89,6 +89,10 @@ void entity_add_child(entity_t *parent, entity_t *child) {
     
     parent->children = g_slist_append(parent->children, child);
     child->parent = parent;
+    
+    if (child->thinkRate > 0) {
+        child->thinkNext = SDL_GetTicks() + child->thinkRate;
+    }
 }
 
 void entity_remove_from_parent(entity_t *e) {
