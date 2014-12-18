@@ -56,6 +56,13 @@ void sprite_render(sprite_t *sprite, SDL_Rect srcRect, SDL_Rect destRect) {
     }
 }
 
+void sprite_render_at_point(sprite_t *sprite, SDL_Point point) {
+    SDL_Rect srcRect = graphics_rect_make(0, 0, sprite->texture_width, sprite->texture_height);
+    SDL_Rect destRect = graphics_rect_make(point.x, point.y, sprite->texture_width, sprite->texture_height);
+    
+    sprite_render(sprite, srcRect, destRect);
+}
+
 void sprite_free(sprite_t *sprite) {
     if (sprite->resource) {
         resource_release(sprite->resource);
