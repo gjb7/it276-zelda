@@ -65,3 +65,7 @@ SDL_Renderer *graphics_get_global_renderer(void) {
 SDL_Point graphics_global_renderer_size(void) {
     return _graphics_global_renderer_size;
 }
+
+void graphics_global_renderer_scale(float *x, float *y) {
+    SDL_RenderGetScale(_graphics_global_renderer, x, y);
+}
