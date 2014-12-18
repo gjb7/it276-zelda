@@ -36,6 +36,9 @@ entity_t *spawn_drop(drop_type_t drop_type, entity_t *source) {
         return NULL;
     }
     
+    drop_state->state = ZELDA_DROP_STATE_DROPPED;
+    drop_state->type = drop_type;
+    
     drop->entity_data = drop_data;
     
     return drop;
