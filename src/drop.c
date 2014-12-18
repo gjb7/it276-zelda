@@ -7,13 +7,15 @@
 //
 
 #include "drop.h"
+#include "graphics.h"
 
 char *drop_name(drop_type_t drop_type);
+char *drop_sprite_file(drop_type_t drop_type);
 
 void _drop_dealloc(entity_t *drop);
 void _drop_think(entity_t *drop);
-void _drop_touch(entity_t *drop, entity_t *other);
 void _drop_update(entity_t *drop);
+void _drop_render(entity_t *drop);
 
 entity_t *drop_create(drop_type_t drop_type, entity_t *source) {
     drop_t *drop_data;
@@ -26,8 +28,8 @@ entity_t *drop_create(drop_type_t drop_type, entity_t *source) {
     drop->dealloc = _drop_dealloc;
     drop->thinkRate = drop_think_interval(drop_type, ZELDA_DROP_STATE_DROPPED);
     drop->think = _drop_think;
-    drop->touch = _drop_touch;
     drop->update = _drop_update;
+    drop->render = _drop_render;
     
     /** TODO: Revisit this to better position drop. */
     drop->position = source->position;
@@ -38,6 +40,9 @@ entity_t *drop_create(drop_type_t drop_type, entity_t *source) {
         
         return NULL;
     }
+    
+    drop_data->sprite = animated_sprite_create(drop_sprite_file(drop_type));
+    animated_sprite_set_current_animation(drop_data->sprite, "idle");
     
     drop_data->state = ZELDA_DROP_STATE_DROPPED;
     drop_data->type = drop_type;
@@ -60,28 +65,44 @@ void _drop_dealloc(entity_t *drop) {
 void _drop_think(entity_t *drop) {
     drop_t *drop_data = (drop_t *)drop->entity_data;
     
+    if (drop->thinkRate != drop_think_interval(drop_data->type, drop_data->state)) {
+        return;
+    }
+    
     if (drop_data->state == ZELDA_DROP_STATE_DROPPED) {
         drop_data->state = ZELDA_DROP_STATE_DYING;
         
         drop->thinkRate = drop_think_interval(drop_data->type, ZELDA_DROP_STATE_DYING);
     }
     else if (drop_data->state == ZELDA_DROP_STATE_DYING) {
-        /** TODO: Delete this from the world. */
-    }
-}
-
-void _drop_touch(entity_t *drop, entity_t *other) {
-//    drop_t *drop_data = (drop_t *)drop->entity_data;
-    
-    if (strcmp(other->class_name, "player") != 0) {
-        return;
+        drop_data->showing = !drop_data->showing;
+        
+        if (++drop_data->flicker_count > 45) {
+            entity_remove_from_parent(drop);
+        }
     }
 }
 
 void _drop_update(entity_t *drop) {
-//    drop_t *drop_data = (drop_t *)drop->entity_data;
+    drop_t *drop_data = (drop_t *)drop->entity_data;
     
-//    if (drop_data->)
+    if (drop_data->sprite) {
+        animated_sprite_update(drop_data->sprite);
+    }
+}
+
+void _drop_render(entity_t *drop) {
+    drop_t *drop_data = (drop_t *)drop->entity_data;
+    
+    if (drop_data->state == ZELDA_DROP_STATE_DYING) {
+        if (!drop_data->showing) {
+            return;
+        }
+    }
+    
+    if (drop_data->sprite) {
+        animated_sprite_render_frame(drop_data->sprite, graphics_point_make(0, 0));
+    }
 }
 
 #pragma mark - 
@@ -89,9 +110,11 @@ void _drop_update(entity_t *drop) {
 int drop_think_interval(drop_type_t drop_type, drop_state_t drop_state) {
     switch (drop_state) {
         case ZELDA_DROP_STATE_DROPPED:
-            return 200;
+            return 6000;
+            break;
         case ZELDA_DROP_STATE_DYING:
-            return 20;
+            return 60;
+            break;
     }
 }
 

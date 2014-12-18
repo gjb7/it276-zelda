@@ -29,6 +29,8 @@ typedef struct drop_s {
     animated_sprite_t *sprite;
     drop_state_t state;
     drop_type_t type;
+    bool showing;
+    int flicker_count;
 } drop_t;
 
 typedef struct entity_drop_s {
