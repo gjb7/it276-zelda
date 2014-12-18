@@ -63,6 +63,16 @@ typedef struct entity_s {
     entity_direction facing;
     
     /**
+     * How often a drop should happen. Once every `drop_frequency` times.
+     */
+    int drop_frequency;
+    
+    /**
+     * List of all valid drops this entity can spawn.
+     */
+    GList *drops;
+    
+    /**
      * Whether the entity was hit recently. Gets set to false after the knockback has finished being applied.
      */
     bool is_hit;
