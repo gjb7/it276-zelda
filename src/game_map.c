@@ -358,7 +358,7 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     int current_position = SDL_RWtell(fp);
     entity_t *new_map = NULL;
     game_map_t *new_map_data = NULL;
-    char layer_size = 0;
+    int layer_size = 0;
     int current_layer = 0;
     char *tilesheet_filename = NULL;
     int tilesheet_filename_length = 0;
