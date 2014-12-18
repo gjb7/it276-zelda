@@ -136,3 +136,22 @@ char *drop_name(drop_type_t drop_type) {
             return "";
     }
 }
+
+char *drop_sprite_file(drop_type_t drop_type) {
+    switch (drop_type) {
+        case ZELDA_DROP_TYPE_HEART:
+            return "res/sprites/heart.yaml";
+            
+        case ZELDA_DROP_TYPE_GREEN_RUPEE:
+            return "res/sprites/green-rupee.yaml";
+            
+        case ZELDA_DROP_TYPE_BLUE_RUPEE:
+            return "res/sprites/blue-rupee.yaml";
+            
+        case ZELDA_DROP_TYPE_RED_RUPEE:
+            return "res/sprites/red-rupee.yaml";
+            
+        default:
+            return "";
+    }
+}
