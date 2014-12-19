@@ -162,8 +162,8 @@ void _game_map_update(entity_t *self) {
     for (i = 0; i < childCount; i++) {
         entity_t *child = g_slist_nth_data(self->children, i);
         
-        SDL_Rect collisionBox = entity_get_collision_box(child);
-        if (collisionBox.w > 0 && collisionBox.h > 0) {
+        SDL_Rect boundingBox = entity_get_bounding_box(child);
+        if (boundingBox.w > 0 && boundingBox.h > 0) {
             quadtree_insert(gameMap->quad, child);
         }
     }
@@ -174,9 +174,9 @@ void _game_map_update(entity_t *self) {
         entity_t *child = g_slist_nth_data(self->children, i);
         int j;
         
-        SDL_Rect collisionBox = entity_get_collision_box(child);
+        SDL_Rect boundingBox = entity_get_bounding_box(child);
         
-        if (collisionBox.w <= 0 || collisionBox.h <= 0) {
+        if (boundingBox.w <= 0 || boundingBox.h <= 0) {
             continue;
         }
         
@@ -185,15 +185,15 @@ void _game_map_update(entity_t *self) {
         
         for (j = 0; j < returnObjectsCount; j++) {
             entity_t *collidedObject = g_slist_nth_data(returnObjects, j);
-            SDL_Rect collidedObjectCollisionBox;
+            SDL_Rect collidedObjectBoundingBox;
             
             if (collidedObject == child) {
                 continue;
             }
             
-            collidedObjectCollisionBox = entity_get_collision_box(collidedObject);
+            collidedObjectBoundingBox = entity_get_bounding_box(collidedObject);
             
-            if (SDL_HasIntersection(&collisionBox, &collidedObjectCollisionBox)) {
+            if (SDL_HasIntersection(&boundingBox, &collidedObjectBoundingBox)) {
                 if (child->touch != NULL) {
                     child->touch(child, collidedObject);
                 }
@@ -358,7 +358,8 @@ entity_t *_game_map_create_from_v1_map(SDL_RWops *fp) {
     int current_position = SDL_RWtell(fp);
     entity_t *new_map = NULL;
     game_map_t *new_map_data = NULL;
-    int layer_size, current_layer = 0;
+    int layer_size = 0;
+    int current_layer = 0;
     char *tilesheet_filename = NULL;
     int tilesheet_filename_length = 0;
     char buffer;

@@ -1,0 +1,12 @@
+---
+sprite: res/sprites/heart.png
+animations:
+  -
+    name: idle
+    frames:
+      -
+        x: 0
+        y: 0
+        w: 8
+        h: 9
+        step: 20

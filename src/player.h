@@ -10,12 +10,19 @@
 #define __zelda__player__
 
 #include <stdio.h>
+#include <glib.h>
 #include "entity.h"
 #include "animated_sprite.h"
 #include "inventory.h"
 
 typedef struct player_s {
     animated_sprite_t *sprite;
+
+    GList *input_list;
+    bool is_swinging;
+    SDL_Rect swing_rect;
+    
+    entity_t *sword;
     
     inventory_t *inventory;
 } player_t;

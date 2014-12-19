@@ -11,6 +11,7 @@
 #include <yaml.h>
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 
 bool load_animations(yaml_parser_t *parser, animated_sprite_t *sprite);
 bool load_frames(yaml_parser_t *parser, animation_t *animation);
@@ -73,6 +74,9 @@ void animated_sprite_update(animated_sprite_t *sprite) {
         if (animation->current_frame != animation->frame_count - 1) {
             animation->current_frame += animation->frame_step;
         }
+        else {
+            animation->is_at_end = true;
+        }
     }
     
     animation->time = 0;
@@ -84,12 +88,26 @@ void animated_sprite_render_frame(animated_sprite_t *sprite, SDL_Point destPoint
     animation_t *animation = sprite->current_animation;
     frame_t frame = g_array_index(animation->frames, frame_t, animation->current_frame);
     
+    SDL_Rect viewportRect;
+    
+    SDL_RenderGetViewport(renderer, &viewportRect);
+    
+    viewportRect.x += frame.render_origin.x;
+    viewportRect.y += frame.render_origin.y;
+    
+    SDL_RenderSetViewport(graphics_get_global_renderer(), &viewportRect);
+    
     SDL_Rect destRect = graphics_rect_make(destPoint.x, destPoint.y, frame.rect.w, frame.rect.h);
     if (SDL_RenderCopy(renderer, texture, &frame.rect, &destRect) != 0) {
         printf("Error copying: %s\n", SDL_GetError());
         
         return;
     }
+    
+    viewportRect.x -= frame.render_origin.x;
+    viewportRect.y -= frame.render_origin.y;
+    
+    SDL_RenderSetViewport(graphics_get_global_renderer(), &viewportRect);
 }
 
 void animated_sprite_set_current_animation(animated_sprite_t *sprite, const char *name) {
@@ -104,7 +122,10 @@ void animated_sprite_set_current_animation(animated_sprite_t *sprite, const char
     
     animation->current_frame = animation->start_frame;
     animation->frame_step = 1;
+    animation->is_at_end = false;
     sprite->current_animation = animation;
+    strncpy(sprite->current_animation_name, name, strlen(name));
+    sprite->current_animation_name[strlen(name)] = '\0';
 }
 
 void animated_sprite_free(animated_sprite_t *sprite) {
@@ -326,6 +347,8 @@ bool load_frames(yaml_parser_t *parser, animation_t *animation) {
                 currentFrame.rect.y = 0;
                 currentFrame.rect.w = 0;
                 currentFrame.rect.h = 0;
+                currentFrame.render_origin.x = 0;
+                currentFrame.render_origin.y = 0;
                 currentFrame.step = 200;
                 
                 break;
@@ -366,6 +389,16 @@ bool load_frames(yaml_parser_t *parser, animation_t *animation) {
                     }
                     else if (strcmp(currentKey, "step") == 0) {
                         currentFrame.step = atoi((char *)event.data.scalar.value);
+                        
+                        handledValue = 1;
+                    }
+                    else if (strcmp(currentKey, "render_x") == 0) {
+                        currentFrame.render_origin.x = atoi((char *)event.data.scalar.value);
+                        
+                        handledValue = 1;
+                    }
+                    else if (strcmp(currentKey, "render_y") == 0) {
+                        currentFrame.render_origin.y = atoi((char *)event.data.scalar.value);
                         
                         handledValue = 1;
                     }

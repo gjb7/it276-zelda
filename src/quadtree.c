@@ -74,7 +74,7 @@ int quadtree_get_index(quadtree_t *quadtree, entity_t *entity) {
     int index = -1;
     double verticalMidpoint = quadtree->bounds.y + (quadtree->bounds.h / 2.0);
     double horizontalMidpoint = quadtree->bounds.x + (quadtree->bounds.w / 2.0);
-    SDL_Rect rect = entity_get_collision_box(entity);
+    SDL_Rect rect = entity_get_bounding_box(entity);
     
     bool isInTopQuadrant = (rect.y < horizontalMidpoint && rect.y + rect.h < horizontalMidpoint);
     bool isInBottomQuadrant = (rect.y > horizontalMidpoint);

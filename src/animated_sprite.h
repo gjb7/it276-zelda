@@ -17,6 +17,7 @@
 
 typedef struct frame_s {
     SDL_Rect rect;
+    SDL_Point render_origin;
     int step;
 } frame_t;
 
@@ -29,12 +30,14 @@ typedef struct animation_s {
     int time;
     bool loops;
     bool reverses;
+    bool is_at_end;
 } animation_t;
 
 typedef struct animated_sprite_s {
     resource_t *resource;
     GHashTable *animations;
     animation_t *current_animation;
+    char current_animation_name[64];
 } animated_sprite_t;
 
 animated_sprite_t *animated_sprite_create(char *filename);

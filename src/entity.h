@@ -11,8 +11,11 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <glib.h>
 #include "sdl.h"
+
+#define ENTITY_CLASS_NAME_LENGTH 128
 
 typedef enum {
     ENTITY_DIRECTION_DOWN = 1 << 0,
@@ -50,18 +53,55 @@ typedef struct entity_s {
     void (*touch)(struct entity_s *self, struct entity_s *other);
     void (*touch_world)(struct entity_s *self, entity_direction direction);
     
-    char class_name[128];
+    void (*die)(struct entity_s *self);
+    
+    char class_name[ENTITY_CLASS_NAME_LENGTH];
     
     SDL_Point position;
-    SDL_Rect collision_box;
     SDL_Rect bounding_box;
     
     entity_direction facing;
+    
+    /**
+     * How often a drop should happen. Once every `drop_frequency` times.
+     */
+    int drop_frequency;
+    
+    /**
+     * List of all valid drops this entity can spawn.
+     */
+    GList *drops;
+    
+    /**
+     * Whether the entity was hit recently. Gets set to false after the knockback has finished being applied.
+     */
+    bool is_hit;
+    
+    /**
+     * How much knockback should be applied in each direction.
+     */
+    SDL_Point knockback;
+    
+    /**
+     * Tick interval that the knockback should be applied.
+     */
+    int knockback_step;
+    
+    /**
+     * How long before the knock back effect wears off.
+     *
+     * Decremented on each update call. When it reaches 0, no more knockback.
+     */
+    int knockback_cooldown;
+    
+    int health;
+    int max_health;
     
     void *entity_data;
 } entity_t;
 
 entity_t *entity_create();
+entity_t *entity_create_from_file(char *path);
 void entity_retain(entity_t *e);
 void entity_release(entity_t *e);
 
@@ -74,11 +114,6 @@ void entity_render(entity_t *e);
 void entity_update(entity_t *e);
 
 SDL_Point entity_get_absolute_position(entity_t *e);
-
-/**
- Returns the collision box adjusted with the entity's position.
- */
-SDL_Rect entity_get_collision_box(entity_t *e);
 
 /**
  Returns the bounding box adjueted with the entity's position.
