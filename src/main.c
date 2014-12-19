@@ -49,8 +49,8 @@ int main(int argc, char **argv) {
     entity_t *gameMap;
     entity_t *gameWorld;
     bool done = false;
+    entity_t *guard;
     
-    debug_set_render_collision_boxes(true);
     debug_set_render_bounding_boxes(true);
     
     if (!init_sdl()) {
@@ -87,6 +87,11 @@ int main(int argc, char **argv) {
     gameMap = game_map_create_from_file("res/maps/large.map");
     gameWorld = game_world_create();
     game_world_set_current_map(gameWorld, gameMap);
+    
+    guard = guard_create();
+    guard->position = graphics_point_make(128, 128);
+    entity_add_child(gameMap, guard);
+    entity_release(guard);
     
     entity_release(gameMap);
     

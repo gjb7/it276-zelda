@@ -1,0 +1,24 @@
+---
+sprite: res/sprites/red-rupee.png
+animations:
+  -
+    name: idle
+    frames:
+      -
+        x: 0
+        y: 0
+        w: 8
+        h: 14
+        step: 18
+      -
+        x: 8
+        y: 0
+        w: 8
+        h: 14
+        step: 9
+      -
+        x: 16
+        y: 0
+        w: 8
+        h: 14
+        step: 9

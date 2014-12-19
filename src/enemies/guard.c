@@ -13,9 +13,11 @@ void _guard_think(entity_t *guard);
 void _guard_update(entity_t *guard);
 void _guard_render(entity_t *guard);
 void _guard_dealloc(entity_t *guard);
+void _guard_touch_world(entity_t *guard, entity_direction direction);
+void _guard_die(entity_t *guard);
 
 entity_t *guard_create() {
-    entity_t *guard = entity_create();
+    entity_t *guard = entity_create_from_file("res/entities/guard.yaml");
     if (!guard) {
         return NULL;
     }
@@ -37,11 +39,10 @@ entity_t *guard_create() {
     guard->thinkRate = (rand() % 1080) + 720;
     guard->update = _guard_update;
     guard->render = _guard_render;
+    guard->touch_world = _guard_touch_world;
+    guard->die = _guard_die;
     
-    guard->collision_box.x = 6;
-    guard->collision_box.y = 24;
-    guard->collision_box.w = 4;
-    guard->collision_box.h = 4;
+    guard->bounding_box = graphics_rect_make(0, 12, 16, 16);
     
     guard->facing = rand() % 4;
     
@@ -61,6 +62,11 @@ entity_t *guard_create() {
         case ENTITY_DIRECTION_RIGHT:
             animated_sprite_set_current_animation(guard_data->sprite, "walk_right");
             
+            break;
+        
+        default:
+            guard->facing = ENTITY_DIRECTION_DOWN;
+            animated_sprite_set_current_animation(guard_data->sprite, "walk_down");
             break;
     }
     
@@ -91,6 +97,8 @@ void _guard_think(entity_t *guard) {
         }
         
         guard_data->state = GUARD_STATE_MOVING;
+        
+        guard->thinkRate = (rand() % 1080) + 720;
     }
     else if (guard_data->state == GUARD_STATE_MOVING) {
         int facing = rand() % 2;
@@ -151,15 +159,40 @@ void _guard_think(entity_t *guard) {
         }
         
         guard_data->state = GUARD_STATE_IDLE;
+        
+        guard->thinkRate = (rand() % 1080) + 720;
     }
-    
-    guard->thinkRate = (rand() % 1080) + 720;
+    else if (guard_data->state == GUARD_STATE_DIE) {
+        
+    }
 }
 
 void _guard_update(entity_t *guard) {
     guard_t *guard_data = (guard_t *)guard->entity_data;
     
     animated_sprite_update(guard_data->sprite);
+    
+    if (guard_data->state == GUARD_STATE_MOVING) {
+        if (SDL_GetTicks() % 2 == 0) {
+            switch (guard->facing) {
+                case ENTITY_DIRECTION_UP:
+                    guard->position.y -= 1;
+                    break;
+                case ENTITY_DIRECTION_DOWN:
+                    guard->position.y += 1;
+                    break;
+                case ENTITY_DIRECTION_LEFT:
+                    guard->position.x -= 1;
+                    break;
+                case ENTITY_DIRECTION_RIGHT:
+                    guard->position.x += 1;
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 void _guard_render(entity_t *guard) {
@@ -168,6 +201,35 @@ void _guard_render(entity_t *guard) {
     SDL_Point position = graphics_point_make(0, 0);
     
     animated_sprite_render_frame(guard_data->sprite, position);
+}
+
+void _guard_touch_world(entity_t *guard, entity_direction direction) {
+    guard_t *guard_data = (guard_t *)guard->entity_data;
+    
+    if (guard_data->state == GUARD_STATE_IDLE ||
+        guard_data->state == GUARD_STATE_MOVING) {
+        _guard_think(guard);
+        
+        if ((direction & ENTITY_DIRECTION_DOWN) == ENTITY_DIRECTION_DOWN) {
+            guard->position.y -= 1;
+        }
+        
+        if ((direction & ENTITY_DIRECTION_LEFT) == ENTITY_DIRECTION_LEFT) {
+            guard->position.x += 1;
+        }
+        
+        if ((direction & ENTITY_DIRECTION_RIGHT) == ENTITY_DIRECTION_RIGHT) {
+            guard->position.x -= 1;
+        }
+        
+        if ((direction & ENTITY_DIRECTION_UP) == ENTITY_DIRECTION_UP) {
+            guard->position.y += 1;
+        }
+    }
+}
+
+void _guard_die(entity_t *gaurd) {
+    
 }
 
 void _guard_dealloc(entity_t *guard) {

@@ -2,6 +2,15 @@
 sprite: res/tilesheets/overworld.png
 tiles:
   -
+    index: 12
+    collision_type: 1
+  -
+    index: 13
+    collision_type: 1
+  -
+    index: 14
+    collision_type: 1
+  -
     index: 36
     collision_type: 1
   -

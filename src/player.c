@@ -9,6 +9,9 @@
 #include "player.h"
 #include "graphics.h"
 #include "input.h"
+#include "str.h"
+#include "quadtree.h"
+#include "sword.h"
 
 void _player_dealloc(entity_t *player);
 void _player_render(entity_t *player);
@@ -46,8 +49,9 @@ entity_t *player_create() {
     player->thinkRate = 10;
     
     /** TODO: This should probably be loaded from a config file? */
-    player->collision_box = graphics_rect_make(6, 20, 4, 4);
     player->bounding_box = graphics_rect_make(0, 8, 16, 16);
+    
+    player->facing = ENTITY_DIRECTION_DOWN;
     
     sprite = animated_sprite_create("res/sprites/link.yaml");
     if (!sprite) {
@@ -55,9 +59,17 @@ entity_t *player_create() {
         
         return NULL;
     }
+    
     animated_sprite_set_current_animation(sprite, "face_down");
     
     player_data->sprite = sprite;
+    player_data->input_list = NULL;
+    
+    player_data->sword = sword_create();
+    sword_set_owner(player_data->sword, player);
+    player_data->sword->position = graphics_point_make(-6, 24);
+    player_data->sword->facing = ENTITY_DIRECTION_DOWN;
+    entity_add_child(player, player_data->sword);
     
     return player;
 }
@@ -78,6 +90,63 @@ void _player_think(entity_t *player) {
     bool is_down = input_is_key_down(SDL_SCANCODE_S);
     bool is_left = input_is_key_down(SDL_SCANCODE_A);
     bool is_right = input_is_key_down(SDL_SCANCODE_D);
+    bool is_enter = input_was_key_up(SDL_SCANCODE_RETURN);
+    
+    if (input_was_key_up(SDL_SCANCODE_W)) {
+        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_W));
+    }
+    else if (input_was_key_down(SDL_SCANCODE_W)) {
+        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_W));
+    }
+    
+    if (input_was_key_up(SDL_SCANCODE_S)) {
+        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_S));
+    }
+    else if (input_was_key_down(SDL_SCANCODE_S)) {
+        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_S));
+    }
+    
+    if (input_was_key_up(SDL_SCANCODE_A)) {
+        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_A));
+    }
+    else if (input_was_key_down(SDL_SCANCODE_A)) {
+        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_A));
+    }
+    
+    if (input_was_key_up(SDL_SCANCODE_D)) {
+        player_data->input_list = g_list_append(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_D));
+    }
+    else if (input_was_key_down(SDL_SCANCODE_D)) {
+        player_data->input_list = g_list_remove(player_data->input_list, GINT_TO_POINTER(SDL_SCANCODE_D));
+    }
+    
+    if (is_enter) {
+        switch (player->facing) {
+            case ENTITY_DIRECTION_UP:
+                animated_sprite_set_current_animation(sprite, "swing_up");
+                break;
+            
+            case ENTITY_DIRECTION_DOWN:
+                animated_sprite_set_current_animation(sprite, "swing_down");
+                break;
+                
+            default:
+                break;
+        }
+        
+        player_data->is_swinging = true;
+        
+        return;
+    }
+    
+    if (str_starts_with(sprite->current_animation_name, "swing")) {
+        if (!sprite->current_animation->is_at_end) {
+            return;
+        }
+        else {
+            player_data->is_swinging = false;
+        }
+    }
     
     if (is_up) {
         player->position.y -= 1;
@@ -93,32 +162,6 @@ void _player_think(entity_t *player) {
     
     if (is_right) {
         player->position.x += 1;
-    }
-    
-    if (!(is_up && is_down)) {
-        if (input_was_key_up(SDL_SCANCODE_W) || (is_up && input_was_key_down(SDL_SCANCODE_S))) {
-            animated_sprite_set_current_animation(sprite, "walk_up");
-            
-            player->facing = ENTITY_DIRECTION_UP;
-        }
-        else if(input_was_key_up(SDL_SCANCODE_S) || (is_down && input_was_key_down(SDL_SCANCODE_W))) {
-            animated_sprite_set_current_animation(sprite, "walk_down");
-            
-            player->facing = ENTITY_DIRECTION_DOWN;
-        }
-    }
-    
-    if (!(is_left && is_right)) {
-        if (input_was_key_up(SDL_SCANCODE_A) || (is_left && input_was_key_down(SDL_SCANCODE_D))) {
-            animated_sprite_set_current_animation(sprite, "walk_left");
-            
-            player->facing = ENTITY_DIRECTION_LEFT;
-        }
-        else if(input_was_key_up(SDL_SCANCODE_D) || (is_right && input_was_key_down(SDL_SCANCODE_A))) {
-            animated_sprite_set_current_animation(sprite, "walk_right");
-            
-            player->facing = ENTITY_DIRECTION_RIGHT;
-        }
     }
     
     if (!is_up && !is_down && !is_left && !is_right) {
@@ -141,12 +184,99 @@ void _player_think(entity_t *player) {
                 break;
         }
     }
+    else {
+        GList *last_input_list = g_list_last(player_data->input_list);
+        int last_input = GPOINTER_TO_INT(last_input_list->data);
+        
+        if (last_input == SDL_SCANCODE_W && strcmp(sprite->current_animation_name, "walk_up") != 0) {
+            SDL_Rect sword_bounding_box;
+            SDL_Rect player_bounding_box;
+            
+            animated_sprite_set_current_animation(sprite, "walk_up");
+
+            player->facing = ENTITY_DIRECTION_UP;
+            
+            player_data->sword->bounding_box.h = sword_bounding_box_height_for_direction(player_data->sword, player->facing);
+            
+            sword_bounding_box = player_data->sword->bounding_box;
+            player_bounding_box = player->bounding_box;
+            
+            player_data->sword->position = graphics_point_make(-11, player_bounding_box.y - sword_bounding_box.h);
+            player_data->sword->facing = ENTITY_DIRECTION_UP;
+        }
+        else if (last_input == SDL_SCANCODE_S && strcmp(sprite->current_animation_name, "walk_down") != 0) {
+            animated_sprite_set_current_animation(sprite, "walk_down");
+            
+            player->facing = ENTITY_DIRECTION_DOWN;
+            
+            player_data->sword->bounding_box.h = sword_bounding_box_height_for_direction(player_data->sword, player->facing);
+            player_data->sword->position = graphics_point_make(-6, 24);
+            player_data->sword->facing = ENTITY_DIRECTION_DOWN;
+        }
+        else if (last_input == SDL_SCANCODE_A && strcmp(sprite->current_animation_name, "walk_left") != 0) {
+            animated_sprite_set_current_animation(sprite, "walk_left");
+            
+            player->facing = ENTITY_DIRECTION_LEFT;
+        }
+        else if (last_input == SDL_SCANCODE_D && strcmp(sprite->current_animation_name, "walk_right") != 0) {
+            animated_sprite_set_current_animation(sprite, "walk_right");
+            
+            player->facing = ENTITY_DIRECTION_RIGHT;
+        }
+    }
 }
 
 void _player_update(entity_t *player) {
     player_t *player_data = (player_t *)player->entity_data;
+    entity_t *sword = player_data->sword;
+    SDL_Rect swordBoundingBox = entity_get_bounding_box(sword);
+    entity_t *parent = player->parent;
+    int childCount, i, j;
+    GSList *returnObjects = NULL;
+    int returnObjectsCount;
     
     animated_sprite_update(player_data->sprite);
+    
+    if (player_data->is_swinging) {
+        quadtree_t *quadtree = quadtree_create(0, swordBoundingBox);
+        
+        childCount = g_slist_length(parent->children);
+        
+        for (i = 0; i < childCount; i++) {
+            entity_t *child = g_slist_nth_data(parent->children, i);
+            
+            if (!str_starts_with(child->class_name, "enemy")) {
+                continue;
+            }
+            
+            SDL_Rect boundingBox = entity_get_bounding_box(child);
+            if (boundingBox.w > 0 && boundingBox.h > 0) {
+                quadtree_insert(quadtree, child);
+            }
+        }
+        
+        returnObjects = quadtree_retrieve(quadtree, returnObjects, sword);
+        returnObjectsCount = g_slist_length(returnObjects);
+        
+        for (j = 0; j < returnObjectsCount; j++) {
+            entity_t *collidedObject = g_slist_nth_data(returnObjects, j);
+            SDL_Rect collidedObjectBoundingBox;
+            
+            if (collidedObject == sword) {
+                continue;
+            }
+            
+            collidedObjectBoundingBox = entity_get_bounding_box(collidedObject);
+            
+            if (SDL_HasIntersection(&swordBoundingBox, &collidedObjectBoundingBox)) {
+                if (sword->touch != NULL) {
+                    sword->touch(sword, collidedObject);
+                }
+            }
+        }
+        
+        quadtree_free(quadtree);
+    }
 }
 
 void _player_touch_world(entity_t *player, entity_direction direction) {
@@ -173,6 +303,8 @@ void _player_dealloc(entity_t *player) {
     if (player_data->sprite) {
         animated_sprite_free(player_data->sprite);
     }
+    
+    entity_release(player_data->sword);
     
     free(player->entity_data);
     player->entity_data = NULL;
