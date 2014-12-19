@@ -44,6 +44,10 @@ void spritesheet_render(spritesheet_t *spritesheet, int frame, SDL_Rect destRect
     sprite_render(spritesheet->sprite, srcRect, destRect);
 }
 
+void spritesheet_render_at_point(spritesheet_t *spritesheet, int frame, SDL_Point point) {
+    spritesheet_render(spritesheet, frame, graphics_rect_make(point.x, point.y, spritesheet->frame_size.x, spritesheet->frame_size.y));
+}
+
 void spritesheet_free(spritesheet_t *spritesheet) {
     if (spritesheet->sprite) {
         sprite_free(spritesheet->sprite);

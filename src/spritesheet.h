@@ -20,6 +20,7 @@ typedef struct spritesheet_s {
 
 spritesheet_t *spritesheet_create(char *filename, SDL_Point frame_size);
 void spritesheet_render(spritesheet_t *spritesheet, int frame, SDL_Rect destRect);
+void spritesheet_render_at_point(spritesheet_t *spritesheet, int frame, SDL_Point point);
 void spritesheet_free(spritesheet_t *spritesheet);
 
 #endif /* defined(__zelda__spritesheet__) */
