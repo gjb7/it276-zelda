@@ -30,7 +30,7 @@ enum {
     HUD_FONT_INDEX_EMPTY = 7
 };
 
-entity_t *hud_create(inventory_t *inventory) {
+entity_t *hud_create(inventory_t *inventory, entity_t *entity) {
     entity_t *hud = entity_create();
     if (!hud) {
         return NULL;
@@ -64,6 +64,7 @@ entity_t *hud_create(inventory_t *inventory) {
     inventory_hud->background_sprite = background;
     inventory_hud->font_spritesheet = font;
     inventory_hud->inventory = inventory;
+    inventory_hud->entity = entity;
     
     hud->entity_data = inventory_hud;
     

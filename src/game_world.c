@@ -48,7 +48,7 @@ entity_t *game_world_create() {
     
     game_world_data->player = player;
     
-    entity_t *inventory_hud = hud_create(player_get_inventory(player));
+    entity_t *inventory_hud = hud_create(player_get_inventory(player), player);
     if (!inventory_hud) {
         entity_release(game_world);
         

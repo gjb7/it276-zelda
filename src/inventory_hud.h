@@ -19,8 +19,9 @@ typedef struct inventory_hud_s {
     spritesheet_t *font_spritesheet;
     
     inventory_t *inventory;
+    entity_t *entity;
 } inventory_hud_t;
 
-entity_t *hud_create(inventory_t *inventory);
+entity_t *hud_create(inventory_t *inventory, entity_t *entity);
 
 #endif /* defined(__zelda__inventory_hud__) */
