@@ -48,6 +48,9 @@ entity_t *player_create() {
     player->think = _player_think;
     player->thinkRate = 10;
     
+    player->health = 6;
+    player->max_health = 6;
+    
     /** TODO: This should probably be loaded from a config file? */
     player->bounding_box = graphics_rect_make(0, 8, 16, 16);
     
