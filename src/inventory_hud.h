@@ -11,10 +11,12 @@
 
 #include "entity.h"
 #include "sprite.h"
+#include "spritesheet.h"
 #include "inventory.h"
 
 typedef struct inventory_hud_s {
     sprite_t *background_sprite;
+    spritesheet_t *font_spritesheet;
     
     inventory_t *inventory;
 } inventory_hud_t;
