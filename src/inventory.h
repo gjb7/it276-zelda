@@ -32,6 +32,8 @@ typedef struct inventory_s {
     int bombs;
     int max_bombs;
     
+    int selected_item;
+    
     int items;
 } inventory_t;
 
