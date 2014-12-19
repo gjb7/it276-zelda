@@ -60,9 +60,17 @@ entity_t *hud_create(inventory_t *inventory, entity_t *entity) {
         
         return NULL;
     }
+    
+    spritesheet_t *hearts_spritesheet = spritesheet_create("res/sprites/hud-hearts.png", graphics_point_make(7, 7));
+    if (!hearts_spritesheet) {
+        entity_release(hud);
+        
+        return NULL;
+    }
 
     inventory_hud->background_sprite = background;
     inventory_hud->font_spritesheet = font;
+    inventory_hud->hearts_spritesheet = hearts_spritesheet;
     inventory_hud->inventory = inventory;
     inventory_hud->entity = entity;
     
@@ -90,6 +98,28 @@ void _hud_render(entity_t *hud) {
     sprintf(arrowString, "%02d", inventory_hud->inventory->arrows);
     
     render_text_at_point(inventory_hud->font_spritesheet, arrowString, 2, graphics_point_make(100, 11));
+    
+    SDL_Point heart_point = graphics_point_make(140, 11);
+    entity_t *entity = inventory_hud->entity;
+    for (int i = 0; i < entity->max_health; i += 2) {
+        int remainder = entity->health - i;
+        
+        if (remainder >= 2) {
+            spritesheet_render_at_point(inventory_hud->hearts_spritesheet, 0, heart_point);
+        }
+        else if (remainder == 1) {
+            spritesheet_render_at_point(inventory_hud->hearts_spritesheet, 1, heart_point);
+        }
+        else if (remainder <= 0) {
+            spritesheet_render_at_point(inventory_hud->hearts_spritesheet, 2, heart_point);
+        }
+        
+        heart_point.x += 8;
+        
+        if (i == 40) {
+            heart_point.y = 19;
+        }
+    }
 }
 
 void render_text_at_point(spritesheet_t *font_spritesheet, char *text, int length, SDL_Point point) {

@@ -17,6 +17,7 @@
 typedef struct inventory_hud_s {
     sprite_t *background_sprite;
     spritesheet_t *font_spritesheet;
+    spritesheet_t *hearts_spritesheet;
     
     inventory_t *inventory;
     entity_t *entity;
