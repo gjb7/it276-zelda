@@ -9,6 +9,7 @@
 #ifndef __zelda__drop__
 #define __zelda__drop__
 
+#include <stdbool.h>
 #include "entity.h"
 #include "animated_sprite.h"
 
@@ -25,10 +26,16 @@ typedef enum {
     ZELDA_DROP_STATE_DYING = 2 /** The drop should start flashing to say that it's going to expire soon. */
 } drop_state_t;
 
+typedef enum {
+    ZELDA_DROP_TARGET_INVENTORY = 1,
+    ZELDA_DROP_TARGET_ENTITY = 2,
+} drop_target_t;
+
 typedef struct drop_s {
     animated_sprite_t *sprite;
     drop_state_t state;
     drop_type_t type;
+    drop_target_t target;
     bool showing;
     int flicker_count;
 } drop_t;
