@@ -2,3 +2,4 @@
 sprite: res/sprites/red-rupee.yaml
 name: rupee:red
 target: 1
+bounding_box: 0,0,8,14

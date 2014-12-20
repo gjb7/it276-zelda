@@ -2,3 +2,4 @@
 sprite: res/sprites/heart.yaml
 name: heart
 target: 2
+bounding_box: 0,0,8,9
