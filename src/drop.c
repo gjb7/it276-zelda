@@ -9,6 +9,7 @@
 #include "drop.h"
 #include "graphics.h"
 #include "str.h"
+#include <math.h>
 #include <yaml.h>
 
 bool _load_drop_config_from_yaml_file(char *path, entity_t *entity);
@@ -136,6 +137,42 @@ drop_target_t drop_get_target(entity_t *drop) {
     drop_t *drop_data = (drop_t *)drop->entity_data;
     
     return drop_data->target;
+}
+
+void drop_add_to_inventory(entity_t *drop, inventory_t *inventory) {
+    drop_t *drop_data = (drop_t *)drop->entity_data;
+    
+    switch (drop_data->type) {
+        case ZELDA_DROP_TYPE_GREEN_RUPEE:
+            inventory_add_rupees(inventory, 1);
+            break;
+            
+        case ZELDA_DROP_TYPE_BLUE_RUPEE:
+            inventory_add_rupees(inventory, 5);
+            break;
+            
+        case ZELDA_DROP_TYPE_RED_RUPEE:
+            inventory_add_rupees(inventory, 20);
+            break;
+            
+        default:
+            break;
+    }
+}
+
+void drop_apply_to_entity(entity_t *drop, entity_t *target) {
+    drop_t *drop_data = (drop_t *)drop->entity_data;
+    
+    switch (drop_data->type) {
+        case ZELDA_DROP_TYPE_HEART:
+            target->health += 2;
+            target->health = fmin(target->health, target->max_health);
+            
+            break;
+            
+        default:
+            break;
+    }
 }
 
 int drop_think_interval(drop_type_t drop_type, drop_state_t drop_state) {

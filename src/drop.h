@@ -12,6 +12,7 @@
 #include <stdbool.h>
 #include "entity.h"
 #include "animated_sprite.h"
+#include "inventory.h"
 
 typedef enum {
     ZELDA_DROP_TYPE_NONE = 0,
@@ -50,6 +51,9 @@ entity_t *drop_create(drop_type_t drop_type, entity_t *source);
 bool entity_is_drop(entity_t *source);
 
 drop_target_t drop_get_target(entity_t *drop);
+
+void drop_add_to_inventory(entity_t *drop, inventory_t *inventory);
+void drop_apply_to_entity(entity_t *drop, entity_t *target);
 
 int drop_think_interval(drop_type_t drop_type, drop_state_t drop_state);
 
