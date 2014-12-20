@@ -174,6 +174,10 @@ void _game_map_update(entity_t *self) {
         entity_t *child = g_slist_nth_data(self->children, i);
         int j;
         
+        if (!child) {
+            continue;
+        }
+        
         SDL_Rect boundingBox = entity_get_bounding_box(child);
         
         if (boundingBox.w <= 0 || boundingBox.h <= 0) {
@@ -204,6 +208,10 @@ void _game_map_update(entity_t *self) {
     for (i = 0; i < childCount; i++) {
         entity_direction collision_direction = 0;
         entity_t *child = g_slist_nth_data(self->children, i);
+        
+        if (!child) {
+            continue;
+        }
         
         if (child->touch_world == NULL) {
             continue;

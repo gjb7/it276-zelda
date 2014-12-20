@@ -12,12 +12,16 @@
 #include "str.h"
 #include "quadtree.h"
 #include "sword.h"
+#include "drop.h"
 
 void _player_dealloc(entity_t *player);
 void _player_render(entity_t *player);
 void _player_think(entity_t *player);
 void _player_update(entity_t *player);
+void _player_touch(entity_t *player, entity_t *other);
 void _player_touch_world(entity_t *player, entity_direction direction);
+
+void _player_pickup_drop(entity_t *player, entity_t *drop);
 
 entity_t *player_create() {
     player_t *player_data;
@@ -43,6 +47,7 @@ entity_t *player_create() {
     player->render = _player_render;
     player->update = _player_update;
     
+    player->touch = _player_touch;
     player->touch_world = _player_touch_world;
     
     player->think = _player_think;
@@ -293,6 +298,27 @@ void _player_update(entity_t *player) {
         
         quadtree_free(quadtree);
     }
+}
+
+void _player_touch(entity_t *player, entity_t *other) {
+    if (entity_is_drop(other)) {
+        _player_pickup_drop(player, other);
+    }
+}
+
+void _player_pickup_drop(entity_t *player, entity_t *drop) {
+    player_t *player_data = (player_t *)player->entity_data;
+    
+    switch (drop_get_target(drop)) {
+        case ZELDA_DROP_TARGET_INVENTORY:
+            drop_add_to_inventory(drop, player_data->inventory);
+            break;
+        case ZELDA_DROP_TARGET_ENTITY:
+            drop_apply_to_entity(drop, player);
+            break;
+    }
+    
+    entity_remove_from_parent(drop);
 }
 
 void _player_touch_world(entity_t *player, entity_direction direction) {

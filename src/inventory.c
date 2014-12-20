@@ -7,6 +7,7 @@
 //
 
 #include "inventory.h"
+#include <math.h>
 #include <string.h>
 
 inventory_t *inventory_create() {
@@ -23,6 +24,12 @@ inventory_t *inventory_create() {
     inventory->max_arrows = 30;
     
     return inventory;
+}
+
+void inventory_add_rupees(inventory_t *inventory, int rupees) {
+    inventory->rupees += rupees;
+    inventory->rupees = fmin(inventory->rupees, inventory->max_rupees);
+    inventory->rupees = fmax(inventory->rupees, 0);
 }
 
 bool inventory_has_item(inventory_t *inventory, inventory_item_t item) {

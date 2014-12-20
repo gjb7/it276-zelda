@@ -39,6 +39,8 @@ typedef struct inventory_s {
 
 inventory_t *inventory_create();
 
+void inventory_add_rupees(inventory_t *inventory, int rupees);
+
 bool inventory_has_item(inventory_t *inventory, inventory_item_t item);
 void inventory_give_item(inventory_t *inventory, inventory_item_t item);
 
