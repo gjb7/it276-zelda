@@ -6,8 +6,8 @@ UNAME = $(shell uname)
 LIB_PATH = $(addsuffix /lib/osx/, $(shell pwd))
 
 ifeq ($(UNAME), Darwin)
-	CC_FLAGS += -F lib/osx/ -I/usr/local/opt/libyaml/include/ -Wno-gnu-zero-variadic-macro-arguments
-	L_FLAGS += -F lib/osx/ -framework SDL2 -framework SDL2_image -Wl,-rpath,$(LIB_PATH)
+	CC_FLAGS += -F lib/osx/ -F /Library/Frameworks/ -I/usr/local/opt/libyaml/include/ -Wno-gnu-zero-variadic-macro-arguments
+	L_FLAGS += -F lib/osx/ -F /Library/Frameworks/ -framework SDL2 -framework SDL2_image -Wl,-rpath,$(LIB_PATH),-rpath,/Library/Frameworks/
 else ifeq ($(UNAME), Linux)
 	CC_FLAGS += -lm `pkg-config sdl2 --cflags` `pkg-config SDL2_image --cflags`
 	L_FLAGS += -lm `pkg-config sdl2 --libs` `pkg-config SDL2_image --libs`
