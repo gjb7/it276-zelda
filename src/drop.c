@@ -198,6 +198,12 @@ bool _load_drop_config_from_yaml_file(char *path, entity_t *entity) {
                     else if (strcmp(currentKey, "target") == 0) {
                         drop_data->target = atoi((char *)event.data.scalar.value);
                     }
+                    else if (strcmp(currentKey, "bounding_box") == 0) {
+                        int x, y, width, height;
+                        
+                        sscanf((char *)event.data.scalar.value, "%i,%i,%i,%i", &x, &y, &width, &height);
+                        entity->bounding_box = graphics_rect_make(x, y, width, height);
+                    }
                     
                     handledValue = 1;
                 }
