@@ -1,0 +1,4 @@
+---
+sprite: res/sprites/green-rupee.yaml
+name: rupee:green
+target: 1

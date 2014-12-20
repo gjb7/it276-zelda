@@ -1,0 +1,4 @@
+---
+sprite: res/sprites/heart.yaml
+name: heart
+target: 2
