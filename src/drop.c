@@ -8,6 +8,7 @@
 
 #include "drop.h"
 #include "graphics.h"
+#include "str.h"
 #include <yaml.h>
 
 bool _load_drop_config_from_yaml_file(char *path, entity_t *entity);
@@ -125,6 +126,10 @@ void _drop_render(entity_t *drop) {
     if (drop_data->sprite) {
         animated_sprite_render_frame(drop_data->sprite, graphics_point_make(0, 0));
     }
+}
+
+bool entity_is_drop(entity_t *source) {
+    return str_starts_with(source->class_name, "drop");
 }
 
 int drop_think_interval(drop_type_t drop_type, drop_state_t drop_state) {
