@@ -132,6 +132,12 @@ bool entity_is_drop(entity_t *source) {
     return str_starts_with(source->class_name, "drop");
 }
 
+drop_target_t drop_get_target(entity_t *drop) {
+    drop_t *drop_data = (drop_t *)drop->entity_data;
+    
+    return drop_data->target;
+}
+
 int drop_think_interval(drop_type_t drop_type, drop_state_t drop_state) {
     switch (drop_state) {
         case ZELDA_DROP_STATE_DROPPED:

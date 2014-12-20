@@ -49,6 +49,8 @@ entity_t *drop_create(drop_type_t drop_type, entity_t *source);
 
 bool entity_is_drop(entity_t *source);
 
+drop_target_t drop_get_target(entity_t *drop);
+
 int drop_think_interval(drop_type_t drop_type, drop_state_t drop_state);
 
 char *drop_name(drop_type_t drop_type);
