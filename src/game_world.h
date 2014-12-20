@@ -12,10 +12,13 @@
 #include <stdlib.h>
 #include "entity.h"
 #include "game_map.h"
+#include "inventory_hud.h"
 
 typedef struct game_world_s {
     entity_t *current_map;
     entity_t *player;
+    
+    entity_t *inventory_hud;
 } game_world_t;
 
 entity_t *game_world_create();

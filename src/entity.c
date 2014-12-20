@@ -95,6 +95,23 @@ void entity_add_child(entity_t *parent, entity_t *child) {
     }
 }
 
+void entity_insert_child_below_child(entity_t *parent, entity_t *newChild, entity_t *existingChild) {
+    assert(parent != NULL);
+    assert(newChild != NULL);
+    assert(existingChild != NULL);
+    assert(existingChild->parent == parent);
+    
+    entity_retain(newChild);
+    
+    if (newChild->parent != NULL) {
+        entity_remove_from_parent(newChild);
+    }
+    
+    GSList *existingChildList = g_slist_find(parent->children, existingChild);
+    parent->children = g_slist_insert_before(parent->children, existingChildList, newChild);
+    newChild->parent = parent;
+}
+
 void entity_remove_from_parent(entity_t *e) {
     entity_t *parent;
     

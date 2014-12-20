@@ -48,6 +48,9 @@ entity_t *player_create() {
     player->think = _player_think;
     player->thinkRate = 10;
     
+    player->health = 6;
+    player->max_health = 6;
+    
     /** TODO: This should probably be loaded from a config file? */
     player->bounding_box = graphics_rect_make(0, 8, 16, 16);
     
@@ -71,7 +74,20 @@ entity_t *player_create() {
     player_data->sword->facing = ENTITY_DIRECTION_DOWN;
     entity_add_child(player, player_data->sword);
     
+    player_data->inventory = inventory_create();
+    if (!player_data->inventory) {
+        entity_release(player);
+        
+        return NULL;
+    }
+    
     return player;
+}
+
+inventory_t *player_get_inventory(entity_t *player) {
+    player_t *player_data = (player_t *)player->entity_data;
+    
+    return player_data->inventory;
 }
 
 void _player_render(entity_t *player) {
@@ -304,6 +320,10 @@ void _player_dealloc(entity_t *player) {
         animated_sprite_free(player_data->sprite);
     }
     
+    if (player_data->inventory) {
+        inventory_free(player_data->inventory);
+    }
+
     entity_release(player_data->sword);
     
     free(player->entity_data);

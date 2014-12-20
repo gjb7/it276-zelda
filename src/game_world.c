@@ -48,6 +48,19 @@ entity_t *game_world_create() {
     
     game_world_data->player = player;
     
+    entity_t *inventory_hud = hud_create(player_get_inventory(player), player);
+    if (!inventory_hud) {
+        entity_release(game_world);
+        
+        return NULL;
+    }
+    
+    inventory_hud->position = graphics_point_make(18, 12);
+    
+    game_world_data->inventory_hud = inventory_hud;
+    entity_add_child(game_world, inventory_hud);
+    
+    
     return game_world;
 }
 
@@ -58,7 +71,7 @@ void game_world_set_current_map(entity_t *e, entity_t *game_map) {
     assert(game_map != NULL);
     
     entity_remove_from_parent(game_world->player);
-    entity_add_child(e, game_map);
+    entity_insert_child_below_child(e, game_map, game_world->inventory_hud);
     
     entity_retain(game_map);
     old_game_map = game_world->current_map;
