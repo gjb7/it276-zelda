@@ -1,0 +1,371 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		C300EC0019FBFDB900815D0F /* tilesheet.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tilesheet.c; sourceTree = "<group>"; };
+		C300EC0119FBFDB900815D0F /* tilesheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tilesheet.h; sourceTree = "<group>"; };
+		C31077FF19DA3ABD00D696E0 /* input.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = input.c; sourceTree = "<group>"; };
+		C310780019DA3ABD00D696E0 /* input.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = input.h; sourceTree = "<group>"; };
+		C329184019E4F2E1002BEBA9 /* test_animated_sprites.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test_animated_sprites.c; sourceTree = "<group>"; };
+		C3306F8B19E3846B001573EB /* animated_sprite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = animated_sprite.c; sourceTree = "<group>"; };
+		C3306F8C19E3846B001573EB /* animated_sprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = animated_sprite.h; sourceTree = "<group>"; };
+		C340FAE519F9D9030040D9BB /* quadtree.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quadtree.c; sourceTree = "<group>"; };
+		C340FAE619F9D9030040D9BB /* quadtree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quadtree.h; sourceTree = "<group>"; };
+		C340FAE719FA054F0040D9BB /* debug.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = debug.c; sourceTree = "<group>"; };
+		C340FAE819FA054F0040D9BB /* debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
+		C34A4EFC19D22657004B2A7A /* window.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = window.c; sourceTree = "<group>"; };
+		C34A4EFD19D22657004B2A7A /* window.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = window.h; sourceTree = "<group>"; };
+		C34A4EFE19D236F8004B2A7A /* sprite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sprite.c; sourceTree = "<group>"; };
+		C34A4EFF19D236F8004B2A7A /* sprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sprite.h; sourceTree = "<group>"; };
+		C34A4F0019D24A7E004B2A7A /* sdl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sdl.h; sourceTree = "<group>"; };
+		C34A4F0119D24E18004B2A7A /* game_map.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = game_map.c; sourceTree = "<group>"; };
+		C34A4F0219D24E18004B2A7A /* game_map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = game_map.h; sourceTree = "<group>"; };
+		C34A4F0719D26FAF004B2A7A /* test_game_map_parsing.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test_game_map_parsing.c; sourceTree = "<group>"; };
+		C3640A0619F41BBB0062CF23 /* resource.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = resource.c; sourceTree = "<group>"; };
+		C3640A0719F41BBB0062CF23 /* resource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = resource.h; sourceTree = "<group>"; };
+		C3640A0819F4B3B90062CF23 /* test_resource_manager.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test_resource_manager.c; sourceTree = "<group>"; };
+		C3640A0A19F686590062CF23 /* guard.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = guard.c; sourceTree = "<group>"; };
+		C3640A0B19F686590062CF23 /* guard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = guard.h; sourceTree = "<group>"; };
+		C38F667D19CA4BF100A7718A /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		C393DC7B19CF9D9900AFE296 /* graphics.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = graphics.c; sourceTree = "<group>"; };
+		C393DC7C19CF9D9900AFE296 /* graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = graphics.h; sourceTree = "<group>"; };
+		C39E3A3F19CA4FCB00C2EA3E /* entity.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = entity.c; sourceTree = "<group>"; };
+		C39E3A4019CA4FCB00C2EA3E /* entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entity.h; sourceTree = "<group>"; };
+		C39E3A4F19CA609D00C2EA3E /* test_entity.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_entity.c; sourceTree = "<group>"; };
+		C39E3A5019CA629200C2EA3E /* tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tests.h; sourceTree = "<group>"; };
+		C39E3A5119CDC2A600C2EA3E /* game_world.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = game_world.c; sourceTree = "<group>"; };
+		C39E3A5219CDC2A600C2EA3E /* game_world.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = game_world.h; sourceTree = "<group>"; };
+		C39E3A5319CDF4B400C2EA3E /* test_support.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_support.h; sourceTree = "<group>"; };
+		C3A61D0F19E079710060B94B /* player.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = player.c; sourceTree = "<group>"; };
+		C3A61D1019E079710060B94B /* player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = player.h; sourceTree = "<group>"; };
+		C3A61D1419E096D20060B94B /* logging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
+		C3D148A51A4380AC00D95070 /* inventory.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = inventory.c; sourceTree = "<group>"; };
+		C3D148A61A4380AC00D95070 /* inventory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inventory.h; sourceTree = "<group>"; };
+		C3D148A71A4385EC00D95070 /* inventory_hud.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = inventory_hud.c; sourceTree = "<group>"; };
+		C3D148A81A4385EC00D95070 /* inventory_hud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inventory_hud.h; sourceTree = "<group>"; };
+		C3D148A91A43881A00D95070 /* spritesheet.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = spritesheet.c; sourceTree = "<group>"; };
+		C3D148AA1A43881A00D95070 /* spritesheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = spritesheet.h; sourceTree = "<group>"; };
+		C3DB852C19FE04C100865257 /* defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = defines.h; sourceTree = "<group>"; };
+		C3DB85321A0191A400865257 /* str.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = str.c; sourceTree = "<group>"; };
+		C3DB85331A0191A400865257 /* str.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = str.h; sourceTree = "<group>"; };
+		C3DB85341A01A75300865257 /* sword.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sword.c; sourceTree = "<group>"; };
+		C3DB85351A01A75300865257 /* sword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sword.h; sourceTree = "<group>"; };
+		C3F760AC1A253F2200F7FE23 /* drop.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = drop.c; sourceTree = "<group>"; };
+		C3F760AD1A253F2200F7FE23 /* drop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = drop.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		C3640A0919F6864D0062CF23 /* enemies */ = {
+			isa = PBXGroup;
+			children = (
+				C3640A0A19F686590062CF23 /* guard.c */,
+				C3640A0B19F686590062CF23 /* guard.h */,
+			);
+			path = enemies;
+			sourceTree = "<group>";
+		};
+		C38F667119CA4B2900A7718A = {
+			isa = PBXGroup;
+			children = (
+				C38F667C19CA4BF100A7718A /* src */,
+			);
+			sourceTree = "<group>";
+		};
+		C38F667C19CA4BF100A7718A /* src */ = {
+			isa = PBXGroup;
+			children = (
+				C3F760AE1A253F9C00F7FE23 /* drops */,
+				C3640A0919F6864D0062CF23 /* enemies */,
+				C39E3A4E19CA607200C2EA3E /* tests */,
+				C38F667D19CA4BF100A7718A /* main.c */,
+				C3306F8B19E3846B001573EB /* animated_sprite.c */,
+				C3306F8C19E3846B001573EB /* animated_sprite.h */,
+				C340FAE719FA054F0040D9BB /* debug.c */,
+				C340FAE819FA054F0040D9BB /* debug.h */,
+				C3DB852C19FE04C100865257 /* defines.h */,
+				C3F760AC1A253F2200F7FE23 /* drop.c */,
+				C3F760AD1A253F2200F7FE23 /* drop.h */,
+				C39E3A3F19CA4FCB00C2EA3E /* entity.c */,
+				C39E3A4019CA4FCB00C2EA3E /* entity.h */,
+				C34A4F0119D24E18004B2A7A /* game_map.c */,
+				C34A4F0219D24E18004B2A7A /* game_map.h */,
+				C39E3A5119CDC2A600C2EA3E /* game_world.c */,
+				C39E3A5219CDC2A600C2EA3E /* game_world.h */,
+				C393DC7B19CF9D9900AFE296 /* graphics.c */,
+				C393DC7C19CF9D9900AFE296 /* graphics.h */,
+				C31077FF19DA3ABD00D696E0 /* input.c */,
+				C310780019DA3ABD00D696E0 /* input.h */,
+				C3D148A51A4380AC00D95070 /* inventory.c */,
+				C3D148A61A4380AC00D95070 /* inventory.h */,
+				C3D148A71A4385EC00D95070 /* inventory_hud.c */,
+				C3D148A81A4385EC00D95070 /* inventory_hud.h */,
+				C3A61D1419E096D20060B94B /* logging.h */,
+				C3A61D0F19E079710060B94B /* player.c */,
+				C3A61D1019E079710060B94B /* player.h */,
+				C340FAE519F9D9030040D9BB /* quadtree.c */,
+				C340FAE619F9D9030040D9BB /* quadtree.h */,
+				C3640A0619F41BBB0062CF23 /* resource.c */,
+				C3640A0719F41BBB0062CF23 /* resource.h */,
+				C34A4EFE19D236F8004B2A7A /* sprite.c */,
+				C34A4EFF19D236F8004B2A7A /* sprite.h */,
+				C3D148A91A43881A00D95070 /* spritesheet.c */,
+				C3D148AA1A43881A00D95070 /* spritesheet.h */,
+				C3DB85321A0191A400865257 /* str.c */,
+				C3DB85331A0191A400865257 /* str.h */,
+				C3DB85341A01A75300865257 /* sword.c */,
+				C3DB85351A01A75300865257 /* sword.h */,
+				C300EC0019FBFDB900815D0F /* tilesheet.c */,
+				C300EC0119FBFDB900815D0F /* tilesheet.h */,
+				C34A4EFC19D22657004B2A7A /* window.c */,
+				C34A4EFD19D22657004B2A7A /* window.h */,
+				C34A4F0019D24A7E004B2A7A /* sdl.h */,
+			);
+			name = src;
+			path = ../src;
+			sourceTree = "<group>";
+		};
+		C39E3A4E19CA607200C2EA3E /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				C329184019E4F2E1002BEBA9 /* test_animated_sprites.c */,
+				C39E3A4F19CA609D00C2EA3E /* test_entity.c */,
+				C34A4F0719D26FAF004B2A7A /* test_game_map_parsing.c */,
+				C3640A0819F4B3B90062CF23 /* test_resource_manager.c */,
+				C39E3A5019CA629200C2EA3E /* tests.h */,
+				C39E3A5319CDF4B400C2EA3E /* test_support.h */,
+			);
+			path = tests;
+			sourceTree = "<group>";
+		};
+		C3F760AE1A253F9C00F7FE23 /* drops */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = drops;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		C38F667619CA4B2900A7718A /* zelda */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = C38F667919CA4B2900A7718A /* Build configuration list for PBXLegacyTarget "zelda" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/grantbutler/Projects/it276-zelda";
+			dependencies = (
+			);
+			name = zelda;
+			passBuildSettingsInEnvironment = 1;
+			productName = zelda;
+		};
+		C3DB852E19FF477200865257 /* zelda-tests */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = test;
+			buildConfigurationList = C3DB852F19FF477200865257 /* Build configuration list for PBXLegacyTarget "zelda-tests" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/grantbutler/Projects/it276-zelda";
+			dependencies = (
+			);
+			name = "zelda-tests";
+			passBuildSettingsInEnvironment = 1;
+			productName = "zelda-tests";
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		C38F667219CA4B2900A7718A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = "Grant Butler";
+				TargetAttributes = {
+					C38F667619CA4B2900A7718A = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					C3DB852E19FF477200865257 = {
+						CreatedOnToolsVersion = 6.0;
+					};
+				};
+			};
+			buildConfigurationList = C38F667519CA4B2900A7718A /* Build configuration list for PBXProject "zelda" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C38F667119CA4B2900A7718A;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C38F667619CA4B2900A7718A /* zelda */,
+				C3DB852E19FF477200865257 /* zelda-tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		C38F667719CA4B2900A7718A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C38F667819CA4B2900A7718A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		C38F667A19CA4B2900A7718A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C38F667B19CA4B2900A7718A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		C3DB853019FF477200865257 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C3DB853119FF477200865257 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C38F667519CA4B2900A7718A /* Build configuration list for PBXProject "zelda" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C38F667719CA4B2900A7718A /* Debug */,
+				C38F667819CA4B2900A7718A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C38F667919CA4B2900A7718A /* Build configuration list for PBXLegacyTarget "zelda" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C38F667A19CA4B2900A7718A /* Debug */,
+				C38F667B19CA4B2900A7718A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C3DB852F19FF477200865257 /* Build configuration list for PBXLegacyTarget "zelda-tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3DB853019FF477200865257 /* Debug */,
+				C3DB853119FF477200865257 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C38F667219CA4B2900A7718A /* Project object */;
+}

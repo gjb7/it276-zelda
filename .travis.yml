@@ -1,0 +1,6 @@
+language: c
+compiler:
+  - gcc
+  - clang
+install: ./install-dependencies.sh
+script: make test && bin/tests
